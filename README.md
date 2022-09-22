@@ -20,7 +20,7 @@
 - cnpm （按菜鸟教程所说搞了个cnpm，[使用淘宝 NPM 镜像](https://www.runoob.com/nodejs/nodejs-npm.html#taobaonpm)）
 ~~- @vue/cli 5.0.8 （官方命令行工具，应该是接着用了`cnpm install -g @vue/cli`装的；`vue --version`或`vue -V`查看）~~
 - vue 3.2.39 （应该是使用`cnpm install vue@next`装的vue3；`npm list vue`查看）
-- vite 3.1.3（新型前端构建工具，终端输入`npm install vite -g`，按提示安装`create-vite@latest`，再按提示完成`cd frontend`、`npm install`即安装完毕，`vite -v`查看）
+- vite 3.1.3（新型前端构建工具，pycharm终端输入`npm init vite@latest frontend -- --template vue`，按提示安装`create-vite@latest`，再按提示完成`cd frontend`、`npm install`即安装完毕，`vite -v`查看）
 
 ### 数据库相关
 - MySQL: 装了一堆，主要的都是8.0 
@@ -28,5 +28,5 @@
 
 # 运行方法
 
-后端：直接点击run
-前端：进入`/frontend`目录，在终端输入`npm run dev`（别忘记ctrl-c，再输入Y停止）
+- 后端：直接点击run
+- 前端：进入`/frontend`目录，在终端输入`npm run dev`（别忘记ctrl-c，再输入Y停止）
