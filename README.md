@@ -18,9 +18,15 @@
 - node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看）
 - npm 8.15.0 （node.js的包管理软件，应该自带；`npm -v`查看）
 - cnpm （按菜鸟教程所说搞了个cnpm，[使用淘宝 NPM 镜像](https://www.runoob.com/nodejs/nodejs-npm.html#taobaonpm)）
-~~- @vue/cli 5.0.8 （官方命令行工具，应该是接着用了`cnpm install -g @vue/cli`装的；`vue --version`或`vue -V`查看）~~
+- ~~@vue/cli 5.0.8 （官方命令行工具，应该是接着用了`cnpm install -g @vue/cli`装的；`vue --version`或`vue -V`查看）~~
 - vue 3.2.39 （应该是使用`cnpm install vue@next`装的vue3；`npm list vue`查看）
 - vite 3.1.3（新型前端构建工具，pycharm终端输入`npm init vite@latest frontend -- --template vue`，按提示安装`create-vite@latest`，再按提示完成`cd frontend`、`npm install`即安装完毕，`vite -v`查看）
+
+#### 依赖的包
+- element-plus(`npm install element-plus --save`)
+- icon(`npm install @element-plus/icons-vue`)
+- router(`npm install vue-router@4`)
+- VueUse(`npm i @vueuse/core @vueuse/components`)
 
 ### 数据库相关
 - MySQL: 装了一堆，主要的都是8.0 
