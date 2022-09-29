@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 # for safety
-from . import privacy
+from . import privacy as pv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,15 +76,14 @@ WSGI_APPLICATION = 'db_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-user = 'Excalibur'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'arknights', # BASE_DIR / 'db.sqlite3',
-        'HOST': privacy.db_host[user],
+        'HOST': pv.db_host[pv.user],
         'PORT': 3306,
-        'USER': user,
-        'PASSWORD': privacy.db_account[user],
+        'USER': pv.user,
+        'PASSWORD': pv.db_account[pv.user],
     }
 }
 
