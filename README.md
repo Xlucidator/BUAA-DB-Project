@@ -37,5 +37,5 @@
 
 # 运行方法
 
-- 后端：直接点击run(对不起，社区办点击不了runQWQ)
+- 后端：直接点击run(QWQ QWQ)
 - 前端：进入`/frontend`目录，在终端输入`npm run dev`（别忘记ctrl-c，再输入Y停止）
