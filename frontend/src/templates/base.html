@@ -1,24 +1,6 @@
-<script setup>
+<!DOCTYPE html>
+<html lang="en">
 
-import {UseDark} from '@vueuse/components'
-
-import {computed, ref} from 'vue'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import en from 'element-plus/dist/locale/en.mjs'
-
-const language = ref('zh-cn')
-const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
-
-const switchLanguage = () => {
-  language.value = language.value === 'zh-cn' ? 'en' : 'zh-cn'
-}
-
-const themeDark = ref(false)
-const themeLang = ref(true)
-
-</script>
-
-<template>
   <el-config-provider :locale="locale">
     <el-container class="layout-container-demo" style="height: 500px">
       <el-header style="text-align: right; font-size: 12px">
@@ -157,10 +139,4 @@ const themeLang = ref(true)
     </el-container>
 
   </el-config-provider>
-</template>
-
-<style scoped>
-
-
-
-</style>
+</html>
