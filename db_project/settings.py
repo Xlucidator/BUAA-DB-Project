@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 # for safety
-from . import privacy
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,7 +87,19 @@ DATABASES = {
         'PASSWORD': privacy.db_account[user],
     }
 }
+'''DATABASES = {
+    'default':
+        {
 
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'self_outbreaks',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'USER': 'root',
+            'PASSWORD': '88014363',
+
+        }
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
