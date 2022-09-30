@@ -80,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'arknights', # BASE_DIR / 'db.sqlite3',
-        'HOST': pv.db_host[pv.user],
+        'HOST': pv.db_host,
         'PORT': 3306,
-        'USER': pv.user,
-        'PASSWORD': pv.db_account[pv.user],
+        'USER': pv.db_user,
+        'PASSWORD': pv.db_password[pv.db_user],
     }
 }
 
