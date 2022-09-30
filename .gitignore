@@ -1,3 +1,9 @@
+privacy.py
+
+# python
+__pycache__
+
+# python env
 .env
 .venv
 env/

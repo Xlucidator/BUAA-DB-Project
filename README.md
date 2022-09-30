@@ -5,14 +5,23 @@
 
 `/frontend`：为vue3项目，在项目根目录中运行`vue create frontend -n`得来（`-n`参数表示不自动添加.git）
 
-# 项目安排
-俺现在还是很不太懂这种搭配前后端怎么分工合作，再等等qwq
+# 项目构想
+### 主题
+
 
 # 软件版本
 ### 后端相关
 - python 3.10.6
 - pip 22.2.1
 - django 4.1.1 （根据官网提示下载的，`pip install Django==4.1.1`；`python -m django --version`查看）
+
+**django rest framwork**:
+（都是pip安装，`pip list`即可查看所有）
+- djangorestframework 3.14.0
+- markdown  3.4.1
+- django-filter 22.1
+
+- django-filter
 
 ### 前端相关
 - node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看）
