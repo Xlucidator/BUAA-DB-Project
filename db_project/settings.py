@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 # for safety
-
+from . import privacy as pv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from db_project import privacy
@@ -116,24 +116,14 @@ WSGI_APPLICATION = 'db_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'arknights',
-        'HOST': '10.128.55.86',
+        'NAME': 'arknights', # BASE_DIR / 'db.sqlite3',
+        'HOST': pv.db_host,
         'PORT': 3306,
-        'USER': 'zyc',
-        'PASSWORD': '123456',
+        'USER': pv.db_user,
+        'PASSWORD': pv.db_password[pv.db_user],
     }
 }
-'''DATABASES = {
-    'default':
-        {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'project',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            'USER': 'root',
-            'PASSWORD': '88014363',
-        }
-}'''
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

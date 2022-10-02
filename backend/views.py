@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
+
 from rest_framework_jwt.settings import api_settings
 
 
@@ -26,18 +27,21 @@ def check_user(username, password):
         except:
             print('flase')
             return False
+
     return result
 
 
 def login(request):
 
-
     # {'exp': xxx, 'email': '', 'user_id': 1, 'username': 'admin'}
     # user：登录的用户对象
+
     username = request.POST.get("username")
     password = request.POST.get("password")
+    print(username, password)
     result = check_user(username, password)
     if result:
+
         date_msg = "success!"
         date_flag = "yes"
 
@@ -47,7 +51,6 @@ def login(request):
 
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
-
 
 def add_person(username, password, permission):
     with connection.cursor() as cursor:
