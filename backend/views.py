@@ -32,7 +32,6 @@ def check_user(username, password):
 
 
 def login(request):
-
     # {'exp': xxx, 'email': '', 'user_id': 1, 'username': 'admin'}
     # user：登录的用户对象
 
@@ -51,6 +50,7 @@ def login(request):
 
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
+
 
 def add_person(username, password, permission):
     with connection.cursor() as cursor:
