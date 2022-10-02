@@ -112,28 +112,28 @@ WSGI_APPLICATION = 'db_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-user = 'Excalibur'
-'''DATABASES = {
+
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'arknights', # BASE_DIR / 'db.sqlite3',
-        'HOST': privacy.db_host[user],
+        'NAME': 'arknights',
+        'HOST': '10.128.55.86',
         'PORT': 3306,
-        'USER': user,
-        'PASSWORD': privacy.db_account[user],
+        'USER': 'zyc',
+        'PASSWORD': '123456',
     }
-}'''
-DATABASES = {
+}
+'''DATABASES = {
     'default':
         {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'self_outbreaks',
+            'NAME': 'project',
             'HOST': '127.0.0.1',
             'PORT': '3306',
             'USER': 'root',
             'PASSWORD': '88014363',
         }
-}
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

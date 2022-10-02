@@ -14,38 +14,62 @@ def account_manage(request):
 
 
 def check_user(username, password):
-    db = pymysql.connect(host='127.0.0.1', user='root', password='88014363', port=3306, db='project')
-    tt = db.cursor()
-    sql = 'select * from user where username = ' + username
-    try:
-        tt.execute(sql)  # 查询到条数
-        one = tt.fetchone()  # 获得第一条数据
-        result = (one[1] == password)
+    with connection.cursor() as cursor:
+        sql = 'select * from user_account where CodeName = \'' + username + "\'"
 
-    except:
-        print('查收数据失败')
-        result = False
-
-    tt.close()  # 关闭游标的使用
-    db.close()
-    print(result)
+        try:
+            cursor.execute(sql)
+            one = cursor.fetchone()
+            print(one)
+            result = (one[1] == password)
+            print(result)
+        except:
+            print('flase')
+            return False
     return result
 
 
 def login(request):
-    text = request.POST.get("q")
     username = request.POST.get("username")
     password = request.POST.get("password")
     result = check_user(username, password)
     if result:
-        date_msg = "登陆成功"
+        date_msg = "success!"
         date_flag = "yes"
-        print("成功")
     else:
-        date_msg = "密码输入错误"
+        date_msg = "the code is wrong"
         date_flag = "no"
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
+
+
+def add_person(username, password, permission):
+    with connection.cursor() as cursor:
+        sql = "insert into user_account values('{}','{}','{}')".format(username, password, permission)
+        print(sql)
+        try:
+            cursor.execute(sql)
+            print("success!")
+            return True
+        except:
+            print('False')
+            return False
+
+
+def enroll(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    permission = 2  # 普通干员权限为2
+    result = add_person(username, password, permission)
+    if result:
+        date_msg = "success!"
+        date_flag = "yes"
+    else:
+        date_msg = "enroll failed"
+        date_flag = "no"
+    date = {'flag': date_flag, 'msg': date_msg}
+    return JsonResponse({'request': date})
+    pass
 
 
 def index(request):
