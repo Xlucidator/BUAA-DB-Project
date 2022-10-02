@@ -48,12 +48,12 @@
 
 管理员(Permission 0、1)
 
-![主页面：管理员](document\images\主页面：管理员.png)
+![主页面：管理员](document/images/主页面：管理员.png)
 
 
 普通干员
 
-![主页面：一般干员](document\images\主页面：一般干员.png)
+![主页面：一般干员](document/images/主页面：一般干员.png)
 
 
 
