@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
-from sympy import false
 
 def check_user(username, password):
     sql = 'select * from user_account where codename = \'' + username + '\''
-    result = false
+    result = False
     with connection.cursor() as cursor:
         print("im in")
         cursor.execute(sql)  # 查询到条数
