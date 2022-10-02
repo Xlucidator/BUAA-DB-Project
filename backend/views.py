@@ -25,7 +25,7 @@ def check_user(username, password):
             result = (one[1] == password)
             print(result)
         except:
-            print('flase')
+            print('false')
             return False
 
     return result
