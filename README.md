@@ -103,8 +103,18 @@
 - vue 3.2.39 （应该是使用`cnpm install vue@next`装的vue3；`npm list vue`查看）
 - vite 3.1.3（新型前端构建工具，pycharm终端输入`npm init vite@latest frontend -- --template vue`，按提示安装`create-vite@latest`，再按提示完成`cd frontend`、`npm install`即安装完毕，`vite -v`查看）
 
+#### 依赖的包
+- element-plus(`npm install element-plus --save`)
+- icon(`npm install @element-plus/icons-vue`)
+- router(`npm install vue-router@4`)
+- VueUse(`npm i @vueuse/core @vueuse/components`)
+- axios(`npm install axios@0.26.1`)
+- universal-cookie(`npm i universal-cookie`)
+- integrations(`npm i @vueuse/integrations`)
+
 ### 数据库相关
 - MySQL: 装了一堆，主要的都是8.0 
+
 
 ## 四、运行方法
 - 后端：在项目根目录运行`python manage.py runserver`;若Pycharm有配置，也可直接点击run运行
