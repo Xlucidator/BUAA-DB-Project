@@ -27,7 +27,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {login, getinfo} from "../api/manager";
+import {login} from "../api/manager";
 import {ElNotification} from "element-plus";
 import {useCookies} from "@vueuse/integrations/useCookies"
 
@@ -36,9 +36,9 @@ let userName = ref("")
 let password = ref("")
 
 const onSubmit = () => {
-  login(userName, password)
+  login(userName.value, password.value)
       .then(res => {
-        console.log(res)
+        //console.log(res)
 
         // message
         ElNotification({
@@ -52,12 +52,12 @@ const onSubmit = () => {
         cookie.set("admin-token", res.token)
 
         // getinfo
-        getinfo().then(res2 => {
-          console.log(res)
-        })
+        // getinfo().then(res2 => {
+        //   console.log(res)
+        // })
       })
       .catch(err => {
-        console.log(err.response.data)
+        //console.log(err.response.data)
 
       })
 }

@@ -14,8 +14,8 @@ from django.db import connection
 def check_user(username, password):
     # db = pymysql.connect(host='127.0.0.1', user='root', password='88014363', port=3306, db='project')
     # tt = db.cursor()
-    sql = 'select * from user_account where CodeName = ' + username
-    
+    sql = 'select * from user_account where CodeName = \'' + username + '\''
+
     with connection.cursor() as cursor:
         print("im in")
         cursor.execute(sql)  # 查询到条数
