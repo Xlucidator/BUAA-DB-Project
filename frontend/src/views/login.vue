@@ -17,20 +17,49 @@
         class="w-50 m-2"
         size="large"
         placeholder="password"
-        show-password="true"
+        :show-password=true
     />
     <br/>
-    <el-button size="large" type="primary" square>confirm</el-button>
+    <el-button size="large" type="primary" square @click="onSubmit()">confirm</el-button>
   </div>
 
 </template>
 
 <script setup>
 import {ref} from "vue";
+import {login} from "../api/manager";
+import {ElNotification} from "element-plus";
+import {useCookies} from "@vueuse/integrations/useCookies"
 
 /* data */
 let userName = ref("")
 let password = ref("")
+
+const onSubmit = () => {
+  login(userName, password)
+      .then(res => {
+        console.log(res.data.data)
+
+        // message
+        ElNotification({
+          title: 'Success',
+          message: 'This is a success message',
+          type: 'success',
+        })
+
+        // store cookie
+        const cookie = useCookies()
+        cookie.set("admin-token", res.data.data.token)
+      })
+      .catch(err => {
+        console.log(err.response.data)
+        ElNotification({
+          title: 'Error',
+          message: 'This is an error message',
+          type: 'error',
+        })
+      })
+}
 
 </script>
 

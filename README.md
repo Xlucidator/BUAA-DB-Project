@@ -27,6 +27,9 @@
 - icon(`npm install @element-plus/icons-vue`)
 - router(`npm install vue-router@4`)
 - VueUse(`npm i @vueuse/core @vueuse/components`)
+- axios(`npm install axios@0.26.1`)
+- universal-cookie(`npm i universal-cookie`)
+- integrations(`npm i @vueuse/integrations`)
 
 ### 数据库相关
 - MySQL: 装了一堆，主要的都是8.0 

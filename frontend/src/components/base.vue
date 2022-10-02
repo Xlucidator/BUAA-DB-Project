@@ -1,22 +1,5 @@
-<script lang="ts" setup>
-import {computed, ref} from 'vue'
-
-const activeIndex1 = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-
-</script>
-
 <template>
-  <el-config-provider>
+  <el-config-provider :locale="locale">
     <el-container class="layout-container-demo" style="height: 500px">
       <el-header style="height: 80px; min-width: 100vh">
         <el-menu
@@ -31,7 +14,7 @@ const handleClose = (key: string, keyPath: string[]) => {
             :ellipsis=false
             :router=true
         >
-          <el-menu-item index="home">
+          <el-menu-item index="Home">
             <template #title>Home</template>
           </el-menu-item>
 
@@ -78,7 +61,7 @@ const handleClose = (key: string, keyPath: string[]) => {
             </el-sub-menu>
             <el-menu-item index="2">
               <el-icon>
-
+                <icon-menu/>
               </el-icon>
               <span>Navigator Two</span>
             </el-menu-item>
@@ -105,8 +88,23 @@ const handleClose = (key: string, keyPath: string[]) => {
   </el-config-provider>
 </template>
 
-<style scoped>
+<script setup>
+import {computed, ref} from 'vue'
 
+const activeIndex2 = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+</script>
+
+<style scoped>
 .flex-grow {
   flex-grow: 1;
 }
