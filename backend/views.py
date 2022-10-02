@@ -1,21 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
-
-# Create your views here.
-# def account_manage(request):
-#     with connection.cursor() as cursor:
-#         cursor.execute('select * from levelsrc_req')
-#         list = cursor.fetchall()
-#         context = {'list': list}
-#     return render(request, "testbackend.html", context)
-
+from sympy import false
 
 def check_user(username, password):
-    # db = pymysql.connect(host='127.0.0.1', user='root', password='88014363', port=3306, db='project')
-    # tt = db.cursor()
-    sql = 'select * from user_account where CodeName = ' + username
-    
+    sql = 'select * from user_account where codename = \'' + username + '\''
+    result = false
     with connection.cursor() as cursor:
         print("im in")
         cursor.execute(sql)  # 查询到条数
@@ -27,7 +17,6 @@ def check_user(username, password):
 
 
 def login(request):
-    # text = request.POST.get("q")
     username = request.POST.get("username")
     password = request.POST.get("password")
     print(username, password)
