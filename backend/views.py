@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
-import pymysql
+from rest_framework_jwt.settings import api_settings
 
 
 # Create your views here.
@@ -30,15 +30,21 @@ def check_user(username, password):
 
 
 def login(request):
+
+
+    # {'exp': xxx, 'email': '', 'user_id': 1, 'username': 'admin'}
+    # user：登录的用户对象
     username = request.POST.get("username")
     password = request.POST.get("password")
     result = check_user(username, password)
     if result:
         date_msg = "success!"
         date_flag = "yes"
+
     else:
         date_msg = "the code is wrong"
         date_flag = "no"
+
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
 

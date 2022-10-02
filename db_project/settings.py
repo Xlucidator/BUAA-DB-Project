@@ -53,8 +53,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 跨域处理
-    #'corsheaders.middleware.CorsMiddleware',
-    #'django.middleware.common.CmomonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 CORS_ALLOW_CREOENTIALS = True
