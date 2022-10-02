@@ -109,6 +109,9 @@
 
 ## 三、软件版本
 
+### 设计图示
+通过[网页drawio编辑器](https://app.diagrams.net/)画出，在`document/`中有源文件可修改，生成的图（或者截图）放在`document/images/`中
+
 ### 后端相关
 - python 3.10.6
 - pip 22.2.1
