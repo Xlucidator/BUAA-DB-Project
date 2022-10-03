@@ -68,17 +68,50 @@ def add_person(username, password, permission):
 def enroll(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
-    permission = 2  # 普通干员权限为2
-    result = add_person(username, password, permission)
+    pwConfirm = request.POST.get("pwConfirm")
+    if pwConfirm != password:
+        date_msg = "passwords do not coordinate"
+        date_flag = "no"
+    else:
+        permission = 2  # 普通干员权限为2
+        result = add_person(username, password, permission)
+        if result:
+            date_msg = "success!"
+            date_flag = "yes"
+        else:
+            date_msg = "enroll failed"
+            date_flag = "no"
+    date = {'flag': date_flag, 'msg': date_msg}
+    return JsonResponse({'request': date})
+
+
+def del_person(username, password):
+    with connection.cursor() as cursor:
+        sql = "delete from user_account where CodeName = '{}' and PassWord = '{}'".format(username, password)
+        print(sql)
+        try:
+            cursor.execute(sql)
+            print("success!")
+            return True
+        except:
+            print('False')
+            return False
+
+
+def revoke(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+
+    result = del_person(username, password)
     if result:
         date_msg = "success!"
         date_flag = "yes"
     else:
-        date_msg = "enroll failed"
+        date_msg = "who are you?"
         date_flag = "no"
+
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
-    pass
 
 
 def index(request):

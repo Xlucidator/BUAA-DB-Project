@@ -1,6 +1,6 @@
 <template>
-  <div class="login_header">
-    <span class="text-5xl"> -- LOGIN -- </span>
+  <div class="register">
+    <span class="text-5xl"> -- REGISTER -- </span>
   </div>
 
   <div class="input-box">
@@ -19,8 +19,16 @@
         placeholder="password"
         :show-password=true
     />
+  </div>
+  <div class="input-box">
+    <el-input
+        v-model="pwConfirm"
+        class="w-50 m-2"
+        size="large"
+        placeholder="password again"
+        :show-password=true
+    />
     <br/>
-
   </div>
   <div class="Button">
     <Button
@@ -28,31 +36,27 @@
         class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
         @click="onSubmit()">
 
-      CONFIRM
+      START
     </Button>
   </div>
-
 </template>
 
 <script setup>
 import {ref} from "vue";
-import {login, getinfo} from "../api/manager";
-import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
-import {setToken} from "../composable/auth"
+import {register} from "../api/manager";
 
 /* data */
 let userName = ref("")
 let password = ref("")
-const store = useStore()
+let pwConfirm = ref("")
 const router = useRouter()
 
 const onSubmit = () => {
-  login(userName.value, password.value)
+  register(userName.value, password.value, pwConfirm.value)
       .then(res => {
         console.log(res)
-
         const flag = res.request['flag']
         if (flag === 'no') {
           ElNotification({
@@ -69,17 +73,8 @@ const onSubmit = () => {
             type: 'success',
           })
 
-          // store cookie
-          setToken(res.token)
-
-          // getinfo
-          // getinfo().then(res2 => {
-          //   store.commit("SET_USERINFO", res2)
-          //   console.log(res2)
-          // })
-
           // jump
-          router.push("/")
+          router.push("/login")
         }
       })
       .catch(err => {
@@ -89,14 +84,12 @@ const onSubmit = () => {
           message: err.msg,
           type: 'error',
         })
-
       })
 }
-
 </script>
 
 <style scoped>
-.login_header {
+.register {
   margin-top: 12%;
   margin-bottom: 5%;
   text-align: center;
@@ -108,15 +101,20 @@ const onSubmit = () => {
 }
 
 .el-input {
-  width: 300px;
+  width: 250px;
+  text-align: center
+}
+
+.el-button {
+  margin-top: 3%;
   text-align: center
 }
 
 .Button {
   margin-top: 4%;
-  max-width: 10%;
+  max-width: 8%;
   max-height: 3%;
-  margin-left: 45%;
+  margin-left: 46%;
   text-align: center;
 }
 

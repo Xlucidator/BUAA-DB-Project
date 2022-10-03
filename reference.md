@@ -9,6 +9,10 @@
 - https://cn.vitejs.dev/
 - https://eslint.bootcss.com/
 - https://element-plus.gitee.io/zh-CN/guide/quickstart.html
+- https://vuex.vuejs.org/zh/
+- http://www.axios-js.com/zh-cn/
+- https://vueuse.org/
+- https://windicss.org/
 
 ### 其他
 

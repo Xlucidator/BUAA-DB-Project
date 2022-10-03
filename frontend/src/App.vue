@@ -17,7 +17,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 
 <template>
   <el-config-provider>
-    <el-container class="layout-container-demo" style="height: 500px">
+    <el-container class="layout-container-demo" style="height: 100vh">
       <el-header style="height: 80px; min-width: 100vh">
         <el-menu
             :default-active="activeIndex1"
@@ -36,6 +36,10 @@ const handleClose = (key: string, keyPath: string[]) => {
           </el-menu-item>
 
           <div class="flex-grow"/>
+
+          <el-menu-item index="register">
+            <template #title>Register</template>
+          </el-menu-item>
 
           <el-menu-item index="login">
             <template #title>Login</template>
