@@ -8,13 +8,6 @@ from django.db import connection
 from rest_framework_jwt.settings import api_settings
 
 
-class User:
-    username = ''
-
-    def __init__(self, name):
-        self.username = name
-
-
 # Create your views here.
 def account_manage(request):
     with connection.cursor() as cursor:
