@@ -110,7 +110,7 @@ def revoke(request):
 
     result = del_person(username, password)
     if result:
-        date_msg = "success!"
+        date_msg = "farewell!"
         date_flag = "yes"
     else:
         date_msg = "who are you?"

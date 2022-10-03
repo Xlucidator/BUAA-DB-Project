@@ -32,6 +32,16 @@
     </Button>
   </div>
 
+  <div class="jump">
+    <p style="color: #888888">don't have an account yet?</p>
+    <el-button
+        tabindex="-1"
+        @click="register()">
+
+      REGISTER
+    </el-button>
+  </div>
+
 </template>
 
 <script setup>
@@ -47,6 +57,10 @@ let userName = ref("")
 let password = ref("")
 const store = useStore()
 const router = useRouter()
+
+const register = () => {
+  router.push("/register")
+}
 
 const onSubmit = () => {
   login(userName.value, password.value)
@@ -70,7 +84,7 @@ const onSubmit = () => {
           })
 
           // store cookie
-          setToken(res.token)
+          setToken(res.request['token'])
 
           // getinfo
           // getinfo().then(res2 => {
@@ -79,7 +93,7 @@ const onSubmit = () => {
           // })
 
           // jump
-          router.push("/")
+          router.push("/home")
         }
       })
       .catch(err => {
@@ -113,7 +127,8 @@ const onSubmit = () => {
 }
 
 .Button {
-  margin-top: 4%;
+  margin-top: 2%;
+  margin-bottom: 4%;
   max-width: 10%;
   max-height: 3%;
   margin-left: 45%;
@@ -130,6 +145,11 @@ const onSubmit = () => {
   -webkit-transition-duration: 150ms;
   -o-transition-duration: 150ms;
   transition-duration: 150ms;
+}
+
+.jump {
+  margin-top: 2%;
+  text-align: center;
 }
 
 </style>

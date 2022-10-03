@@ -4,7 +4,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 const routes = [
     {
         path: '/',
-        redirect: '/home' // 重定向到home页面
+        redirect: '/login' // 重定向到home页面
     },
     {
         path: '/home',

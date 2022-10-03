@@ -29,6 +29,9 @@ import {computed, ref} from 'vue'
 import {UseDark} from '@vueuse/components'
 import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
 import {revoke} from "../api/manager";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const checkDel = (username, password) => {
   revoke(username, password)
@@ -48,6 +51,8 @@ const checkDel = (username, password) => {
             message: res.request['msg'],
             type: 'success',
           })
+
+          router.push("/login")
         }
       })
       .catch(err => {

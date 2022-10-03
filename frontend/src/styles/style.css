@@ -44,72 +44,72 @@ h1 {
 }
 
 .text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
 }
 
 .text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 }
 
 .text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
 }
 
 .text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
 }
 
 .text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
 }
 
 .text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
 }
 
 .text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
 }
 
 .text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+    font-size: 3rem;
+    line-height: 1;
 }
 
 .text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
+    font-size: 3.75rem;
+    line-height: 1;
 }
 
 .font-extrabold {
-  font-weight: 800;
+    font-weight: 800;
 }
 
 .font-bold {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .font-semibold {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .font-medium {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .font-normal {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 .font-light {
-  font-weight: 300;
+    font-weight: 300;
 }
 
 button {
@@ -136,52 +136,63 @@ button:focus-visible {
 .card {
     padding: 2em;
 }
+
 .layout-container-demo .el-header {
-  position: relative;
-  background-color: var(--el-color-primary-light-7);
-  color: var(--el-text-color-primary);
+    position: relative;
+    background-color: var(--el-color-primary-light-7);
+    color: var(--el-text-color-primary);
 }
+
 .layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
+    color: var(--el-text-color-primary);
+    background: var(--el-color-primary-light-8);
 }
+
 .layout-container-demo .el-menu {
-  border-right: none;
+    border-right: none;
 }
+
 .layout-container-demo .el-main {
-  padding: 0;
+    padding: 0;
 }
+
 .layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    right: 20px;
 }
 
 .el-row {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .el-row:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .el-col {
-  border-radius: 4px;
+    border-radius: 4px;
+}
+
+.flex-grow {
+    flex-grow: 1;
 }
 
 .grid-content {
-  border-radius: 4px;
-  min-height: 36px;
+    border-radius: 4px;
+    min-height: 36px;
 }
 
 #app {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        color:var(--el-text-color-primary);
-        background-color: var(--el-color-primary-light-9);  /* bg color problem here */
+        color: var(--el-text-color-primary);
+        background-color: var(--el-color-primary-light-9); /* bg color problem here */
     }
 
     a:hover {

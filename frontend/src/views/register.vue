@@ -39,6 +39,15 @@
       START
     </Button>
   </div>
+
+  <div class="jump">
+    <p style="color: #888888">yes i already have an account</p>
+    <el-button
+        tabindex="-1"
+        @click="back()">
+      click me to log in
+    </el-button>
+  </div>
 </template>
 
 <script setup>
@@ -52,6 +61,10 @@ let userName = ref("")
 let password = ref("")
 let pwConfirm = ref("")
 const router = useRouter()
+
+const back = () => {
+  router.push("/login")
+}
 
 const onSubmit = () => {
   register(userName.value, password.value, pwConfirm.value)
@@ -91,13 +104,13 @@ const onSubmit = () => {
 <style scoped>
 .register {
   margin-top: 12%;
-  margin-bottom: 5%;
+  margin-bottom: 4%;
   text-align: center;
 }
 
 .input-box {
-  margin-bottom: 2%;
-  text-align: center
+  margin-bottom: 1%;
+  text-align: center;
 }
 
 .el-input {
@@ -105,16 +118,18 @@ const onSubmit = () => {
   text-align: center
 }
 
-.el-button {
-  margin-top: 3%;
-  text-align: center
-}
 
 .Button {
-  margin-top: 4%;
+  margin-top: 2%;
+  margin-bottom: 4%;
   max-width: 8%;
   max-height: 3%;
   margin-left: 46%;
+  text-align: center;
+}
+
+.jump {
+  margin-top: 2%;
   text-align: center;
 }
 
