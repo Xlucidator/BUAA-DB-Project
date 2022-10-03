@@ -3,7 +3,7 @@ import {ElNotification} from "element-plus";
 import {useCookies} from "@vueuse/integrations/useCookies"
 
 const service = axios.create({
-    baseURL: '/api',
+    baseURL: '/api/',
 });
 
 // 添加请求拦截器

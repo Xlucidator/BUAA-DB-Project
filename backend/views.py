@@ -8,15 +8,6 @@ from django.db import connection
 from rest_framework_jwt.settings import api_settings
 
 
-# Create your views here.
-def account_manage(request):
-    with connection.cursor() as cursor:
-        cursor.execute('select * from levelsrc_req')
-        list = cursor.fetchall()
-        context = {'list': list}
-    return render(request, "testbackend.html", context)
-
-
 def check_user(username, password):
     with connection.cursor() as cursor:
         sql = 'select * from user_account where CodeName = \'' + username + "\'"
@@ -28,7 +19,7 @@ def check_user(username, password):
             result = (one[1] == password)
             print(result)
         except:
-            print('flase')
+            print('false')
             return False
 
     return result

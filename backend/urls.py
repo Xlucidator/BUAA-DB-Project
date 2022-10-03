@@ -12,5 +12,4 @@ urlpatterns = [
     path('index/POST/login', views.login),
     path('index/POST/enroll', views.enroll),
 
-
 ]
