@@ -138,18 +138,16 @@
 通过[网页drawio编辑器](https://app.diagrams.net/)画出，在`document/`中有源文件可修改，生成的图（或者截图）放在`document/images/`中
 
 ### 后端相关
+> 包都是pip安装，`pip list`即可查看所有版本情况
+
 - python 3.10.6
 - pip 22.2.1
 - django 4.1.1 （根据官网提示下载的，`pip install Django==4.1.1`；`python -m django --version`查看）
-
-**django rest framework**:
-（都是pip安装，`pip list`即可查看所有）
-
 - djangorestframework 3.14.0
 - markdown  3.4.1
 - django-filter 22.1
-
-- django-filter
+- djangorestframework-jwt 1.11.0 （rest_framework_jwt模块，`pip install djangorestframework-jwt`）
+- django-cors-headers 3.13.0 （后端用于解决跨域问题，不过应该没用上）
 
 ### 前端相关
 - node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看）
