@@ -17,10 +17,10 @@ export function register(username, password, pwConfirm) {
     return axios.post("/index/POST/enroll", formData)
 }
 
-export function revoke(username, password) {
-    console.log(username, password)
+export function revoke(token, password) {
+    console.log(token, password)
     const formData = new FormData();
-    formData.append('username', username);
+    formData.append('token', token);
     formData.append('password', password);
     return axios.post("/index/POST/revoke", formData)
 }

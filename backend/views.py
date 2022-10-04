@@ -133,15 +133,19 @@ def enroll(request):
 
 
 def revoke(request):
-    username = request.POST.get("username")
+    token = request.POST.get("token")
     password = request.POST.get("password")
-
-    result = del_person(username, password)
-    if result:
-        date_msg = "farewell!"
-        date_flag = "yes"
+    flag, user = search_token(token)
+    if flag:
+        result = del_person(user['username'], password)
+        if result:
+            date_msg = "farewell!"
+            date_flag = "yes"
+        else:
+            date_msg = "who are you?"
+            date_flag = "no"
     else:
-        date_msg = "who are you?"
+        date_msg = "wrong"
         date_flag = "no"
 
     date = {'flag': date_flag, 'msg': date_msg}

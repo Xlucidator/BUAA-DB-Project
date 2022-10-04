@@ -39,6 +39,7 @@ import {getInfo, revoke, logout} from "../api/manager";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import {removeToken} from "../composable/auth"
+import {getToken} from "../composable/auth";
 
 const store = useStore()
 const router = useRouter();
@@ -83,8 +84,8 @@ const logOut = () => {
       })
 }
 
-const checkDel = (username, password) => {
-  revoke(username, password)
+const checkDel = (password) => {
+  revoke(getToken(), password)
       .then(res => {
         console.log(res.request)
         const flag = res.request['flag']
@@ -101,7 +102,10 @@ const checkDel = (username, password) => {
             message: res.request['msg'],
             type: 'success',
           })
+          store.commit("REMOVE_USERINFO")
 
+          // remove token from cookie
+          removeToken()
           router.push("/login")
         }
       })
@@ -121,7 +125,7 @@ const openBox = () => {
     cancelButtonText: 'Cancel',
   })
       .then(({value}) => {
-        checkDel(value, value)
+        checkDel(value)
       })
       .catch(() => {
         ElMessage({
