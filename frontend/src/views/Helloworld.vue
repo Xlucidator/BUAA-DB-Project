@@ -1,20 +1,120 @@
-<script setup>
-import { ref } from 'vue'
+<script lang="ts" setup>
+import {computed, ref} from 'vue'
 
-defineProps({
-  msg: String
-})
+const activeIndex1 = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
 
-const count = ref(0)
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
 </script>
 
 <template>
-  <h1> Vite + Vue </h1>
+  <el-config-provider>
+    <el-container class="layout-container-demo" style="height: 100vh">
+      <el-header style="height: 80px; min-width: 100vh">
+        <el-menu
+            :default-active="activeIndex1"
+            class="el-menu-demo"
+            mode="horizontal"
+            background-color="rgba(0,0,0,0)"
+            text-color-light="#000"
+            active-text-color-light="rgba(80,50,250,1)"
+            @select="handleSelect"
+            style="height: 100%;min-width: 100vh"
+            :ellipsis=false
+            :router=true
+        >
+          <el-menu-item index="home">
+            <template #title>Home</template>
+          </el-menu-item>
 
+          <div class="flex-grow"/>
+
+          <!--          <el-menu-item index="register">-->
+          <!--            <template #title>Register</template>-->
+          <!--          </el-menu-item>-->
+
+          <!--          <el-menu-item index="login">-->
+          <!--            <template #title>Login</template>-->
+          <!--          </el-menu-item>-->
+
+          <el-menu-item index="settings">
+            <template #title>Settings</template>
+          </el-menu-item>
+        </el-menu>
+      </el-header>
+
+      <el-container>
+
+        <el-aside width="200px" height="100%">
+          <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="rgba(0,0,0,0)"
+          >
+            <el-sub-menu index="1">
+              <template #title>
+                <span>Navigator One</span>
+              </template>
+              <el-menu-item-group title="Group One">
+                <el-menu-item index="1-1">item one</el-menu-item>
+                <el-menu-item index="1-2">item two</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group title="Group Two">
+                <el-menu-item index="1-3">item three</el-menu-item>
+              </el-menu-item-group>
+              <el-sub-menu index="1-4">
+                <template #title>item four</template>
+                <el-menu-item index="1-4-1">item one</el-menu-item>
+              </el-sub-menu>
+            </el-sub-menu>
+            <el-menu-item index="2">
+              <el-icon>
+
+              </el-icon>
+              <span>Navigator Two</span>
+            </el-menu-item>
+            <el-menu-item index="3" disabled>
+              <el-icon>
+                <document/>
+              </el-icon>
+              <span>Navigator Three</span>
+            </el-menu-item>
+            <el-menu-item index="4">
+              <el-icon>
+                <setting/>
+              </el-icon>
+              <span>Navigator Four</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main>
+          <router-view></router-view>
+          <div style="text-align: center;margin-top: 15%">
+            <span class="text-7xl">Vite + Vue </span>
+            <br/>
+            <span class="text-xs"> {{ $store.state.user }} </span>
+            <br/>
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
+
+  </el-config-provider>
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
+
+.flex-grow {
+  flex-grow: 1;
 }
 </style>

@@ -36,7 +36,7 @@
     <p style="color: #888888">don't have an account yet?</p>
     <el-button
         tabindex="-1"
-        @click="register()">
+        @click="reg()">
 
       REGISTER
     </el-button>
@@ -46,7 +46,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {login, getinfo} from "../api/manager";
+import {login} from "../api/manager";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
@@ -58,7 +58,7 @@ let password = ref("")
 const store = useStore()
 const router = useRouter()
 
-const register = () => {
+const reg = () => {
   router.push("/register")
 }
 
@@ -83,14 +83,12 @@ const onSubmit = () => {
             type: 'success',
           })
 
+
           // store cookie
           setToken(res.request['token'])
 
-          // getinfo
-          // getinfo().then(res2 => {
-          //   store.commit("SET_USERINFO", res2)
-          //   console.log(res2)
-          // })
+          // store user info
+          store.commit("SET_USERINFO", res.request)
 
           // jump
           router.push("/home")

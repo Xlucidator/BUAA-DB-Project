@@ -14,13 +14,20 @@
       </UseDark>
     </div>
   </div>
-  <div class="revoke">
-    <div class="Button">
-      <Button tabindex="-1"
-              class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
-              @click="openBox">revoke
-      </Button>
-    </div>
+
+  <el-button
+      tabindex="-1"
+      @click="logOut()">
+    logout
+  </el-button>
+
+  <div class="jump">
+    <p style="color: #888888">i'll be gone forever</p>
+    <el-button
+        tabindex="-1"
+        @click="openBox()">
+      cancel account
+    </el-button>
   </div>
 </template>
 
@@ -28,10 +35,53 @@
 import {computed, ref} from 'vue'
 import {UseDark} from '@vueuse/components'
 import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
-import {revoke} from "../api/manager";
+import {getInfo, revoke, logout} from "../api/manager";
 import {useRouter} from "vue-router";
+import {useStore} from "vuex";
+import {removeToken} from "../composable/auth"
 
+const store = useStore()
 const router = useRouter();
+
+const logOut = () => {
+  // logout and remove user token at backend
+  logout()
+      .then(res => {
+        console.log(res.request)
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          ElNotification({
+            title: 'Error',
+            message: res.request['msg'],
+            type: 'error',
+          })
+        } else {
+          // message
+          ElNotification({
+            title: 'Success',
+            message: res.request['msg'],
+            type: 'success',
+          })
+
+          // logout and remove userinfo at frontend
+          store.commit("REMOVE_USERINFO")
+
+          // remove token from cookie
+          removeToken()
+
+
+          router.push("/login")
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        ElNotification({
+          title: 'Error',
+          message: err.msg,
+          type: 'error',
+        })
+      })
+}
 
 const checkDel = (username, password) => {
   revoke(username, password)
