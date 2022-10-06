@@ -6,7 +6,7 @@ from . import views
 app_name = 'backend'
 
 urlpatterns = [
-    path('index/', views.index),
-    path('index/POST/login', views.login),
-    path('index/POST/enroll', views.enroll),
+    path('login/', views.index),
+    path('login/login', views.login),
+    path('login/enroll', views.enroll),
 ]
