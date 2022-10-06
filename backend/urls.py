@@ -10,6 +10,8 @@ app_name = 'backend'
 urlpatterns = [
     path('index/', views.index),
     path('index/POST/login', views.login),
+    path('index/POST/logout', views.logout),
     path('index/POST/enroll', views.enroll),
-
+    path('index/POST/revoke', views.revoke),
+    path('index/POST/info', views.info),
 ]
