@@ -37,7 +37,7 @@
 **注册**：点击"注册"按钮后，跳转至注册页面。填写注册信息（CodeName、PassWord等），然后信息会被接受并填入另一张名为“待审批用户表”，经过管理员审批后会加入“用户信息表”
 
 待审批用户表（account_approve_queue）
-| CodeName | PassWord | Class | Region | ... | 
+| CodeName | PassWord | Class | Region | ... |
 | -- | -- | -- | -- | -- |
 | char(30) | char(20) | char(20) | char(30) | |
 | primary key | not null |  |  | |
@@ -97,6 +97,8 @@
 活动安排：日落即逝驻场演出、迎新会
 
 #### ④侧边栏：月度事务安排
+
+基础事务 + 委托事务
 
 做一个月度日历，其上标示各种事项
 
