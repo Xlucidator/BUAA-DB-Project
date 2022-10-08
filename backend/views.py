@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db import connection
 
-from backend.tools import get_jwt, check_user
+from backend.tools import get_jwt, check_user, judge
 
 
 def add_person(username, password, permission):
@@ -34,13 +34,13 @@ def del_person(username, password):
 def login(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
-    # print(username, password)
     result, username, perm = check_user(username, password)
     if result:
         date_msg = "success!"
         date_flag = "yes"
         token = get_jwt(username)
-        date = {'flag': date_flag, 'msg': date_msg, 'username': username, 'permission': perm}
+        judge(token)
+        date = {'flag': date_flag, 'msg': date_msg, 'username': username, 'permission': perm, 'token': token}
         return JsonResponse({'request': date})
     else:
         date_msg = "the code is wrong"
@@ -72,3 +72,28 @@ def enroll(request):
 
 def index(request):
     return render(request, 'testbackend.html')
+
+
+def log(request):
+    return render(request, 'login.html')
+
+
+class User:
+    def get(self, request):
+        print(123)
+
+    def post(self, request):
+        print(123)
+
+    def delete(self, request):
+        print(123)
+
+    def put(self, request):
+        print(123)
+
+
+def user_get(request):
+    token = request.POST.get("token")
+    judge(token, 1)
+    # with connection.cursor() as cursor:
+    #   sql = 'select * from user_account'

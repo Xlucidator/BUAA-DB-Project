@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import jwt
 from django.db import connection
+
 JWT_SECRET_KEY = "123"
 
 
@@ -15,8 +16,10 @@ def get_jwt(username, role_data='default'):
         'iat': datetime.utcnow(),
         'data': {'username': username, 'role_data': role_data}
     }
+
     token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
-    print(jwt.decode(token,JWT_SECRET_KEY))
+    print(token)
+    print(jwt.decode(token, JWT_SECRET_KEY))
     return str(token)
 
 
@@ -26,10 +29,18 @@ def check_user(username, password):
         try:
             cursor.execute(sql)
             one = cursor.fetchone()
-            print(one)
             result = (one[1] == password)
-            print(result)
         except:
             print('false')
             return False
     return result, one[0], one[2]
+
+
+def judge(token, std):
+    test = str.encode(token)[2:-1]
+    try:
+        result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256')
+        name = result.get('data').get('username')
+    except:
+        return False
+# print(payload.get('data'))
