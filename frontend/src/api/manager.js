@@ -5,7 +5,7 @@ export function login(username, password) {
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
-    return axios.post("/index/POST/login", formData)
+    return axios.post("/login/login", formData)
 }
 
 export function register(username, password, pwConfirm) {
@@ -14,7 +14,7 @@ export function register(username, password, pwConfirm) {
     formData.append('username', username);
     formData.append('password', password);
     formData.append('pwConfirm', pwConfirm);
-    return axios.post("/index/POST/enroll", formData)
+    return axios.post("/login/enroll", formData)
 }
 
 export function revoke(token, password) {
@@ -22,19 +22,19 @@ export function revoke(token, password) {
     const formData = new FormData();
     formData.append('token', token);
     formData.append('password', password);
-    return axios.post("/index/POST/revoke", formData)
+    return axios.post("/login/revoke", formData)
 }
 
 export function getInfo(token) {
     console.log(token)
     const formData = new FormData();
     formData.append('token', token);
-    return axios.post("/index/POST/info", formData)
+    return axios.post("/login/info", formData)
 }
 
 export function logout() {
     console.log("logging out")
-    return axios.post("/index/POST/logout")
+    return axios.post("/login/logout")
 }
 
 export function getApplyForm(token) {
