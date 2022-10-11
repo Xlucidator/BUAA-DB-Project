@@ -32,5 +32,9 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch("getinfo")
     }
 
+    if(to.path === '/home') {
+        await store.dispatch("getApplyForm")
+    }
+
     next()
 })

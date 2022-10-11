@@ -1,5 +1,9 @@
-<script lang="ts" setup>
+<script setup>
 import {computed, ref} from 'vue'
+import {getApplyForm, editApplyForm, acceptApply, rejectApply, addUser, getUserForm} from '../api/manager'
+import {getToken} from '../composable/auth'
+import {NOTATION} from '../composable/utils'
+import {ElNotification} from "element-plus";
 
 const activeIndex1 = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
@@ -13,49 +17,145 @@ const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 
-
 const handleClick = () => {
   console.log('click')
 }
 
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Home',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-    tag: 'Office',
-  },
-]
+let applyForm = []
+let userForm = []
+
+let username = '';
+let perm = '';
+
+export const updateApplyForm = () => {
+  getApplyForm(getToken())
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // store form
+          applyForm = res.request['applyForm'];
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+
+  getUserForm(getToken())
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // store form
+          applyForm = res.request['applyForm'];
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+}
+
+//TODO
+const changeApply = () => {
+  editApplyForm(getToken(), username, perm)
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // nothing to do
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+}
+
+const deleteApply = () => {
+  rejectApply(getToken(), username)
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // nothing to do
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+}
+
+
+const agreeApply = () => {
+  acceptApply(getToken(), username)
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // store form
+          applyForm = res.request['applyForm'];
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+
+  addUser(getToken(), username)
+      .then(res => {
+        console.log(res)
+
+        const flag = res.request['flag']
+        if (flag === 'no') {
+          NOTATION(0, res.request['msg'])
+        } else {
+          // message
+          NOTATION(1, res.request['msg'])
+
+          // store form
+          userForm = res.request['userForm'];
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+}
 
 </script>
 
@@ -150,24 +250,30 @@ const tableData = [
             <br/>
           </div>
 
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column fixed prop="date" label="Date" width="150"/>
-            <el-table-column prop="name" label="Name" width="120"/>
-            <el-table-column prop="state" label="State" width="120"/>
-            <el-table-column prop="city" label="City" width="120"/>
-            <el-table-column prop="address" label="Address" width="600"/>
-            <el-table-column prop="zip" label="Zip" width="120"/>
-            <el-table-column fixed="right" label="Operations" width="120">
+          <!--                TODO-->
+          <el-table :data="applyForm" style="width: 80%; text-align: center">
+            <el-table-column fixed prop="username" label="username" width="150"/>
+            <el-table-column fixed="permission" label="Name" width="120"/>
+            <el-table-column fixed="right" label="Operations" width="210">
               <template #default>
-                <el-button link type="primary" size="small" @click="handleClick"
-                >Detail
-                </el-button
-                >
                 <el-button link type="primary" size="small">Edit</el-button>
+                <el-button link type="primary" size="small">accept</el-button>
+                <el-button link type="primary" size="small">reject</el-button>
               </template>
             </el-table-column>
           </el-table>
 
+          <br/>
+
+          <el-table :data="userForm" style="width: 80%; text-align: center">
+            <el-table-column fixed prop="username" label="username" width="150"/>
+            <el-table-column fixed="permission" label="Name" width="120"/>
+            <el-table-column fixed="right" label="Operations" width="120">
+              <template #default>
+                <el-button link type="primary" size="small">Edit</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-main>
       </el-container>
     </el-container>

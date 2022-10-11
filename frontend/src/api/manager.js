@@ -36,3 +36,50 @@ export function logout() {
     console.log("logging out")
     return axios.post("/index/POST/logout")
 }
+
+export function getApplyForm(token) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    return axios.post("/index/POST/getApplyForm", formData)
+}
+
+export function getUserForm(token) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    return axios.post("/index/POST/getUserForm", formData)
+}
+
+export function editApplyForm(token, username, permission) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('username', username);
+    formData.append('permission', permission);
+    return axios.post("/index/POST/editApplyForm", formData)
+}
+
+export function rejectApply(token, username) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('username', username);
+    return axios.post("index/application/reject", formData)
+}
+
+export function acceptApply(token, username) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('username', username);
+    return axios.post("index/application/consent", formData)
+}
+
+export function addUser(token, username) {
+    console.log(token)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('username', username);
+    return axios.post("/index/POST/addUser", formData)
+}

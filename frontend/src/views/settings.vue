@@ -40,6 +40,7 @@ import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import {removeToken} from "../composable/auth"
 import {getToken} from "../composable/auth";
+import {NOTATION} from "../composable/utils";
 
 const store = useStore()
 const router = useRouter();
@@ -51,18 +52,10 @@ const logOut = () => {
         console.log(res.request)
         const flag = res.request['flag']
         if (flag === 'no') {
-          ElNotification({
-            title: 'Error',
-            message: res.request['msg'],
-            type: 'error',
-          })
+          NOTATION(0, res.request['msg'])
         } else {
           // message
-          ElNotification({
-            title: 'Success',
-            message: res.request['msg'],
-            type: 'success',
-          })
+          NOTATION(1, res.request['msg'])
 
           // logout and remove userinfo at frontend
           store.commit("REMOVE_USERINFO")
@@ -76,11 +69,7 @@ const logOut = () => {
       })
       .catch(err => {
         console.log(err)
-        ElNotification({
-          title: 'Error',
-          message: err.msg,
-          type: 'error',
-        })
+        NOTATION(0, err.msg)
       })
 }
 
@@ -90,18 +79,10 @@ const checkDel = (password) => {
         console.log(res.request)
         const flag = res.request['flag']
         if (flag === 'no') {
-          ElNotification({
-            title: 'Error',
-            message: res.request['msg'],
-            type: 'error',
-          })
+          NOTATION(0, res.request['msg'])
         } else {
           // message
-          ElNotification({
-            title: 'Success',
-            message: res.request['msg'],
-            type: 'success',
-          })
+          NOTATION(1, res.request['msg'])
           store.commit("REMOVE_USERINFO")
 
           // remove token from cookie
@@ -111,11 +92,7 @@ const checkDel = (password) => {
       })
       .catch(err => {
         console.log(err)
-        ElNotification({
-          title: 'Error',
-          message: err.msg,
-          type: 'error',
-        })
+        NOTATION(0, err.msg)
       })
 }
 
@@ -128,10 +105,7 @@ const openBox = () => {
         checkDel(value)
       })
       .catch(() => {
-        ElMessage({
-          type: 'info',
-          message: 'on second thought?',
-        })
+        NOTATION(0, err.msg)
       })
 }
 

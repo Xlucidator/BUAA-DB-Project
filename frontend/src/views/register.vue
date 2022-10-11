@@ -72,19 +72,11 @@ const onSubmit = () => {
         console.log(res)
         const flag = res.request['flag']
         if (flag === 'no') {
-          ElNotification({
-            title: 'Error',
-            message: res.request['msg'],
-            type: 'error',
-          })
+          NOTATION(0, res.request['msg'])
         } else {
 
           // message
-          ElNotification({
-            title: 'Success',
-            message: res.request['msg'],
-            type: 'success',
-          })
+          NOTATION(1, res.request['msg'])
 
           // jump
           router.push("/login")
@@ -92,11 +84,7 @@ const onSubmit = () => {
       })
       .catch(err => {
         console.log(err)
-        ElNotification({
-          title: 'Error',
-          message: err.msg,
-          type: 'error',
-        })
+        NOTATION(0, err.msg)
       })
 }
 </script>

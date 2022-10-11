@@ -50,7 +50,8 @@ import {login} from "../api/manager";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
-import {setToken} from "../composable/auth"
+import {setToken} from "../composable/auth";
+import {NOTATION} from "../composable/utils";
 
 /* data */
 let userName = ref("")
@@ -69,19 +70,11 @@ const onSubmit = () => {
 
         const flag = res.request['flag']
         if (flag === 'no') {
-          ElNotification({
-            title: 'Error',
-            message: res.request['msg'],
-            type: 'error',
-          })
+          NOTATION(0, res.request['msg'])
         } else {
 
           // message
-          ElNotification({
-            title: 'Success',
-            message: res.request['msg'],
-            type: 'success',
-          })
+          NOTATION(1, res.request['msg'])
 
 
           // store cookie
@@ -96,12 +89,7 @@ const onSubmit = () => {
       })
       .catch(err => {
         console.log(err)
-        ElNotification({
-          title: 'Error',
-          message: err.msg,
-          type: 'error',
-        })
-
+        NOTATION(0, err.msg)
       })
 }
 
