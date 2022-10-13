@@ -8,20 +8,26 @@
 <body>
     <form action="login" method="post">
         {% csrf_token %}
-        <input type="text" name="username">
+        <input type="text" name="CodeName">
         <br/>
-        <input type="password" name="password">
+        <input type="password" name="PassWord">
         <input type="submit" value="登录">
     </form>
     <br/><br/><br/><br/>
     <form action="POST/users" method="post">
         {% csrf_token %}
-        <input type="text" name="username">
+        <input type="text" name="CodeName">
         <br/>
-        <input type="password" name="password">
+        <input type="password" name="PassWord">
         <input type="submit" value="注册">
     </form>
-
+    <br/>
+    <br/>
+    <br/>
+    <form action="/index/user/GET/users" method="post">
+        <input type="text" name="token">
+        <input type="submit" value="获取所有用户">
+    </form>
     <p>{{ rlt }}</p>
 </body>
 </html>

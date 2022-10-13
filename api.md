@@ -11,7 +11,10 @@
 login/login 登录
 login/enroll 注册
 
-### index/common主页
+### index主页
 即小夏画的那两个页面  
 index/application/reject 拒绝申请
 index/application/consent 同意申请
+index/user/GET/users  # 用户界面，获取所有用户信息
+index/user/PUT/user  # 修改用户属性
+index/user/DELETE/user  # 删除用户
