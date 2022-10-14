@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject
+from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
+    one_user
 
 SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
@@ -36,13 +37,19 @@ def enroll(request):
             return JsonResponse({'request': FAIL_DATA})
 
 
-def user_get(request):
+def users_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)
+    print(allowance)
     if allowance:
         return JsonResponse({'request': SUCCESS_DATA, 'result': all_users()})
     else:
         return JsonResponse({'request': NOT_ALLOWED_DATA})
+
+
+def user_get(request):
+    token = request.POST.get("token")
+    return one_user(token)
 
 
 def user_modify(request):

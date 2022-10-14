@@ -58,6 +58,12 @@ def judge(token, std):
         return False
 
 
+def token2name(token):
+    test = str.encode(token)
+    result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256')
+    return result.get('data').get('username')
+
+
 def all_users():
     sql = 'select * from user_account'
 
@@ -122,3 +128,16 @@ def reject(name):
 
 def consent(name):
     pass
+
+
+def one_user(token):
+    try:
+        name = token2name(token)
+        with connection.cursor() as cursor:
+            sql = 'select * from user_account where CodeName = \'' + name + "\'"
+            cursor.execute(sql)
+            one = cursor.fetchone()
+            data = {'CodeName': one[0]}
+            return JsonResponse({'request': SUCCESS_DATA, 'result': data})
+    except:
+        return JsonResponse({'request': FAIL_DATA})
