@@ -22,27 +22,52 @@
 
 系统登录页面、注册跳转页面
 
-基本表
+**登录**：CodeName、PassWord 输入与核对，然后根据权限跳转到各自主页面
+
+用户信息表（user_account）
 | CodeName | PassWord | Permission |
 | -- | -- | -- |
 | char(30) | char(20) | tinyint |
 | primary key | not null | not null, unsigned |
 | | | 值越低，权限越高；最小为0 |
 
-登录：CodeName、PassWord 输入与核对，然后根据权限跳转到各自主页面
+> 我这样设想：用户信息表仅存储登录用信息的极小集，对外连接（CodeName作为外码什么的）用户Profile的表，填具体的个性化信息
 
-注册：CodeName、PassWord。 Permission注册时默认最低。系统事先内置高权限用户（目前分0、1，称为管理员），通过管理员分配
+
+**注册**：点击"注册"按钮后，跳转至注册页面。填写注册信息（CodeName、PassWord等），然后信息会被接受并填入另一张名为“待审批用户表”，经过管理员审批后会加入“用户信息表”
+
+待审批用户表（account_approve_queue）
+| CodeName | PassWord | Class | Region | ... | 
+| -- | -- | -- | -- | -- |
+| char(30) | char(20) | char(20) | char(30) | |
+| primary key | not null |  |  | |
+| 干员代号 | 用户密码 | 干员职业分类 | 来自地区 | 病情（源石病感染程度描述）；另说 |
+
+![视图：用户注册审批队列.png](document/images/视图：用户注册审批队列.png)
+
+可能得找找相关的模板代码
+
+> 我这样设想：这张表接受注册界面要求填写的所有内容（**完成增操作**），然后根据这张表的信息在管理员主页上显示“待审批用户列表”。对于每一条申请记录（关系元组），管理员做出审批操作后便从该表中删除（**完成删操作**），同意注册则将相关信息转加入到“用户信息表”中；管理员可通过查找来显示特定CodeName的申请信息(**完成查操作**， 其实登录验证本身就是查操作，倒是无所谓了)
+
+> 关于有些棘手的**改操作**，是审批时，每次填写、修改信息就对表做一次修改嘛？相关机制还不是很了解
+
+> 设定：Permission注册时默认最低，通过管理员分配。系统事先内置高权限用户（目前分0、1，称为管理员）
 
 拓展：
 - 验证码
 - 用户注册需经过管理员审批才能通过
 - （如果有空的话）希望刚进页面时有一个动画，登录连接成功后有一个动画（类似[明日方舟官网](https://ak.hypergryph.com/)的效果）
+- 邮箱，邮箱的激活认证，审批通过后通过邮箱通知
 
-#### ②登录后主页面
+#### ②登录后主页面：显示内容按权限划分
 
 基本信息呈现。
 
-（作业一要求的第二张表就选择存各用户profile的内容吧，比如头像、基本信息什么的）
+----
+**目前的TODO**：
+管理员视图下的①和②（可以加一个②，只呈现“用户信息表”的内容做一个动态的参照）
+
+![TODO-主页面：管理员](document/images/TODO-主页面：管理员.png)
 
 ----
 
@@ -113,18 +138,16 @@
 通过[网页drawio编辑器](https://app.diagrams.net/)画出，在`document/`中有源文件可修改，生成的图（或者截图）放在`document/images/`中
 
 ### 后端相关
+> 包都是pip安装，`pip list`即可查看所有版本情况
+
 - python 3.10.6
 - pip 22.2.1
 - django 4.1.1 （根据官网提示下载的，`pip install Django==4.1.1`；`python -m django --version`查看）
-
-**django rest framework**:
-（都是pip安装，`pip list`即可查看所有）
-
 - djangorestframework 3.14.0
 - markdown  3.4.1
 - django-filter 22.1
-
-- django-filter
+- djangorestframework-jwt 1.11.0 （rest_framework_jwt模块，`pip install djangorestframework-jwt`）
+- django-cors-headers 3.13.0 （后端用于解决跨域问题，不过应该没用上）
 
 ### 前端相关
 - node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看）
