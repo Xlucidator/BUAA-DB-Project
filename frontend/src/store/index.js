@@ -1,5 +1,5 @@
 import {createStore} from 'vuex'
-import {login, getInfo} from "../api/manager";
+import {getInfo} from "../api/manager";
 import {getToken} from "../composable/auth"
 
 const store = createStore({

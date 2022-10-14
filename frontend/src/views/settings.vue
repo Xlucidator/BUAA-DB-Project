@@ -35,7 +35,7 @@
 import {computed, ref} from 'vue'
 import {UseDark} from '@vueuse/components'
 import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
-import {getInfo, revoke, logout} from "../api/manager";
+import {getInfo, revoke} from "../api/manager";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import {removeToken} from "../composable/auth"
@@ -46,31 +46,14 @@ const store = useStore()
 const router = useRouter();
 
 const logOut = () => {
-  // logout and remove user token at backend
-  logout()
-      .then(res => {
-        console.log(res.request)
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
-        } else {
-          // message
-          NOTATION(1, res.request['msg'])
+  // logout and remove userinfo at frontend
+  store.commit("REMOVE_USERINFO")
 
-          // logout and remove userinfo at frontend
-          store.commit("REMOVE_USERINFO")
+  // remove token from cookie
+  removeToken()
 
-          // remove token from cookie
-          removeToken()
+  router.push("/login")
 
-
-          router.push("/login")
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        NOTATION(0, err.msg)
-      })
 }
 
 const checkDel = (password) => {

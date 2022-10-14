@@ -32,11 +32,6 @@ export function getInfo(token) {
     return axios.post("/login/info", formData)
 }
 
-export function logout() {
-    console.log("logging out")
-    return axios.post("/login/logout")
-}
-
 export function getApplyForm(token) {
     console.log(token)
     const formData = new FormData();

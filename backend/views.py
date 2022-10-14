@@ -40,7 +40,7 @@ def login(request):
         date_msg = "success!"
         date_flag = "yes"
         token = get_jwt(username)
-        date = {'flag': date_flag, 'msg': date_msg, 'username': username, 'permission': perm}
+        date = {'flag': date_flag, 'msg': date_msg, 'username': username, 'permission': perm, 'token':token}
         return JsonResponse({'request': date})
     else:
         date_msg = "the code is wrong"
@@ -68,7 +68,6 @@ def enroll(request):
             date_flag = "no"
     date = {'flag': date_flag, 'msg': date_msg}
     return JsonResponse({'request': date})
-
 
 def index(request):
     return render(request, 'testbackend.html')
