@@ -4,9 +4,22 @@ from django.db import connection
 from django.http import JsonResponse
 
 JWT_SECRET_KEY = "123"
-SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
 NOT_ALLOWED_DATA = {'flag': 'no', 'msg': 'not allowed'}
+user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
+account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
+
+
+def success(msg, result=None):
+    print(4)
+    if result is None:
+        return JsonResponse({'request': {'flag': 'yes', 'msg': msg}})
+    else:
+        return JsonResponse({'request': {'flag': 'yes', 'msg': msg}, 'result': result})
+
+
+def fail(msg):
+    return JsonResponse({'request': {'flag': 'no', 'msg': msg}})
 
 
 def get_jwt(username, role_data='default'):
@@ -20,30 +33,12 @@ def get_jwt(username, role_data='default'):
         'iat': datetime.utcnow(),
         'data': {'username': username, 'role_data': role_data}
     }
-
     token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
-    print(token)
-    print(jwt.decode(token, JWT_SECRET_KEY))
     return str(token)
-
-
-def check_user(username, password):
-    with connection.cursor() as cursor:
-        sql = 'select * from user_account where CodeName = \'' + username + "\'"
-        try:
-            cursor.execute(sql)
-            one = cursor.fetchone()
-            result = (one[1] == password)
-        except:
-            print('false')
-            return False
-    return result
 
 
 def judge(token, std):
     test = str.encode(token)[2:-1]
-    # 前端返回的字符串的格式？
-    # 这里不是很确定，调试的时候再说
     try:
         result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
         name = result.get('data').get('username')
@@ -63,13 +58,30 @@ def token2name(token):
     return result.get('data').get('username')
 
 
+def check_user(CodeName, password):
+    with connection.cursor() as cursor:
+        sql = 'select * from user_account where CodeName = \'' + CodeName + "\'"
+        try:
+            cursor.execute(sql)
+            one = cursor.fetchone()
+            if one is None:
+                return fail('用户名不存在')
+            if one[1] == password:
+                token = get_jwt(CodeName)
+                result = {'CodeName': CodeName, 'token': token}
+                return success('登录成功', result)
+            else:
+                return fail('密码错误')
+        except:
+            return fail('未知错误')
+
+
 def all_users():
     sql = 'select * from user_account'
     with connection.cursor() as cursor:
         cursor.execute(sql)
         dict_list = []
         for item in cursor:
-            # CodeName | Password | Permission
             dict_list.append({'CodeName': item[0], 'Permission': item[2]})
     return dict_list
 
@@ -79,9 +91,9 @@ def modify_user(name, permission):
         sql = "update user_account Set Permission = " + permission + "where CodeName = \''" + name + "\'"
         with connection.cursor() as cursor:
             cursor.execute(sql)
-        return JsonResponse({'request': SUCCESS_DATA})
+        return success('成功修改')
     except:
-        return JsonResponse({'request': FAIL_DATA})
+        return fail('修改失败')
 
 
 def delete_user(name):
@@ -89,7 +101,7 @@ def delete_user(name):
         sql = "delete from user_account where CodeName = \''" + name + "\'"
         with connection.cursor() as cursor:
             cursor.execute(sql)
-        return JsonResponse({'request': SUCCESS_DATA})
+        return success('成功删除')
     except:
         return JsonResponse({'request': FAIL_DATA})
 
@@ -112,7 +124,7 @@ def reject(name):
         with connection.cursor() as cursor:
             sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
             cursor.execute(sql)
-            return JsonResponse({'request': SUCCESS_DATA})
+            return success('拒绝该用户的注册申请')
     except:
         return JsonResponse({'request': FAIL_DATA})
 
@@ -143,7 +155,7 @@ def consent(CodeName, Permission):
             sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
             print(sql3)
             cursor.execute(sql3)
-            return JsonResponse({'request': SUCCESS_DATA})
+            return success('同意该用户的申请')
     except:
         return JsonResponse({'request': FAIL_DATA})
 
@@ -156,10 +168,14 @@ def one_user(token):
             sql = 'select * from user_account where CodeName = \'' + name + "\'"
             cursor.execute(sql)
             one = cursor.fetchone()
-            data = {'CodeName': one[0], 'token': token}
-            return JsonResponse({'request': SUCCESS_DATA, 'result': data})
+
+            data = {}
+            for i in enumerate(user_account):
+                data[i[1]] = one[i[0]]
+            return success('获取用户信息成功', data)
+
     except:
-        return JsonResponse({'request': FAIL_DATA})
+        return fail('获取用户信息失败')
 
 
 def add_into_queue(CodeName, Class, Region, Race, Description, Password):
@@ -173,9 +189,9 @@ def add_into_queue(CodeName, Class, Region, Race, Description, Password):
                                                                                                       )
             print(sql)
             cursor.execute(sql)
-        return JsonResponse({'request': SUCCESS_DATA})
+        return success('注册成功，请等待审核')
     except:
-        return JsonResponse({'request': FAIL_DATA})
+        return fail('注册失败QWQ')
 
 
 def all_applications():
@@ -183,12 +199,12 @@ def all_applications():
     with connection.cursor() as cursor:
         cursor.execute(sql)
         dict_list = []
-
         for item in cursor:
-            # CodeName | Class | Region | Race | Description
-            # CodeName | Password | Permission
-            dict_list.append(
-                {'CodeName': item[0], 'Class': item[1], 'Region': item[2], 'Race': item[3], 'Description': item[4]})
+            data = {}
+            for i in enumerate(account_approve_queue):
+                if i != 'Password':
+                    data[i[1]] = item[i[0]]
+            dict_list.append(data)
         return dict_list
 
 
@@ -199,6 +215,6 @@ def modify_application(CodeName, Permission, Class, Region, Race, Description):
         print(sql)
         with connection.cursor() as cursor:
             cursor.execute(sql)
-        return JsonResponse({'request': SUCCESS_DATA})
+        return success('申请用户信息修改成功~')
     except:
-        return JsonResponse({'request': FAIL_DATA})
+        return fail('修改失败了')
