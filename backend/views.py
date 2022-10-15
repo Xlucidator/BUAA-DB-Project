@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
-    one_user, add_into_queue
+    one_user, add_into_queue, all_applications
 
 SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
@@ -14,6 +14,7 @@ def login(request):
     CodeName = request.POST.get("CodeName")
     Password = request.POST.get("Password")
     result = check_user(CodeName, Password)
+    print(result)
     if result:
         token = get_jwt(CodeName)
         d = {'CodeName': CodeName, 'token': token}
@@ -88,8 +89,6 @@ def application_consent(request):
         return consent(name, Permission)
     else:
         return JsonResponse({'request': NOT_ALLOWED_DATA})
-
-
 
 
 def applications_get(request):

@@ -3,9 +3,7 @@ import {computed, ref} from 'vue';
 import {getApplyForm, editApplyForm, acceptApply, rejectApply, addUser, getUserForm} from '../api/manager.js';
 import {getToken} from '../composable/auth.js';
 import {NOTATION} from '../composable/utils.js';
-import {useStore} from "vuex";
-
-const store = useStore()
+import store from "../store/index.js";
 
 const activeIndex1 = ref('1')
 
@@ -27,11 +25,16 @@ const handleClick = () => {
 interface User {
   CodeName: string
   Permission: string
+  Class: string
+  Region: string
+  Race: string
+  Description: string
 }
 
-let applyForm = store.state.form
-let userForm = [{username: 'doctor', permission: 0}]
-let tableForm = ref({CodeName: '', Permission: ''})
+let applyForm = store.state['applyForm']
+console.log(store.state)
+let userForm = store.state['userForm']
+let tableForm = ref({CodeName: '', Permission: '', Class: '', Region: '', Race: '', Description: ''})
 
 let dialogFormVisible = ref(false);
 let dialogIdx = 0;
@@ -80,25 +83,25 @@ const updateApplyForm = () => {
         NOTATION(0, err.msg)
       })
 
-  // getUserForm(getToken())
-  //     .then(res => {
-  //       console.log(res)
-  //
-  //       if (res.request.flag === 'no') {
-  //         NOTATION(0, res.request.msg)
-  //       } else {
-  //
-  //         // message
-  //         NOTATION(1, res.request.msg)
-  //
-  //         // store form
-  //         applyForm = res.request.applyForm
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       NOTATION(0, err.msg)
-  //     })
+  getUserForm(getToken())
+      .then(res => {
+        console.log(res)
+
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
+        } else {
+
+          // message
+          NOTATION(1, res.request.msg)
+
+          // store form
+          userForm = res.request.userForm
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
 }
 
 const searchApply = ref('')
@@ -122,7 +125,7 @@ const handleAccept = (index: number, row: User) => {
   console.log("accept ", index, row)
   acceptApply(getToken(), row)
       .then(res => {
-        console.log(res)
+        console.log("acceptApply", res)
 
         if (res.request.flag === 'no') {
           NOTATION(0, res.request.msg)
@@ -135,28 +138,28 @@ const handleAccept = (index: number, row: User) => {
         }
       })
       .catch(err => {
-        console.log(err)
+        console.log("accept err ", err)
         NOTATION(0, err.msg)
       })
 
-  addUser(getToken(), row)
-      .then(res => {
-        console.log(res)
-
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
-        } else {
-          // message
-          NOTATION(1, res.request.msg)
-
-          // store form
-          userForm = res.request.userForm
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        NOTATION(0, err.msg)
-      })
+  // addUser(getToken(), row)
+  //     .then(res => {
+  //       console.log(res)
+  //
+  //       if (res.request.flag === 'no') {
+  //         NOTATION(0, res.request.msg)
+  //       } else {
+  //         // message
+  //         NOTATION(1, res.request.msg)
+  //
+  //         // store form
+  //         userForm = res.request.userForm
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       NOTATION(0, err.msg)
+  //     })
   updateApplyForm()
 }
 const handleReject = (index: number, row: User) => {
@@ -304,8 +307,12 @@ const handleReject = (index: number, row: User) => {
               <span class="text-2xl test-bold">Waiting List</span>
             </div>
             <el-table :data="filterApplyForm" style="width: 100%">
-              <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
-              <el-table-column prop="Permission" label="Permission" width="150"/>
+              <el-table-column fixed prop="CodeName" label="CodeName" width="100"/>
+              <el-table-column prop="Permission" label="Permission" width="100"/>
+              <el-table-column prop="Class" label="Class" width="100"/>
+              <el-table-column prop="Region" label="Region" width="100"/>
+              <el-table-column prop="Race" label="Race" width="80"/>
+              <el-table-column prop="Description" label="Description" width="80"/>
               <el-table-column align="right">
                 <template #header>
                   <el-input v-model="searchApply" size="small" placeholder="Type to search"/>
@@ -331,7 +338,11 @@ const handleReject = (index: number, row: User) => {
             </div>
             <el-table :data="userForm" style="width: 100%">
               <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
-              <el-table-column prop="Permission" label="Permission" width="120"/>
+              <el-table-column prop="Permission" label="Permission" width="100"/>
+              <el-table-column prop="Class" label="Class" width="100"/>
+              <el-table-column prop="Region" label="Region" width="100"/>
+              <el-table-column prop="Race" label="Race" width="100"/>
+              <el-table-column prop="Mail" label="Mail" width="100"/>
             </el-table>
           </div>
 
@@ -343,6 +354,18 @@ const handleReject = (index: number, row: User) => {
               </el-form-item>
               <el-form-item label="perm" :label-width="60">
                 <el-input v-model="tableForm.Permission" autocomplete="off"/>
+              </el-form-item>
+              <el-form-item label="class" :label-width="60">
+                <el-input v-model="tableForm.Class" autocomplete="off"/>
+              </el-form-item>
+              <el-form-item label="region" :label-width="60">
+                <el-input v-model="tableForm.Region" autocomplete="off"/>
+              </el-form-item>
+              <el-form-item label="race" :label-width="60">
+                <el-input v-model="tableForm.Race" autocomplete="off"/>
+              </el-form-item>
+              <el-form-item label="desc" :label-width="60">
+                <el-input v-model="tableForm.Description" autocomplete="off"/>
               </el-form-item>
             </el-form>
             <template #footer>

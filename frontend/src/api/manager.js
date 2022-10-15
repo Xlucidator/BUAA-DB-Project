@@ -14,16 +14,13 @@ export function login(username, password) {
     console.log("login: ", username, password)
     const formData = new FormData();
     formData.append('CodeName', username);
-    formData.append('PassWord', password);
+    formData.append('Password', password);
     return axios.post("/login/login", formData)
 }
 
-export function register(username, password, pwConfirm) {
-    console.log(username, password)
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('pwConfirm', pwConfirm);
+export function register(form) {
+    console.log("register", form)
+    const formData = jsonToFormData(form)
     return axios.post("/login/enroll", formData)
 }
 
@@ -46,14 +43,14 @@ export function getApplyForm(token) {
     console.log(token)
     const formData = new FormData();
     formData.append('token', token);
-    return axios.post("index/user/GET/users", formData)
+    return axios.post("index/application/GET", formData)
 }
 
 export function getUserForm(token) {
     console.log(token)
     const formData = new FormData();
     formData.append('token', token);
-    return axios.post("/index/POST/getUserForm", formData)
+    return axios.post("index/user/GET/users", formData)
 }
 
 export function editApplyForm(token, row) {

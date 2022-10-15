@@ -29,11 +29,12 @@ router.beforeEach(async (to, from, next) => {
 
     // if logged in, then getinfo and store info into vuex
     if (token) {
-        await store.dispatch("getinfo")
+        await store.dispatch("get_info")
     }
 
     if(to.path === '/home') {
-        await store.dispatch("getApplyForm")
+        await store.dispatch("get_apply_form")
+        await store.dispatch("get_user_form")
     }
 
     next()
