@@ -46,7 +46,7 @@ def judge(token, std):
     # 这里不是很确定，调试的时候再说
     try:
         result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
-        name = result['data']['username']
+        name = result.get('data').get('username')
         print(name)
         with connection.cursor() as cursor:
             sql = 'select * from user_account where CodeName = \'' + name + "\'"
@@ -58,9 +58,9 @@ def judge(token, std):
 
 
 def token2name(token):
-    test = str.encode(token)[2:-1]
+    test = str.encode(token)
     result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
-    return result['data']['username']
+    return result.get('data').get('username')
 
 
 def all_users():
@@ -165,10 +165,12 @@ def one_user(token):
 def add_into_queue(CodeName, Class, Region, Race, Description, Password):
     try:
         with connection.cursor() as cursor:
-            sql = "insert into account_approve_queue values('{}','{}','{}','{}','{}','{}')".format(CodeName, Class,
-                                                                                                   Region, Race,
-                                                                                                   Description,
-                                                                                                   Password)
+            sql = "insert into account_approve_queue values('{}','{}',{},'{}','{}','{}','{}')".format(CodeName,
+                                                                                                      Password, 2,
+                                                                                                      Class,
+                                                                                                      Region, Race,
+                                                                                                      Description,
+                                                                                                      )
             print(sql)
             cursor.execute(sql)
         return JsonResponse({'request': SUCCESS_DATA})
@@ -181,9 +183,22 @@ def all_applications():
     with connection.cursor() as cursor:
         cursor.execute(sql)
         dict_list = []
+
         for item in cursor:
             # CodeName | Class | Region | Race | Description
             # CodeName | Password | Permission
             dict_list.append(
                 {'CodeName': item[0], 'Class': item[1], 'Region': item[2], 'Race': item[3], 'Description': item[4]})
         return dict_list
+
+
+def modify_application(CodeName, Permission, Class, Region, Race, Description):
+    try:
+        sql = "update account_approve_queue Set Permission = {},Class = '{}',Region = '{}',Race = '{}',Description = " \
+              "'{}' where CodeName = '{}'".format(Permission, Class, Region, Race, Description, CodeName)
+        print(sql)
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+        return JsonResponse({'request': SUCCESS_DATA})
+    except:
+        return JsonResponse({'request': FAIL_DATA})

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
-    one_user, add_into_queue, all_applications
+    one_user, add_into_queue, all_applications, modify_application
 
 SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
@@ -107,3 +107,18 @@ def index(request):
 
 def log(request):
     return render(request, 'login.html')
+
+
+def application_modify(request):
+    token = request.POST.get("token")
+    Permission = request.POST.get("Permission")
+    CodeName = request.POST.get("CodeName")
+    Class = request.POST.get("Class")
+    Region = request.POST.get("Region")
+    Race = request.POST.get("Race")
+    Description = request.POST.get("Description")
+    allowance = judge(token, 1)
+    if allowance:
+        return modify_application(CodeName, Permission, Class, Region, Race, Description)
+    else:
+        return JsonResponse({'request': NOT_ALLOWED_DATA})
