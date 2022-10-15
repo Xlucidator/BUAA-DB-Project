@@ -7,7 +7,6 @@ router.beforeEach(async (to, from, next) => {
     console.log("router.beforeEach")
 
     const token = getToken()
-    console.log(token)
     if (!token && to.path !== '/login' && to.path !== '/register') {
         ElNotification({
             title: 'PLEASE LOGIN',

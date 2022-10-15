@@ -66,7 +66,7 @@ const reg = () => {
 const onSubmit = () => {
   login(userName.value, password.value)
       .then(res => {
-        console.log(res)
+        console.log("login", res)
 
         if (res.request.flag === 'no') {
           NOTATION(0, res.request.msg)

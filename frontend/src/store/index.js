@@ -2,6 +2,12 @@ import {createStore} from 'vuex'
 import {getApplyForm, getInfo, getUserForm} from "../api/manager";
 import {getToken, removeToken} from "../composable/auth"
 
+function changeForm(form) {
+    // let tmpForm = {CodeName: '', Permission: '', Class: '', Region: '', Race: '', Description: ''}
+
+    return form
+}
+
 const store = createStore({
     state() {
         return {
@@ -20,11 +26,11 @@ const store = createStore({
             console.log("remove_userinfo")
         },
         SET_APPLY_FORM(state, applyForm) {
-            state.applyForm = applyForm
+            state.applyForm = changeForm(applyForm)
             console.log("set_apply_form", store.state.applyForm)
         },
         SET_USER_FORM(state, userForm) {
-            state.userForm = userForm
+            state.userForm = changeForm(userForm)
             console.log("set_user_form", store.state.userForm)
         }
     },
@@ -33,14 +39,10 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 getInfo(getToken())
                     .then(res => {
-                        console.log(">>>", res['request'])
-                        if (res['request']['flag'] === 'no') {
-                            removeToken()
-                        } else {
-                            commit("SET_USERINFO", res['result'])
-                            //console.log(">>>", store.state.user['token'])
-                            resolve(res)
-                        }
+                        console.log("getInfo", res['request'])
+                        commit("SET_USERINFO", res['result'])
+                        //console.log(">>>", store.state.user['token'])
+                        resolve(res)
                     })
                     .catch(err => reject(err))
             })
@@ -49,7 +51,7 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 getApplyForm(getToken())
                     .then(res => {
-                        console.log(">>>", res['request'])
+                        console.log("get_apply_form", res['request'])
                         commit("SET_APPLY_FORM", res['result'])
                         resolve(res)
                     })
@@ -60,7 +62,7 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 getUserForm(getToken())
                     .then(res => {
-                        console.log(">>>", res['request'])
+                        console.log("get_user_form", res['request'])
                         commit("SET_USER_FORM", res['result'])
                         resolve(res)
                     })

@@ -195,7 +195,7 @@ const handleReject = (index: number, row: User) => {
           <span> avatar </span>
         </div>
         <div class="userinfo">
-          <span class="font-bold text-xs"> NAME:{{ $store.state.user.CodeName }} </span>
+          <span class="font-bold text-xs"> NAME: {{ $store.state.user.CodeName }} </span>
         </div>
         <el-menu
             default-active="2"
@@ -311,8 +311,8 @@ const handleReject = (index: number, row: User) => {
               <el-table-column prop="Permission" label="Permission" width="100"/>
               <el-table-column prop="Class" label="Class" width="100"/>
               <el-table-column prop="Region" label="Region" width="100"/>
-              <el-table-column prop="Race" label="Race" width="80"/>
-              <el-table-column prop="Description" label="Description" width="80"/>
+              <el-table-column prop="Race" label="Race" width="100"/>
+              <el-table-column prop="Description" label="Description" width="100"/>
               <el-table-column align="right">
                 <template #header>
                   <el-input v-model="searchApply" size="small" placeholder="Type to search"/>
@@ -338,13 +338,17 @@ const handleReject = (index: number, row: User) => {
             </div>
             <el-table :data="userForm" style="width: 100%">
               <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
-              <el-table-column prop="Permission" label="Permission" width="100"/>
-              <el-table-column prop="Class" label="Class" width="100"/>
-              <el-table-column prop="Region" label="Region" width="100"/>
-              <el-table-column prop="Race" label="Race" width="100"/>
-              <el-table-column prop="Mail" label="Mail" width="100"/>
+              <el-table-column prop="Permission" label="Permission" width="150"/>
+              <el-table-column prop="Class" label="Class" width="150"/>
+              <el-table-column prop="Region" label="Region" width="150"/>
+              <el-table-column prop="Race" label="Race" width="150"/>
+              <el-table-column prop="Mail" label="Mail" width="150"/>
             </el-table>
           </div>
+
+          <br/>
+          <br/>
+          <br/>
 
           <!-- dialog -->
           <el-dialog v-model="dialogFormVisible" title="EDIT INFORMATION">
@@ -392,8 +396,8 @@ const handleReject = (index: number, row: User) => {
 }
 
 .form {
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .formHeader {

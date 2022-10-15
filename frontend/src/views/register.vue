@@ -9,10 +9,10 @@
         <el-input v-model="form.CodeName"/>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input v-model="form.Password"/>
+        <el-input v-model="form.Password" :show-password="true"/>
       </el-form-item>
       <el-form-item label="Password again">
-        <el-input v-model="form.PwConfirm"/>
+        <el-input v-model="form.PwConfirm" :show-password="true"/>
       </el-form-item>
       <el-form-item label="Class">
         <el-select v-model="form.Class" placeholder="please select your class">
@@ -41,7 +41,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="Description">
-        <el-input v-model="form.Description"/>
+        <div class="test-box">
+          <el-input v-model="form.Description" type="textarea" autosize=""/>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -126,6 +128,11 @@ const onSubmit = () => {
 
 .input-box {
   margin-left: 32%;
+  text-align: center;
+}
+
+.test-box {
+  width: 40%;
   text-align: center;
 }
 

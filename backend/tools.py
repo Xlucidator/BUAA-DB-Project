@@ -58,7 +58,7 @@ def judge(token, std):
 
 
 def token2name(token):
-    test = str.encode(token)
+    test = str.encode(token)[2:-1]
     result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
     return result.get('data').get('username')
 
@@ -118,7 +118,7 @@ def reject(name):
 
 
 def consent(CodeName, Permission):
-    print(CodeName)
+    print("consent", CodeName)
     try:
         with connection.cursor() as cursor:
             sql1 = "select * from account_approve_queue where CodeName = '{}' ".format(CodeName)
@@ -136,8 +136,8 @@ def consent(CodeName, Permission):
 
             sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}','{}')".format(CodeName, Password,
                                                                                                    Permission,
-                                                                                                   "", region, Race, "",
-                                                                                                   "", "")
+                                                                                                   Class, region, Race, "",
+                                                                                                   "")
             print(sql2)
             cursor.execute(sql2)
             sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
@@ -151,7 +151,7 @@ def consent(CodeName, Permission):
 def one_user(token):
     try:
         name = token2name(token)
-        print(name)
+        print("one_user", name)
         with connection.cursor() as cursor:
             sql = 'select * from user_account where CodeName = \'' + name + "\'"
             cursor.execute(sql)
