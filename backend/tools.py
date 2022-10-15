@@ -175,3 +175,16 @@ def add_into_queue(CodeName, Class, Region, Race, Description, Password):
         return JsonResponse({'request': SUCCESS_DATA})
     except:
         return JsonResponse({'request': FAIL_DATA})
+
+
+def all_applications():
+    sql = 'select * from account_approve_queue'
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        dict_list = []
+        for item in cursor:
+            # CodeName | Class | Region | Race | Description
+            # CodeName | Password | Permission
+            dict_list.append(
+                {'CodeName': item[0], 'Class': item[1], 'Region': item[2], 'Race': item[3], 'Description': item[4]})
+        return dict_list

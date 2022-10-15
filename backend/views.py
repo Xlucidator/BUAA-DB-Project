@@ -90,8 +90,15 @@ def application_consent(request):
         return JsonResponse({'request': NOT_ALLOWED_DATA})
 
 
-def application_get():
-    return None
+
+
+def applications_get(request):
+    token = request.POST.get("token")
+    allowance = judge(token, 1)
+    if allowance:
+        return JsonResponse({'request': SUCCESS_DATA, 'result': all_applications()})
+    else:
+        return JsonResponse({'request': NOT_ALLOWED_DATA})
 
 
 # 后端调试使用

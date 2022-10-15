@@ -22,6 +22,6 @@ urlpatterns = [
     path('index/application/reject', views.application_reject),  # 拒绝用户的注册申请
     path('index/application/consent', views.application_consent),  # 同意用户的注册申请
 
-    path('index/application/GET', views.application_get),  # 用户界面，获取所有用户信息
+    path('index/application/GET', views.applications_get),  # 用户界面，获取所有用户信息
 
 ]
