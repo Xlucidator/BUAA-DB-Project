@@ -38,11 +38,17 @@ let tableForm = ref({CodeName: '', Permission: '', Class: '', Region: '', Race: 
 
 let dialogFormVisible = ref(false);
 let dialogIdx = 0;
+let time = new Date().getHours()
+let greetings = (time < 6 ? 'Go to sleep please, my dear youngster' :
+    (time < 12 ? 'Good morning' :
+        (time < 18 ? 'Good afternoon' : 'Good evening')))
+let itemKey = 0;
 
 const dialogConfirm = () => {
   console.log("dialogConfirm", tableForm.value)
   dialogFormVisible.value = false;
   applyForm.splice(dialogIdx, 1, tableForm)
+  itemKey = Math.random()
   editApplyForm(getToken(), tableForm.value)
       .then(res => {
         console.log(res)
@@ -98,6 +104,7 @@ const updateApplyForm = () => {
         console.log(err)
         NOTATION(0, err.msg)
       })
+  itemKey = Math.random()
 }
 
 const searchApply = ref('')
@@ -127,39 +134,13 @@ const handleAccept = (index: number, row: User) => {
         } else {
           // message
           NOTATION(1, res.request.msg)
-
-          // update tables
-          console.log("?????", userForm.length)
-          let len = userForm.length
-          //userForm.splice(len, 0, applyForm[index])
-          //applyForm.splice(index, 1)
-
         }
       })
       .catch(err => {
         console.log("accept err ", err)
         NOTATION(0, err.msg)
       })
-
-  // addUser(getToken(), row)
-  //     .then(res => {
-  //       console.log(res)
-  //
-  //       if (res.request.flag === 'no') {
-  //         NOTATION(0, res.request.msg)
-  //       } else {
-  //         // message
-  //         NOTATION(1, res.request.msg)
-  //
-  //         // store form
-  //         userForm = res.request.userForm
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       NOTATION(0, err.msg)
-  //     })
-  updateApplyForm()
+  itemKey = Math.random()
 }
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
@@ -287,7 +268,7 @@ const handleReject = (index: number, row: User) => {
           <br/>
           <br/>
           <br/>
-          <span class="text-xm " style="margin-left: 10%">Good morning, </span>
+          <span class="text-xm " style="margin-left: 10%"> {{ greetings }} ,</span>
           <span class="text-xl font-extrabold"
                 style="margin-left: 0.5%; margin-right: 0.5%"> {{ $store.state.user.CodeName }} </span>
           <span class="text-xm">.</span>

@@ -107,7 +107,7 @@ def all_users():
         for item in cursor:
             my_dict = {}
             for i in enumerate(user_account):
-                my_dict[i[0]] = item[i[1]]
+                my_dict[i[1]] = item[i[0]]
             dict_list.append(my_dict)
     return dict_list
 

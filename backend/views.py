@@ -76,6 +76,7 @@ def application_consent(request):
     name = request.POST.get("CodeName")
     Permission = request.POST.get("Permission")
     allowance = judge(token, 1)
+    print("application_consent", name)
     if allowance:
         return consent(name, Permission)
     else:

@@ -1,6 +1,6 @@
 <template>
   <div class='header'>
-    <h2>SETTINGS</h2>
+    <span class="text-3xl">SETTINGS</span>
   </div>
   <div class="setting">
     <div class="switch">
@@ -15,19 +15,21 @@
     </div>
   </div>
 
-  <el-button
-      tabindex="-1"
-      @click="logOut()">
-    logout
-  </el-button>
-
-  <div class="jump">
-    <p style="color: #888888">i'll be gone forever</p>
+  <div class="buttonToCenter">
     <el-button
         tabindex="-1"
-        @click="openBox()">
-      cancel account
+        @click="logOut()">
+      logout
     </el-button>
+
+    <div class="jump">
+      <p style="color: #888888">i'll be gone forever</p>
+      <el-button
+          tabindex="-1"
+          @click="openBox()">
+        cancel account
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -97,24 +99,26 @@ const themeDark = ref(false)
 
 <style scoped>
 .setting {
-  margin-left: 38%;
+  text-align: center;
   margin-top: 5%;
 }
 
 .header {
-  margin-left: 40%;
+  text-align: center;
   margin-top: 10%;
 }
 
 .switch {
   margin: 25px;
+  text-align: center;
 }
 
-.Button {
-  margin-top: 4%;
-  max-width: 8%;
-  max-height: 2%;
-  margin-left: 40%;
+.jump {
+  margin-top: 2%;
+}
+
+.buttonToCenter {
+  margin-top: 5%;
   text-align: center;
 }
 
