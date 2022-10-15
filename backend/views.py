@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
     one_user, add_into_queue, all_applications, modify_application, success, fail
+
+user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
+account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
 
 
 def login(request):
@@ -96,14 +98,16 @@ def log(request):
 
 def application_modify(request):
     token = request.POST.get("token")
-    Permission = request.POST.get("Permission")
-    CodeName = request.POST.get("CodeName")
-    Class = request.POST.get("Class")
-    Region = request.POST.get("Region")
-    Race = request.POST.get("Race")
-    Description = request.POST.get("Description")
+    # account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
+    CodeName = request.POST.get(account_approve_queue[0])
+    Password = request.POST.get(account_approve_queue[1])
+    Permission = request.POST.get(account_approve_queue[2])
+    Class = request.POST.get(account_approve_queue[3])
+    Region = request.POST.get(account_approve_queue[4])
+    Race = request.POST.get(account_approve_queue[5])
+    Description = request.POST.get(account_approve_queue[6])
     allowance = judge(token, 1)
     if allowance:
         return modify_application(CodeName, Permission, Class, Region, Race, Description)
     else:
-        return JsonResponse({'request': fail('无访问权限')})
+        return fail('无访问权限')

@@ -23,6 +23,6 @@ urlpatterns = [
     path('index/application/reject', views.application_reject),  # 拒绝用户的注册申请
     path('index/application/consent', views.application_consent),  # 同意用户的注册申请
     path('index/application/GET', views.applications_get),  # 用户界面，获取所有待申请信息
-    path('index/application/PUT/application', views.application_modify),
+    path('index/application/PUT/application', views.application_modify),  # 待申请列表的修改
 
 ]
