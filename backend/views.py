@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
-    one_user
+    one_user, add_into_queue
 
 SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
@@ -11,30 +11,26 @@ NOT_ALLOWED_DATA = {'flag': 'no', 'msg': 'not allowed'}
 # 代码重复度太高了，应该去寻找一些方法进行替换
 
 def login(request):
-    code_name = request.POST.get("CodeName")
-    password = request.POST.get("PassWord")
-    result = check_user(code_name, password)
+    CodeName = request.POST.get("CodeName")
+    Password = request.POST.get("Password")
+    result = check_user(CodeName, Password)
     if result:
-        token = get_jwt(code_name)
-        d = {'CodeName': code_name, 'token': token}
+        token = get_jwt(CodeName)
+        d = {'CodeName': CodeName, 'token': token}
         return JsonResponse({'request': SUCCESS_DATA, 'result': d})
     else:
         return JsonResponse({'request': FAIL_DATA})
 
 
 def enroll(request):
-    code_name = request.POST.get("CodeName")
-    password = request.POST.get("password")
-    pwConfirm = request.POST.get("pwConfirm")
-    if pwConfirm != password:
-        return JsonResponse({'request': FAIL_DATA})
-    else:
-        permission = 2  # 普通干员权限为2
-        result = add_person(code_name, password, permission)
-        if result:
-            return JsonResponse({'request': SUCCESS_DATA})
-        else:
-            return JsonResponse({'request': FAIL_DATA})
+    CodeName = request.POST.get("CodeName")
+    Class = request.POST.get("Class")
+    Region = request.POST.get("Region")
+    Race = request.POST.get("Race")
+    Description = request.POST.get("Description")
+    Password = request.POST.get("Password")
+    print("test1\n")
+    return add_into_queue(CodeName, Class, Region, Race, Description, Password)
 
 
 def users_get(request):
@@ -73,7 +69,7 @@ def user_delete(request):
         return JsonResponse({'request': NOT_ALLOWED_DATA})
 
 
-def reject_application(request):
+def application_reject(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
     allowance = judge(token, 1)
@@ -83,14 +79,19 @@ def reject_application(request):
         return JsonResponse({'request': NOT_ALLOWED_DATA})
 
 
-def consent_application(request):
+def application_consent(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
+    Permission = request.POST.get("Permission")
     allowance = judge(token, 1)
     if allowance:
-        return consent(name)
+        return consent(name, Permission)
     else:
         return JsonResponse({'request': NOT_ALLOWED_DATA})
+
+
+def application_get():
+    return None
 
 
 # 后端调试使用

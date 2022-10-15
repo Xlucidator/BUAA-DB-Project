@@ -44,6 +44,7 @@ def judge(token, std):
     # test = str.encode(token)[2:-1]
     # 前端返回的字符串的格式？
     # 这里不是很确定，调试的时候再说
+    print("judge allow~\n")
     test = str.encode(token)
     try:
         result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256')
@@ -66,12 +67,11 @@ def token2name(token):
 
 def all_users():
     sql = 'select * from user_account'
-
     with connection.cursor() as cursor:
         cursor.execute(sql)
         dict_list = []
         for item in cursor:
-            # CodeName | PassWord | Permission
+            # CodeName | Password | Permission
             dict_list.append({'CodeName': item[0], 'Permission': item[2]})
     return dict_list
 
@@ -109,25 +109,45 @@ def add_person(username, password, permission):
             return False
 
 
-def del_person(username, password):
-    with connection.cursor() as cursor:
-        sql = "delete from user_account where CodeName = '{}' and PassWord = '{}'".format(username, password)
-        print(sql)
-        try:
-            cursor.execute(sql)
-            print("success!")
-            return True
-        except:
-            print('False')
-            return False
-
-
 def reject(name):
-    pass
+    try:
+        with connection.cursor() as cursor:
+            sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
+            cursor.execute(sql)
+            return JsonResponse({'request': SUCCESS_DATA})
+    except:
+        return JsonResponse({'request': FAIL_DATA})
 
 
-def consent(name):
-    pass
+def consent(CodeName, Permission):
+    print(CodeName)
+    try:
+        with connection.cursor() as cursor:
+            sql1 = "select * from account_approve_queue where CodeName = '{}' ".format(CodeName)
+            print(sql1)
+
+            cursor.execute(sql1)
+            one = cursor.fetchone()
+            print(one)
+            CodeName = one[0]
+            Class = one[1]
+            region = one[2]
+            Race = one[3]
+            Description = one[4]
+            Password = one[5]
+
+            sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}','{}')".format(CodeName, Password,
+                                                                                                   Permission,
+                                                                                                   "", region, Race, "",
+                                                                                                   "", "")
+            print(sql2)
+            cursor.execute(sql2)
+            sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
+            print(sql3)
+            cursor.execute(sql3)
+            return JsonResponse({'request': SUCCESS_DATA})
+    except:
+        return JsonResponse({'request': FAIL_DATA})
 
 
 def one_user(token):
@@ -139,5 +159,19 @@ def one_user(token):
             one = cursor.fetchone()
             data = {'CodeName': one[0]}
             return JsonResponse({'request': SUCCESS_DATA, 'result': data})
+    except:
+        return JsonResponse({'request': FAIL_DATA})
+
+
+def add_into_queue(CodeName, Class, Region, Race, Description, Password):
+    try:
+        with connection.cursor() as cursor:
+            sql = "insert into account_approve_queue values('{}','{}','{}','{}','{}','{}')".format(CodeName, Class,
+                                                                                                   Region, Race,
+                                                                                                   Description,
+                                                                                                   Password)
+            print(sql)
+            cursor.execute(sql)
+        return JsonResponse({'request': SUCCESS_DATA})
     except:
         return JsonResponse({'request': FAIL_DATA})
