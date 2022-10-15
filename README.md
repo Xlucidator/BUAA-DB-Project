@@ -256,6 +256,7 @@
 - integrations(`npm i @vueuse/integrations`)
 - vuex(`npm install vuex@next --save`)
 - windicss(`npm i -D vite-plugin-windicss windicss`)
+- qs(`npm install qs`)
 
 ### 4.数据库相关
 - MySQL: 装了一堆，主要的都是8.0 

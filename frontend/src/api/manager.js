@@ -1,10 +1,20 @@
 import axios from "../axios";
 
-export function login(username, password) {
-    console.log(username, password)
+function jsonToFormData(config) {
     const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
+    //循环传入的值转换formData
+    Object.keys(config).forEach((key) => {
+        formData.append(key, config[key]);
+    })
+    return formData;
+}
+
+
+export function login(username, password) {
+    console.log("login: ", username, password)
+    const formData = new FormData();
+    formData.append('CodeName', username);
+    formData.append('PassWord', password);
     return axios.post("/login/login", formData)
 }
 
@@ -29,14 +39,14 @@ export function getInfo(token) {
     console.log(token)
     const formData = new FormData();
     formData.append('token', token);
-    return axios.post("/login/info", formData)
+    return axios.post("/index/user/GET/user", formData)
 }
 
 export function getApplyForm(token) {
     console.log(token)
     const formData = new FormData();
     formData.append('token', token);
-    return axios.post("/index/POST/getApplyForm", formData)
+    return axios.post("index/user/GET/users", formData)
 }
 
 export function getUserForm(token) {
@@ -46,35 +56,30 @@ export function getUserForm(token) {
     return axios.post("/index/POST/getUserForm", formData)
 }
 
-export function editApplyForm(token, username, permission) {
+export function editApplyForm(token, row) {
     console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    formData.append('username', username);
-    formData.append('permission', permission);
+    row['token'] = token
+    const formData = jsonToFormData(row)
     return axios.post("/index/POST/editApplyForm", formData)
 }
 
-export function rejectApply(token, username) {
+export function rejectApply(token, row) {
     console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    formData.append('username', username);
+    row['token'] = token
+    const formData = jsonToFormData(row)
     return axios.post("index/application/reject", formData)
 }
 
-export function acceptApply(token, username) {
+export function acceptApply(token, row) {
     console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    formData.append('username', username);
+    row['token'] = token
+    const formData = jsonToFormData(row)
     return axios.post("index/application/consent", formData)
 }
 
-export function addUser(token, username) {
+export function addUser(token, row) {
     console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    formData.append('username', username);
+    row['token'] = token
+    const formData = jsonToFormData(row)
     return axios.post("/index/POST/addUser", formData)
 }

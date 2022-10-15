@@ -1,11 +1,12 @@
 import {createStore} from 'vuex'
-import {getInfo} from "../api/manager";
-import {getToken} from "../composable/auth"
+import {getApplyForm, getInfo} from "../api/manager";
+import {getToken, removeToken} from "../composable/auth"
 
 const store = createStore({
     state() {
         return {
-            user: {}
+            user: {},
+            form: {}
         }
     },
     mutations: {
@@ -16,6 +17,10 @@ const store = createStore({
         REMOVE_USERINFO(state) {
             state.user = null
             console.log("remove_userinfo")
+        },
+        SET_APPLY_FORM(state, form) {
+            state.form = form
+            console.log("set_apply_form", store.state.form)
         }
     },
     actions: {
@@ -23,8 +28,24 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 getInfo(getToken())
                     .then(res => {
-                        console.log(">>>", store.state.user['token'])
-                        commit("SET_USERINFO", res)
+                        console.log(">>>", res['request'])
+                        if(res['request']['flag'] === 'no') {
+                            removeToken()
+                        } else {
+                            commit("SET_USERINFO", res['result'])
+                            //console.log(">>>", store.state.user['token'])
+                            resolve(res)
+                        }
+                    })
+                    .catch(err => reject(err))
+            })
+        },
+        getApplyForm({commit}) {
+            return new Promise((resolve, reject) => {
+                getApplyForm(getToken())
+                    .then(res => {
+                        console.log(">>>", res['request'])
+                        commit("SET_APPLY_FORM", res['result'])
                         resolve(res)
                     })
                     .catch(err => reject(err))

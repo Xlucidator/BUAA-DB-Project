@@ -36,6 +36,7 @@ def enroll(request):
         else:
             return JsonResponse({'request': FAIL_DATA})
 
+
 def users_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)

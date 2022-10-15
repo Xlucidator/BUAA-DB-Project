@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import {getApplyForm, editApplyForm, acceptApply, rejectApply, addUser, getUserForm} from '../api/manager';
-import {getToken} from '../composable/auth';
-import {NOTATION} from '../composable/utils';
+import {getApplyForm, editApplyForm, acceptApply, rejectApply, addUser, getUserForm} from '../api/manager.js';
+import {getToken} from '../composable/auth.js';
+import {NOTATION} from '../composable/utils.js';
+import {useStore} from "vuex";
+
+const store = useStore()
 
 const activeIndex1 = ref('1')
 
@@ -21,84 +24,31 @@ const handleClick = () => {
   console.log('click')
 }
 
-let applyForm = [{username: 'emilyu', permission: 2}, {username: 'yyy', permission: 1}]
-let userForm = [{username: 'doctor', permission: 0}]
-
-let username = '';
-let perm = '';
-
-const updateApplyForm = () => {
-  getApplyForm(getToken())
-      .then(res => {
-        console.log(res)
-
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
-        } else {
-
-          // message
-          NOTATION(1, res.request['msg'])
-
-          // store form
-          applyForm = res.request['applyForm'];
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        NOTATION(0, err.msg)
-      })
-
-  getUserForm(getToken())
-      .then(res => {
-        console.log(res)
-
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
-        } else {
-
-          // message
-          NOTATION(1, res.request['msg'])
-
-          // store form
-          applyForm = res.request['applyForm'];
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        NOTATION(0, err.msg)
-      })
-}
-
-const searchApply = ref('')
-const filterApplyForm = computed(() =>
-    applyForm.filter(
-        (data) =>
-            !searchApply.value ||
-            data.username.toLowerCase().includes(searchApply.value.toLowerCase())
-    )
-)
-
 interface User {
-  username: string
-  permission: string
+  CodeName: string
+  Permission: string
 }
 
-//TODO
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+let applyForm = store.state.form
+let userForm = [{username: 'doctor', permission: 0}]
+let tableForm = ref({CodeName: '', Permission: ''})
 
-  editApplyForm(getToken(), username, perm)
+let dialogFormVisible = ref(false);
+let dialogIdx = 0;
+
+const dialogConfirm = () => {
+  console.log("dialogConfirm", tableForm.value)
+  dialogFormVisible.value = false;
+  applyForm[dialogIdx] = tableForm
+  editApplyForm(getToken(), tableForm.value)
       .then(res => {
         console.log(res)
 
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
         } else {
           // message
-          NOTATION(1, res.request['msg'])
+          NOTATION(1, res.request.msg)
 
           // nothing to do
         }
@@ -108,21 +58,80 @@ const handleEdit = (index: number, row: User) => {
         NOTATION(0, err.msg)
       })
 }
+
+const updateApplyForm = () => {
+  console.log("updateApplyForm", getToken())
+  getApplyForm(getToken())
+      .then(res => {
+        console.log(res)
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
+        } else {
+          // message
+          NOTATION(1, res.request.msg)
+
+          // store form
+          console.log(res['result'])
+          applyForm = res['result']
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.msg)
+      })
+
+  // getUserForm(getToken())
+  //     .then(res => {
+  //       console.log(res)
+  //
+  //       if (res.request.flag === 'no') {
+  //         NOTATION(0, res.request.msg)
+  //       } else {
+  //
+  //         // message
+  //         NOTATION(1, res.request.msg)
+  //
+  //         // store form
+  //         applyForm = res.request.applyForm
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       NOTATION(0, err.msg)
+  //     })
+}
+
+const searchApply = ref('')
+const filterApplyForm = computed(() =>
+    applyForm.filter(
+        (data) =>
+            !searchApply.value ||
+            data.CodeName.toLowerCase().includes(searchApply.value.toLowerCase())
+    )
+)
+
+//TODO
+const handleEdit = (index: number, row: User) => {
+  tableForm.value = JSON.parse(JSON.stringify(row));
+  dialogFormVisible.value = true
+  dialogIdx = index
+  console.log("handleEdit")
+}
+
 const handleAccept = (index: number, row: User) => {
   console.log("accept ", index, row)
-  acceptApply(getToken(), username)
+  acceptApply(getToken(), row)
       .then(res => {
         console.log(res)
 
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
         } else {
           // message
-          NOTATION(1, res.request['msg'])
+          NOTATION(1, res.request.msg)
 
           // store form
-          applyForm = res.request['applyForm'];
+          applyForm = res.request.applyForm
         }
       })
       .catch(err => {
@@ -130,40 +139,39 @@ const handleAccept = (index: number, row: User) => {
         NOTATION(0, err.msg)
       })
 
-  addUser(getToken(), username)
+  addUser(getToken(), row)
       .then(res => {
         console.log(res)
 
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
         } else {
           // message
-          NOTATION(1, res.request['msg'])
+          NOTATION(1, res.request.msg)
 
           // store form
-          userForm = res.request['userForm'];
+          userForm = res.request.userForm
         }
       })
       .catch(err => {
         console.log(err)
         NOTATION(0, err.msg)
       })
+  updateApplyForm()
 }
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
   applyForm.splice(index, 1)
   console.log(applyForm)
-  rejectApply(getToken(), username)
+  rejectApply(getToken(), row)
       .then(res => {
         console.log(res)
 
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
         } else {
           // message
-          NOTATION(1, res.request['msg'])
+          NOTATION(1, res.request.msg)
 
           // nothing to do
         }
@@ -184,7 +192,7 @@ const handleReject = (index: number, row: User) => {
           <span> avatar </span>
         </div>
         <div class="userinfo">
-          <span class="font-bold text-xs"> NAME:{{ $store.state.user.username }} </span>
+          <span class="font-bold text-xs"> NAME:{{ $store.state.user.CodeName }} </span>
         </div>
         <el-menu
             default-active="2"
@@ -271,44 +279,39 @@ const handleReject = (index: number, row: User) => {
 
         <el-main>
           <router-view></router-view>
-          <!--          <div style="text-align: center;margin-top: 15%">-->
-          <!--            <span class="text-7xl">Vite + Vue </span>-->
-          <!--            <br/>-->
-          <!--            <span class="text-xs"> {{ $store.state.user }} </span>-->
-          <!--            <br/>-->
-          <!--          </div>-->
 
-          <!--                TODO-->
           <!-- -----------------------------------form--------------------------------------- -->
 
           <br/>
           <br/>
-          <span class="text-xm test-bold" style="margin-left: 10%">good morning, </span>
-          <span class="text-xl test-bold" style="margin-left: 10%"> {{ $store.state.user.username }} </span>
-          <span class="text-xm test-bold" style="margin-left: 10%">.</span>
           <br/>
-          <span class="text-xm test-bold" style="margin-left: 10%">welcome to the new world.</span>
+          <span class="text-xm " style="margin-left: 10%">Good morning, </span>
+          <span class="text-xl font-extrabold"
+                style="margin-left: 0.5%; margin-right: 0.5%"> {{ $store.state.user.CodeName }} </span>
+          <span class="text-xm">.</span>
           <br/>
+          <span class="text-xm test-bold" style="margin-left: 10%">Welcome to the new world.</span>
           <br/>
           <br/>
           <br/>
           <br/>
 
           <div class="form">
-            <el-button class="mt-4" style="width: 10%" @click="updateApplyForm()">
+            <el-button class="mt-4" style="width: 10%" @click="updateApplyForm">
               refresh
             </el-button>
             <div class="formHeader">
               <span class="text-2xl test-bold">Waiting List</span>
             </div>
             <el-table :data="filterApplyForm" style="width: 100%">
-              <el-table-column fixed prop="username" label="username" width="150"/>
-              <el-table-column prop="permission" label="perm" width="150"/>
+              <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
+              <el-table-column prop="Permission" label="Permission" width="150"/>
               <el-table-column align="right">
                 <template #header>
                   <el-input v-model="searchApply" size="small" placeholder="Type to search"/>
                 </template>
                 <template #default="scope">
+
                   <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
                   <el-button size="small" @click="handleAccept(scope.$index, scope.row)">accept</el-button>
                   <el-button
@@ -327,10 +330,31 @@ const handleReject = (index: number, row: User) => {
               <span class="text-2xl test-bold">User List</span>
             </div>
             <el-table :data="userForm" style="width: 100%">
-              <el-table-column fixed prop="username" label="username" width="150"/>
-              <el-table-column prop="permission" label="permission" width="120"/>
+              <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
+              <el-table-column prop="Permission" label="Permission" width="120"/>
             </el-table>
           </div>
+
+          <!-- dialog -->
+          <el-dialog v-model="dialogFormVisible" title="EDIT INFORMATION">
+            <el-form :model="tableForm">
+              <el-form-item label="name" :label-width="60">
+                <el-input v-model="tableForm.CodeName" disabled/>
+              </el-form-item>
+              <el-form-item label="perm" :label-width="60">
+                <el-input v-model="tableForm.Permission" autocomplete="off"/>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="dialogConfirm"
+                >Confirm</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
+
         </el-main>
       </el-container>
     </el-container>

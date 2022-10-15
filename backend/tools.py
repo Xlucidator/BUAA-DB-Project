@@ -41,13 +41,13 @@ def check_user(username, password):
 
 
 def judge(token, std):
-    # test = str.encode(token)[2:-1]
+    test = str.encode(token)[2:-1]
     # 前端返回的字符串的格式？
     # 这里不是很确定，调试的时候再说
-    test = str.encode(token)
+    # test = str.encode(token)
     try:
-        result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256')
-        name = result.get('data').get('username')
+        result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
+        name = result['data']['username']
         print(name)
         with connection.cursor() as cursor:
             sql = 'select * from user_account where CodeName = \'' + name + "\'"
@@ -59,9 +59,9 @@ def judge(token, std):
 
 
 def token2name(token):
-    test = str.encode(token)
-    result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256')
-    return result.get('data').get('username')
+    test = str.encode(token)[2:-1]
+    result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
+    return result['data']['username']
 
 
 def all_users():
@@ -133,11 +133,12 @@ def consent(name):
 def one_user(token):
     try:
         name = token2name(token)
+        print(name)
         with connection.cursor() as cursor:
             sql = 'select * from user_account where CodeName = \'' + name + "\'"
             cursor.execute(sql)
             one = cursor.fetchone()
-            data = {'CodeName': one[0]}
+            data = {'CodeName': one[0], 'token': token}
             return JsonResponse({'request': SUCCESS_DATA, 'result': data})
     except:
         return JsonResponse({'request': FAIL_DATA})

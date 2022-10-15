@@ -68,20 +68,19 @@ const onSubmit = () => {
       .then(res => {
         console.log(res)
 
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          NOTATION(0, res.request['msg'])
+        if (res.request.flag === 'no') {
+          NOTATION(0, res.request.msg)
         } else {
 
           // message
-          NOTATION(1, res.request['msg'])
+          NOTATION(1, res.request.msg)
 
 
           // store cookie
-          setToken(res.request['token'])
+          setToken(res.result.token)
 
           // store user info
-          store.commit("SET_USERINFO", res.request)
+          store.commit("SET_USERINFO", res.request.msg)
 
           // jump
           router.push("/home")
