@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
+from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, consent, reject, \
     one_user, add_into_queue, all_applications, modify_application, success, fail
 
 user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
 account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
 
 
+# 登录页面对应接口
 def login(request):
     CodeName = request.POST.get("CodeName")
     Password = request.POST.get("Password")
@@ -22,6 +23,7 @@ def enroll(request):
     return add_into_queue(CodeName, Class, Region, Race, Description, Password)
 
 
+# 用户表对应接口
 def users_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)
@@ -57,6 +59,7 @@ def user_delete(request):
         return fail('无访问权限')
 
 
+# 请求队列对应接口
 def application_reject(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
@@ -87,18 +90,8 @@ def applications_get(request):
         return fail('无访问权限')
 
 
-# 后端调试使用
-def index(request):
-    return render(request, 'testbackend.html')
-
-
-def log(request):
-    return render(request, 'login.html')
-
-
 def application_modify(request):
     token = request.POST.get("token")
-    # account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
     CodeName = request.POST.get(account_approve_queue[0])
     Password = request.POST.get(account_approve_queue[1])
     Permission = request.POST.get(account_approve_queue[2])
@@ -111,3 +104,12 @@ def application_modify(request):
         return modify_application(CodeName, Permission, Class, Region, Race, Description)
     else:
         return fail('无访问权限')
+
+
+# 后端调试使用
+def index(request):
+    return render(request, 'testbackend.html')
+
+
+def log(request):
+    return render(request, 'login.html')
