@@ -42,18 +42,14 @@ let dialogIdx = 0;
 const dialogConfirm = () => {
   console.log("dialogConfirm", tableForm.value)
   dialogFormVisible.value = false;
-  applyForm[dialogIdx] = tableForm
+  applyForm.splice(dialogIdx, 1, tableForm)
   editApplyForm(getToken(), tableForm.value)
       .then(res => {
         console.log(res)
-
         if (res.request.flag === 'no') {
           NOTATION(0, res.request.msg)
         } else {
-          // message
           NOTATION(1, res.request.msg)
-
-          // nothing to do
         }
       })
       .catch(err => {
@@ -86,7 +82,6 @@ const updateApplyForm = () => {
   getUserForm(getToken())
       .then(res => {
         console.log(res)
-
         if (res.request.flag === 'no') {
           NOTATION(0, res.request.msg)
         } else {
@@ -96,6 +91,7 @@ const updateApplyForm = () => {
 
           // store form
           userForm = res.request.userForm
+          // console.log("?????", userForm.length)
         }
       })
       .catch(err => {
@@ -113,7 +109,6 @@ const filterApplyForm = computed(() =>
     )
 )
 
-//TODO
 const handleEdit = (index: number, row: User) => {
   tableForm.value = JSON.parse(JSON.stringify(row));
   dialogFormVisible.value = true
@@ -133,8 +128,12 @@ const handleAccept = (index: number, row: User) => {
           // message
           NOTATION(1, res.request.msg)
 
-          // store form
-          applyForm = res.request.applyForm
+          // update tables
+          console.log("?????", userForm.length)
+          let len = userForm.length
+          //userForm.splice(len, 0, applyForm[index])
+          //applyForm.splice(index, 1)
+
         }
       })
       .catch(err => {

@@ -57,7 +57,7 @@ export function editApplyForm(token, row) {
     console.log(token)
     row['token'] = token
     const formData = jsonToFormData(row)
-    return axios.post("/index/POST/editApplyForm", formData)
+    return axios.post("/index/application/PUT/application", formData)
 }
 
 export function rejectApply(token, row) {

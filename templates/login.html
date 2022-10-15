@@ -61,8 +61,9 @@
 <br/><br/><br/><br/>
 <form action="/index/application/PUT/application" method="post">
     {% csrf_token %}
-    <input type="text" name="CodeName">
-    <br/>
+
+    姓名<input type="text" name="CodeName"><br/>
+    权限<input type="text" name="Permission"><br/>
     <input type="text" name="Class">
     <br/>
     <input type="text" name="Region">
@@ -70,7 +71,7 @@
     <input type="text" name="Race">
     <br/>
     <input type="text" name="Description"><br/>
-    <input type="password" name="Permission"><br/>
+
     权限认证<input type="text" name="token"><br/>
     <input type="submit" value="修改">
 </form>

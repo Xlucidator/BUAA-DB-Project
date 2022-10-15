@@ -10,6 +10,7 @@ user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race',
 account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
 
 
+# 一些工具函数
 def success(msg, result=None):
     print(4)
     if result is None:
@@ -58,9 +59,10 @@ def token2name(token):
     return result.get('data').get('username')
 
 
+# 注册对应函数
 def check_user(CodeName, password):
     with connection.cursor() as cursor:
-        sql = 'select * from user_account where CodeName = \'' + CodeName + "\'"
+        sql = "select * from user_account where CodeName = '{}'".format(CodeName)
         try:
             cursor.execute(sql)
             one = cursor.fetchone()
@@ -76,19 +78,43 @@ def check_user(CodeName, password):
             return fail('未知错误')
 
 
+def add_into_queue(CodeName, Class, Region, Race, Description, Password):
+    try:
+        with connection.cursor() as cursor:
+            sql = "select * from user_account where CodeName = '{}'".format(CodeName)
+            cursor.execute(sql)
+            if cursor.fetchone() is not None:
+                return fail('该用户已存在')
+            sql = "select * from account_approve_queue where CodeName = '{}'".format(CodeName)
+            cursor.execute(sql)
+            if cursor.fetchone() is not None:
+                return fail('该用户已在申请队列中')
+            sql = "insert into account_approve_queue values('{}','{}',{},'{}','{}','{}','{}')" \
+                .format(CodeName, Password, 2, Class, Region, Race, Description)
+            print(sql)
+            cursor.execute(sql)
+        return success('注册成功，请等待审核')
+    except:
+        return fail('注册失败QWQ')
+
+
+# 用户表对应函数
 def all_users():
     sql = 'select * from user_account'
     with connection.cursor() as cursor:
         cursor.execute(sql)
         dict_list = []
         for item in cursor:
-            dict_list.append({'CodeName': item[0], 'Permission': item[2]})
+            my_dict = {}
+            for i in enumerate(user_account):
+                my_dict[i[0]] = item[i[1]]
+            dict_list.append(my_dict)
     return dict_list
 
 
-def modify_user(name, permission):
+def modify_user(CodeName, permission):
     try:
-        sql = "update user_account Set Permission = " + permission + "where CodeName = \''" + name + "\'"
+        sql = "update user_account Set Permission = {} where CodeName = '{}'".format(permission, CodeName)
         with connection.cursor() as cursor:
             cursor.execute(sql)
         return success('成功修改')
@@ -96,68 +122,14 @@ def modify_user(name, permission):
         return fail('修改失败')
 
 
-def delete_user(name):
+def delete_user(CodeName):
     try:
-        sql = "delete from user_account where CodeName = \''" + name + "\'"
+        sql = "delete from user_account where CodeName = '{}'".format(CodeName)
         with connection.cursor() as cursor:
             cursor.execute(sql)
         return success('成功删除')
     except:
-        return JsonResponse({'request': FAIL_DATA})
-
-
-def add_person(username, password, permission):
-    with connection.cursor() as cursor:
-        sql = "insert into user_account values('{}','{}','{}')".format(username, password, permission)
-        print(sql)
-        try:
-            cursor.execute(sql)
-            print("success!")
-            return True
-        except:
-            print('False')
-            return False
-
-
-def reject(name):
-    try:
-        with connection.cursor() as cursor:
-            sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
-            cursor.execute(sql)
-            return success('拒绝该用户的注册申请')
-    except:
-        return JsonResponse({'request': FAIL_DATA})
-
-
-def consent(CodeName, Permission):
-    print("consent", CodeName)
-    try:
-        with connection.cursor() as cursor:
-            sql1 = "select * from account_approve_queue where CodeName = '{}' ".format(CodeName)
-            print(sql1)
-
-            cursor.execute(sql1)
-            one = cursor.fetchone()
-            print(one)
-            CodeName = one[0]
-            Class = one[1]
-            region = one[2]
-            Race = one[3]
-            Description = one[4]
-            Password = one[5]
-
-            sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}','{}')".format(CodeName, Password,
-                                                                                                   Permission,
-                                                                                                   Class, region, Race, "",
-                                                                                                   "")
-            print(sql2)
-            cursor.execute(sql2)
-            sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
-            print(sql3)
-            cursor.execute(sql3)
-            return success('同意该用户的申请')
-    except:
-        return JsonResponse({'request': FAIL_DATA})
+        return fail('删除失败')
 
 
 def one_user(token):
@@ -178,20 +150,36 @@ def one_user(token):
         return fail('获取用户信息失败')
 
 
-def add_into_queue(CodeName, Class, Region, Race, Description, Password):
+# 请求表对应函数
+def reject(name):
     try:
         with connection.cursor() as cursor:
-            sql = "insert into account_approve_queue values('{}','{}',{},'{}','{}','{}','{}')".format(CodeName,
-                                                                                                      Password, 2,
-                                                                                                      Class,
-                                                                                                      Region, Race,
-                                                                                                      Description,
-                                                                                                      )
-            print(sql)
+            sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
             cursor.execute(sql)
-        return success('注册成功，请等待审核')
+            return success('拒绝该用户的注册申请')
     except:
-        return fail('注册失败QWQ')
+        return JsonResponse({'request': FAIL_DATA})
+
+
+def consent(CodeName, Permission):
+    print(CodeName)
+    try:
+        with connection.cursor() as cursor:
+            sql1 = "select * from account_approve_queue where CodeName = '{}' ".format(CodeName)
+            print(sql1)
+            cursor.execute(sql1)
+            one = cursor.fetchone()
+            CodeName = one[0]
+            sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}','{}')" \
+                .format(one[0], one[1], one[2], one[3], one[4], one[5], "", "")
+            print(sql2)
+            cursor.execute(sql2)
+            sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
+            print(sql3)
+            cursor.execute(sql3)
+            return success('同意该用户的申请')
+    except:
+        return JsonResponse({'request': FAIL_DATA})
 
 
 def all_applications():
@@ -217,4 +205,6 @@ def modify_application(CodeName, Permission, Class, Region, Race, Description):
             cursor.execute(sql)
         return success('申请用户信息修改成功~')
     except:
+        中文编程 = 1
+        print(中文编程)
         return fail('修改失败了')
