@@ -26,4 +26,5 @@ JsonResponse({'request': SUCCESS_DATA, 'result': result})
 |删除用户| index/user/DELETE/user|token，删除用户的用户名||
 |同意注册申请|index/application/consent|token，申请用户用户名|
 |拒绝注册申请|index/application/reject|token，申请用户用户名|
+|修改等待队列的属性|index/application/PUT/application|token,待修改用户的所有信息||
 
