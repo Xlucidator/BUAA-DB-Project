@@ -74,11 +74,10 @@ def application_reject(request):
 def application_consent(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
-    Permission = request.POST.get("Permission")
     allowance = judge(token, 1)
     print("application_consent", name)
     if allowance:
-        return consent(name, Permission)
+        return consent(name)
     else:
         return fail('无访问权限')
 
