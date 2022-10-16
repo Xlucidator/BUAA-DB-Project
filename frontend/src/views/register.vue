@@ -6,7 +6,7 @@
   <div class="input-box">
     <el-form :model="form" label-width="120px">
       <el-form-item label="CodeName">
-        <el-input v-model="form.CodeName"/>
+        <el-input v-model="form.CodeName" @blur="checkSyntax(form.CodeName)"/>
       </el-form-item>
       <el-form-item label="Password">
         <el-input v-model="form.Password" :show-password="true"/>
@@ -28,12 +28,12 @@
       </el-form-item>
       <el-form-item label="Region">
         <el-select v-model="form.Region" placeholder="please select your zone">
-          <el-option v-for="op in region_options" :label="op.zhcn" :value="op.eng" />
+          <el-option v-for="op in region_options" :label="op.zhcn" :value="op.eng"/>
         </el-select>
       </el-form-item>
       <el-form-item label="Race">
         <el-select v-model="form.Race" placeholder="please select your zone">
-          <el-option v-for="op in race_options" :label="op.zhcn" :value="op.eng" />
+          <el-option v-for="op in race_options" :label="op.zhcn" :value="op.eng"/>
         </el-select>
       </el-form-item>
       <el-form-item label="Description">
@@ -68,9 +68,11 @@ import {useRouter} from "vue-router";
 import {register} from "../api/manager";
 import {NOTATION} from "../composable/utils";
 import {reactive} from "@vue/reactivity";
-import { ref } from "vue";
+import {ref} from "vue";
 
 const router = useRouter()
+
+let registerFlag = ref(1)
 
 const form = reactive({
   CodeName: '',
@@ -86,9 +88,29 @@ const back = () => {
   router.push("/login")
 }
 
+const checkSyntax = (str) => {
+  const pattern = /^[A-za-z0-9][A-za-z0-9'.\s]*$/
+  if (str !== '') {
+    if (!pattern.test(str)) {
+      NOTATION(0, 'contains only alnum and \' and space')
+      registerFlag.value = 0
+    } else {
+      registerFlag.value = 1
+    }
+  } else {
+    registerFlag.value = 0
+    NOTATION(0, 'CodeName couldn\'t be null')
+  }
+}
+
 const onSubmit = () => {
+  if (form.Password === '') {
+    NOTATION(0, "passwords not null")
+  }
   if (form.Password !== form.PwConfirm) {
     NOTATION(0, "passwords do not coordinate")
+  } else if (!registerFlag.value) {
+    NOTATION(0, "please check your CodeName")
   } else {
     register(form)
         .then(res => {
