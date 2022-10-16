@@ -48,6 +48,7 @@ const dialogConfirm = () => {
   console.log("dialogConfirm", tableForm.value)
   dialogFormVisible.value = false;
   //applyForm.splice(dialogIdx, 1, tableForm)
+  
   applyForm[dialogIdx] = tableForm.value
   console.log("dialogConfirm", applyForm)
   editApplyForm(getToken(), tableForm.value)
@@ -298,7 +299,7 @@ const handleReject = (index: number, row: User) => {
               <el-table-column prop="Class" label="Class" width="100"/>
               <el-table-column prop="Region" label="Region" width="100"/>
               <el-table-column prop="Race" label="Race" width="100"/>
-              <el-table-column prop="Description" label="Description" width="100"/>
+              <el-table-column prop="Description" label="Description" width="300" />
               <el-table-column align="right">
                 <template #header>
                   <el-input v-model="searchApply" size="small" placeholder="Type to search"/>

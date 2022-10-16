@@ -49,8 +49,7 @@
         tabindex="-1"
         class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
         @click="onSubmit()">
-
-      START
+      register
     </Button>
   </div>
 
@@ -130,7 +129,9 @@ const region_options = ref([
   { zhcn: '维多利亚', eng: 'Victoria'},
   { zhcn: '卡兹戴尔', eng: 'Kazdel'},
   { zhcn: '伊比利亚', eng: 'Iberia'},
-  { zhcn: '阿戈尔', eng: 'Ægir'}
+  { zhcn: '阿戈尔', eng: 'Ægir'},
+  { zhcn: '罗德岛', eng: 'Rhodes Island'},
+  { zhcn: '未知', eng: 'Unknown'},
 ])
 
 const race_options = ref([
@@ -155,7 +156,8 @@ const race_options = ref([
   { zhcn: '乌萨斯', eng: 'Ursus'},
   { zhcn: '阿斯兰', eng: 'Aslan'},
   { zhcn: '麒麟', eng: 'Kylin'},
-  { zhcn: '阿戈尔', eng: 'Ægir'}
+  { zhcn: '阿戈尔', eng: 'Ægir'},
+  { zhcn: '未知', eng: 'Unknown'}
 ])
 
 </script>
