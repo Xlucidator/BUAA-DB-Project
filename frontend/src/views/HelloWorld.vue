@@ -181,7 +181,7 @@ const handleReject = (index: number, row: User) => {
           <span> avatar </span>
         </div>
         <div class="userinfo">
-          <span class="font-bold text-xs"> NAME: {{  }} </span>
+          <span class="font-bold text-xs"> NAME: {{ $store.state.user.CodeName }} </span>
         </div>
         <el-menu
             default-active="2"
@@ -276,7 +276,7 @@ const handleReject = (index: number, row: User) => {
           <br/>
           <span class="text-xm " style="margin-left: 10%"> {{ greetings }} ,</span>
           <span class="text-xl font-extrabold"
-                style="margin-left: 0.5%; margin-right: 0.5%"> {{}} </span>
+                style="margin-left: 0.5%; margin-right: 0.5%"> {{ $store.state.user.CodeName }} </span>
           <span class="text-xm">.</span>
           <br/>
           <span class="text-xm test-bold" style="margin-left: 10%">Welcome to the new world.</span>
