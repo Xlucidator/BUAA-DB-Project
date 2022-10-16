@@ -42,13 +42,14 @@ let time = new Date().getHours()
 let greetings = (time < 6 ? 'Go to sleep please, my dear youngster' :
     (time < 12 ? 'Good morning' :
         (time < 18 ? 'Good afternoon' : 'Good evening')))
-let itemKey = 0;
+let itemKey = ref(0);
 
 const dialogConfirm = () => {
   console.log("dialogConfirm", tableForm.value)
   dialogFormVisible.value = false;
-  applyForm.splice(dialogIdx, 1, tableForm)
-  itemKey = Math.random()
+  //applyForm.splice(dialogIdx, 1, tableForm)
+  applyForm[dialogIdx] = tableForm.value
+  console.log("dialogConfirm", applyForm)
   editApplyForm(getToken(), tableForm.value)
       .then(res => {
         console.log(res)
@@ -62,6 +63,7 @@ const dialogConfirm = () => {
         console.log(err)
         NOTATION(0, err.msg)
       })
+  itemKey.value = Math.random()
 }
 
 const updateApplyForm = () => {
@@ -104,7 +106,7 @@ const updateApplyForm = () => {
         console.log(err)
         NOTATION(0, err.msg)
       })
-  itemKey = Math.random()
+  itemKey.value = Math.random()
 }
 
 const searchApply = ref('')
@@ -140,7 +142,7 @@ const handleAccept = (index: number, row: User) => {
         console.log("accept err ", err)
         NOTATION(0, err.msg)
       })
-  itemKey = Math.random()
+  itemKey.value = Math.random()
 }
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
@@ -175,7 +177,7 @@ const handleReject = (index: number, row: User) => {
           <span> avatar </span>
         </div>
         <div class="userinfo">
-          <span class="font-bold text-xs"> NAME: {{ $store.state.user.CodeName }} </span>
+          <span class="font-bold text-xs"> NAME: {{  }} </span>
         </div>
         <el-menu
             default-active="2"
@@ -270,7 +272,7 @@ const handleReject = (index: number, row: User) => {
           <br/>
           <span class="text-xm " style="margin-left: 10%"> {{ greetings }} ,</span>
           <span class="text-xl font-extrabold"
-                style="margin-left: 0.5%; margin-right: 0.5%"> {{ $store.state.user.CodeName }} </span>
+                style="margin-left: 0.5%; margin-right: 0.5%"> {{}} </span>
           <span class="text-xm">.</span>
           <br/>
           <span class="text-xm test-bold" style="margin-left: 10%">Welcome to the new world.</span>
@@ -286,7 +288,7 @@ const handleReject = (index: number, row: User) => {
             <div class="formHeader">
               <span class="text-2xl test-bold">Waiting List</span>
             </div>
-            <el-table :data="filterApplyForm" style="width: 100%">
+            <el-table :data="filterApplyForm" style="width: 100%" :key="itemKey">
               <el-table-column fixed prop="CodeName" label="CodeName" width="100"/>
               <el-table-column prop="Permission" label="Permission" width="100"/>
               <el-table-column prop="Class" label="Class" width="100"/>
@@ -316,7 +318,7 @@ const handleReject = (index: number, row: User) => {
             <div class="formHeader">
               <span class="text-2xl test-bold">User List</span>
             </div>
-            <el-table :data="userForm" style="width: 100%">
+            <el-table :data="userForm" style="width: 100%" :key="itemKey">
               <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
               <el-table-column prop="Permission" label="Permission" width="150"/>
               <el-table-column prop="Class" label="Class" width="150"/>
