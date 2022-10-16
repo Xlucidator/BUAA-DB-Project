@@ -28,16 +28,12 @@
       </el-form-item>
       <el-form-item label="Region">
         <el-select v-model="form.Region" placeholder="please select your zone">
-          <el-option label="泰拉" value="Terra"/>
-          <el-option label="炎" value="Yan"/>
-          <el-option label="龙门" value="Lungmen"/>
+          <el-option v-for="op in region_options" :label="op.zhcn" :value="op.eng" />
         </el-select>
       </el-form-item>
       <el-form-item label="Race">
         <el-select v-model="form.Race" placeholder="please select your zone">
-          <el-option label="龙" value="Lung"/>
-          <el-option label="黎博利" value="Liberi"/>
-          <el-option label="鲁珀" value="Lupo"/>
+          <el-option v-for="op in race_options" :label="op.zhcn" :value="op.eng" />
         </el-select>
       </el-form-item>
       <el-form-item label="Description">
@@ -73,6 +69,7 @@ import {useRouter} from "vue-router";
 import {register} from "../api/manager";
 import {NOTATION} from "../composable/utils";
 import {reactive} from "@vue/reactivity";
+import { ref } from "vue";
 
 const router = useRouter()
 
@@ -116,6 +113,50 @@ const onSubmit = () => {
         })
   }
 }
+
+const region_options = ref([
+  { zhcn: '炎', eng: 'Yan'},
+  { zhcn: '哥伦比亚', eng: 'Columbia'},
+  { zhcn: '卡西米尔', eng: 'Kazimierz'},
+  { zhcn: '谢拉格', eng: 'Kjerag'},
+  { zhcn: '拉特兰', eng: 'Laterano'},
+  { zhcn: '莱塔尼亚', eng: 'Leithanien'},
+  { zhcn: '雷姆必拓', eng: 'Rim Billiton'}, 
+  { zhcn: '萨米', eng: 'Sami'},
+  { zhcn: '米诺斯', eng: 'Minos'},
+  { zhcn: '玻利瓦尔', eng: 'Bolívar'},
+  { zhcn: '萨尔贡', eng: 'Sargon'},
+  { zhcn: '叙拉古', eng: 'Siracusa'},
+  { zhcn: '维多利亚', eng: 'Victoria'},
+  { zhcn: '卡兹戴尔', eng: 'Kazdel'},
+  { zhcn: '伊比利亚', eng: 'Iberia'},
+  { zhcn: '阿戈尔', eng: 'Ægir'}
+])
+
+const race_options = ref([
+  { zhcn: '龙', eng: 'Lung'},
+  { zhcn: '黎博利', eng: 'Liberi'},
+  { zhcn: '鲁珀', eng: 'Lupo'},
+  { zhcn: '鬼', eng: 'Oni'},
+  { zhcn: '阿达克利斯', eng: 'Archosauria'},
+  { zhcn: '萨科塔', eng: 'Sankta'},
+  { zhcn: '萨卡兹', eng: 'Sarkaz'},
+  { zhcn: '菲林', eng: 'Feline'},
+  { zhcn: '瓦伊凡', eng: 'Vouivre'},
+  { zhcn: '德拉克', eng: 'Draco'},
+  { zhcn: '沃尔珀', eng: 'Vulpo'},
+  { zhcn: '杜林', eng: 'Durin'},
+  { zhcn: '札拉克', eng: 'Zalak'},
+  { zhcn: '库兰塔', eng: 'Kuranta'},
+  { zhcn: '卡特斯', eng: 'Cautus'},
+  { zhcn: '卡普里尼', eng: 'Caprinae'},
+  { zhcn: '佩洛', eng: 'Perro'},
+  { zhcn: '丰蹄', eng: 'Forte'},
+  { zhcn: '乌萨斯', eng: 'Ursus'},
+  { zhcn: '阿斯兰', eng: 'Aslan'},
+  { zhcn: '麒麟', eng: 'Kylin'},
+  { zhcn: '阿戈尔', eng: 'Ægir'}
+])
 
 </script>
 
