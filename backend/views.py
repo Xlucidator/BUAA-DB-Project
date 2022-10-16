@@ -1,50 +1,37 @@
 from django.shortcuts import render
-from django.http import JsonResponse
-from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, add_person, consent, reject, \
-    one_user
+from backend.tools import get_jwt, check_user, judge, all_users, modify_user, delete_user, consent, reject, \
+    one_user, add_into_queue, all_applications, modify_application, success, fail
 
-SUCCESS_DATA = {'flag': 'yes', 'msg': 'success!'}
-FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
-NOT_ALLOWED_DATA = {'flag': 'no', 'msg': 'not allowed'}
+user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
+account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
 
 
-# 代码重复度太高了，应该去寻找一些方法进行替换
-
+# 登录页面对应接口
 def login(request):
-    code_name = request.POST.get("CodeName")
-    password = request.POST.get("PassWord")
-    result = check_user(code_name, password)
-    if result:
-        token = get_jwt(code_name)
-        d = {'CodeName': code_name, 'token': token}
-        return JsonResponse({'request': SUCCESS_DATA, 'result': d})
-    else:
-        return JsonResponse({'request': FAIL_DATA})
+    CodeName = request.POST.get("CodeName")
+    Password = request.POST.get("Password")
+    return check_user(CodeName, Password)
+
 
 
 def enroll(request):
-    code_name = request.POST.get("CodeName")
-    password = request.POST.get("password")
-    pwConfirm = request.POST.get("pwConfirm")
-    if pwConfirm != password:
-        return JsonResponse({'request': FAIL_DATA})
-    else:
-        permission = 2  # 普通干员权限为2
-        result = add_person(code_name, password, permission)
-        if result:
-            return JsonResponse({'request': SUCCESS_DATA})
-        else:
-            return JsonResponse({'request': FAIL_DATA})
+    CodeName = request.POST.get("CodeName")
+    Class = request.POST.get("Class")
+    Region = request.POST.get("Region")
+    Race = request.POST.get("Race")
+    Description = request.POST.get("Description")
+    Password = request.POST.get("Password")
+    return add_into_queue(CodeName, Class, Region, Race, Description, Password)
 
 
+# 用户表对应接口
 def users_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)
-    print(allowance)
     if allowance:
-        return JsonResponse({'request': SUCCESS_DATA, 'result': all_users()})
+        return success('成功', all_users())
     else:
-        return JsonResponse({'request': NOT_ALLOWED_DATA})
+        return fail('无访问权限')
 
 
 def user_get(request):
@@ -60,7 +47,7 @@ def user_modify(request):
     if allowance:
         return modify_user(code_name, permission)
     else:
-        return JsonResponse({'request': NOT_ALLOWED_DATA})
+        return fail('无访问权限')
 
 
 def user_delete(request):
@@ -70,27 +57,55 @@ def user_delete(request):
     if allowance:
         return delete_user(name)
     else:
-        return JsonResponse({'request': NOT_ALLOWED_DATA})
+        return fail('无访问权限')
 
 
-def reject_application(request):
+# 请求队列对应接口
+def application_reject(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
     allowance = judge(token, 1)
     if allowance:
         return reject(name)
     else:
-        return JsonResponse({'request': NOT_ALLOWED_DATA})
+        return fail('无访问权限')
 
 
-def consent_application(request):
+def application_consent(request):
     token = request.POST.get("token")
     name = request.POST.get("CodeName")
+    Permission = request.POST.get("Permission")
+    allowance = judge(token, 1)
+    print("application_consent", name)
+    if allowance:
+        return consent(name, Permission)
+    else:
+        return fail('无访问权限')
+
+
+def applications_get(request):
+    token = request.POST.get("token")
     allowance = judge(token, 1)
     if allowance:
-        return consent(name)
+        return success('成功获取', all_applications())
     else:
-        return JsonResponse({'request': NOT_ALLOWED_DATA})
+        return fail('无访问权限')
+
+
+def application_modify(request):
+    token = request.POST.get("token")
+    CodeName = request.POST.get(account_approve_queue[0])
+    Password = request.POST.get(account_approve_queue[1])
+    Permission = request.POST.get(account_approve_queue[2])
+    Class = request.POST.get(account_approve_queue[3])
+    Region = request.POST.get(account_approve_queue[4])
+    Race = request.POST.get(account_approve_queue[5])
+    Description = request.POST.get(account_approve_queue[6])
+    allowance = judge(token, 1)
+    if allowance:
+        return modify_application(CodeName, Permission, Class, Region, Race, Description)
+    else:
+        return fail('无访问权限')
 
 
 # 后端调试使用

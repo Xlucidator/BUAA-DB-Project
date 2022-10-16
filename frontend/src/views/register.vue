@@ -4,32 +4,50 @@
   </div>
 
   <div class="input-box">
-    <el-input
-        v-model="userName"
-        class="w-50 m-2"
-        size="large"
-        placeholder="userName"
-    />
+    <el-form :model="form" label-width="120px">
+      <el-form-item label="CodeName">
+        <el-input v-model="form.CodeName"/>
+      </el-form-item>
+      <el-form-item label="Password">
+        <el-input v-model="form.Password" :show-password="true"/>
+      </el-form-item>
+      <el-form-item label="Password again">
+        <el-input v-model="form.PwConfirm" :show-password="true"/>
+      </el-form-item>
+      <el-form-item label="Class">
+        <el-select v-model="form.Class" placeholder="please select your class">
+          <el-option label="近卫干员" value="Guard"/>
+          <el-option label="狙击干员" value="Sniper"/>
+          <el-option label="重装干员" value="Defender"/>
+          <el-option label="医疗干员" value="Medic"/>
+          <el-option label="辅助干员" value="Supporter"/>
+          <el-option label="术师干员" value="Caster"/>
+          <el-option label="特种干员" value="Specialist"/>
+          <el-option label="先锋干员" value="Vanguard"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Region">
+        <el-select v-model="form.Region" placeholder="please select your zone">
+          <el-option label="泰拉" value="Terra"/>
+          <el-option label="炎" value="Yan"/>
+          <el-option label="龙门" value="Lungmen"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Race">
+        <el-select v-model="form.Race" placeholder="please select your zone">
+          <el-option label="龙" value="Lung"/>
+          <el-option label="黎博利" value="Liberi"/>
+          <el-option label="鲁珀" value="Lupo"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Description">
+        <div class="test-box">
+          <el-input v-model="form.Description" type="textarea" autosize=""/>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
-  <div class="input-box">
-    <el-input
-        v-model="password"
-        class="w-50 m-2"
-        size="large"
-        placeholder="password"
-        :show-password=true
-    />
-  </div>
-  <div class="input-box">
-    <el-input
-        v-model="pwConfirm"
-        class="w-50 m-2"
-        size="large"
-        placeholder="password again"
-        :show-password=true
-    />
-    <br/>
-  </div>
+
   <div class="Button">
     <Button
         tabindex="-1"
@@ -51,65 +69,70 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
 import {useRouter} from "vue-router";
-import {ElNotification} from "element-plus";
 import {register} from "../api/manager";
+import {NOTATION} from "../composable/utils";
+import {reactive} from "@vue/reactivity";
 
-/* data */
-let userName = ref("")
-let password = ref("")
-let pwConfirm = ref("")
 const router = useRouter()
+
+const form = reactive({
+  CodeName: '',
+  Password: '',
+  PwConfirm: '',
+  Class: '',
+  Region: '',
+  Race: '',
+  Description: ''
+})
 
 const back = () => {
   router.push("/login")
 }
 
 const onSubmit = () => {
-  register(userName.value, password.value, pwConfirm.value)
-      .then(res => {
-        console.log(res)
-        const flag = res.request['flag']
-        if (flag === 'no') {
-          ElNotification({
-            title: 'Error',
-            message: res.request['msg'],
-            type: 'error',
-          })
-        } else {
+  if (form.Password !== form.PwConfirm) {
+    NOTATION(0, "passwords do not coordinate")
+  } else {
+    register(form)
+        .then(res => {
+          console.log(res)
 
-          // message
-          ElNotification({
-            title: 'Success',
-            message: res.request['msg'],
-            type: 'success',
-          })
+          const flag = res.request['flag']
+          if (flag === 'no') {
+            NOTATION(0, res.request['msg'])
+          } else {
 
-          // jump
-          router.push("/login")
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        ElNotification({
-          title: 'Error',
-          message: err.msg,
-          type: 'error',
+            // message
+            NOTATION(1, res.request['msg'])
+
+            // jump
+            router.push("/login")
+          }
         })
-      })
+        .catch(err => {
+          console.log(err)
+          NOTATION(0, err.msg)
+        })
+  }
 }
+
 </script>
 
 <style scoped>
 .register {
-  margin-top: 12%;
+  margin-top: 8%;
   margin-bottom: 4%;
   text-align: center;
 }
 
 .input-box {
-  margin-bottom: 1%;
+  margin-left: 32%;
+  text-align: center;
+}
+
+.test-box {
+  width: 40%;
   text-align: center;
 }
 

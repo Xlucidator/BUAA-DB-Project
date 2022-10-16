@@ -21,9 +21,10 @@ JsonResponse({'request': SUCCESS_DATA, 'result': result})
 |功能 | 接口名  |  前端传递参数|后端返回参数（不包含request）|  
 |:---:|:---:|:---:|:---:|
 |获取所有用户信息| index/user/GET/users|token|所有用户所有信息|
-|获取单个用户信息| index/user/GET/user|token，单个用户用户名|单个用户所有信息|
+|获取单个用户信息| index/user/GET/user|token|单个用户所有信息|
 |修改用户属性| index/user/PUT/user|token，单个用户所有信息|
 |删除用户| index/user/DELETE/user|token，删除用户的用户名||
 |同意注册申请|index/application/consent|token，申请用户用户名|
 |拒绝注册申请|index/application/reject|token，申请用户用户名|
+|修改等待队列的属性|index/application/PUT/application|token,待修改用户的所有信息||
 

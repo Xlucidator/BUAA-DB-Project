@@ -274,6 +274,8 @@
 - integrations(`npm i @vueuse/integrations`)
 - vuex(`npm install vuex@next --save`)
 - windicss(`npm i -D vite-plugin-windicss windicss`)
+- qs(`npm install qs`)
+- reactivity(`npm install @vue/reactivity`)
 
 </details>
 

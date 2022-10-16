@@ -7,7 +7,6 @@ router.beforeEach(async (to, from, next) => {
     console.log("router.beforeEach")
 
     const token = getToken()
-    console.log(token)
     if (!token && to.path !== '/login' && to.path !== '/register') {
         ElNotification({
             title: 'PLEASE LOGIN',
@@ -29,7 +28,12 @@ router.beforeEach(async (to, from, next) => {
 
     // if logged in, then getinfo and store info into vuex
     if (token) {
-        await store.dispatch("getinfo")
+        await store.dispatch("get_info")
+    }
+
+    if(to.path === '/home') {
+        await store.dispatch("get_apply_form")
+        await store.dispatch("get_user_form")
     }
 
     next()
