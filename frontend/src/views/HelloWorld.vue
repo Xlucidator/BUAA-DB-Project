@@ -136,6 +136,10 @@ const handleAccept = (index: number, row: User) => {
         } else {
           // message
           NOTATION(1, res.request.msg)
+
+          // update form
+          userForm.splice(userForm.length, 0, row)
+          applyForm.splice(index, 1)
         }
       })
       .catch(err => {
