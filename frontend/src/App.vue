@@ -1,26 +1,27 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<script lang="ts" setup>
+import {computed, ref} from 'vue'
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+const activeIndex1 = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
 }
+
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<template>
+  <router-view></router-view>
+</template>
+
+<style scoped>
+
+.flex-grow {
+  flex-grow: 1;
 }
 </style>

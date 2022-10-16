@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv=Content-Type content=text/html; charset=utf-8 />
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>test</title>
+</head>
+<body>
+<form action="login" method="post">
+    {% csrf_token %}
+    <input type="text" name="CodeName">
+    <br/>
+    <input type="password" name="Password">
+    <input type="submit" value="登录">
+</form>
+<br/><br/><br/><br/>
+<form action="enroll" method="post">
+    {% csrf_token %}
+    <input type="text" name="CodeName">
+    <br/>
+    <input type="text" name="Class">
+    <br/>
+    <input type="text" name="Region">
+    <br/>
+    <input type="text" name="Race">
+    <br/>
+    <input type="text" name="Description">
+    <br/>
+    <input type="password" name="Password">
+
+    <input type="submit" value="注册">
+</form>
+<br/>
+<br/>
+<br/>
+<form action="/index/application/GET" method="post">
+    <input type="text" name="token">
+    <input type="submit" value="获取所有用户">
+</form>
+<br/>
+<br/>
+<br/>
+<br/>
+<form action="/index/application/consent" method="post">
+    同意对象<input type="text" name="CodeName"><br/>
+    授予权限<input type="text" name="Permission"><br/>
+    权限认证<input type="text" name="token"><br/>
+    <input type="submit" value="同意审批">
+</form>
+
+<br/>
+<br/>
+<form action="/index/application/reject" method="post">
+    拒绝对象对象<input type="text" name="CodeName"><br/>
+    权限认证<input type="text" name="token"><br/>
+    <input type="submit" value="拒绝">
+</form>
+
+
+<br/><br/><br/><br/>
+<form action="/index/application/PUT/application" method="post">
+    {% csrf_token %}
+
+    姓名<input type="text" name="CodeName"><br/>
+    权限<input type="text" name="Permission"><br/>
+    <input type="text" name="Class">
+    <br/>
+    <input type="text" name="Region">
+    <br/>
+    <input type="text" name="Race">
+    <br/>
+    <input type="text" name="Description"><br/>
+
+    权限认证<input type="text" name="token"><br/>
+    <input type="submit" value="修改">
+</form>
+<p>{{ rlt }}</p>
+</body>
+</html>

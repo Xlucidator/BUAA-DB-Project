@@ -1,3 +1,9 @@
+privacy.py
+
+# python
+__pycache__
+
+# python env
 .env
 .venv
 env/
@@ -28,3 +34,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+package.json
+package-lock.json
+
+~$*
