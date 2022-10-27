@@ -6,7 +6,7 @@ from django.http import JsonResponse
 JWT_SECRET_KEY = "123"
 FAIL_DATA = {'flag': 'no', 'msg': 'fail'}
 NOT_ALLOWED_DATA = {'flag': 'no', 'msg': 'not allowed'}
-user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
+user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Mail']
 account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
 
 
@@ -41,31 +41,32 @@ def get_jwt(username, role_data='default'):
 
 
 def judge(token, std):
-    test = str.encode(token)
+    test = str.encode(token)[2:-1]
+    result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
+    name = result.get('data').get('username')
+    print(name)
+
+    sql = 'select * from user_account where CodeName = \'' + name + "\'"
     try:
-        result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
-        name = result.get('data').get('username')
-        print(name)
         with connection.cursor() as cursor:
-            sql = 'select * from user_account where CodeName = \'' + name + "\'"
             cursor.execute(sql)
             one = cursor.fetchone()
-            return one[2] <= std
+        return one[2] <= std
     except:
         return False
 
 
 def token2name(token):
-    test = str.encode(token)
+    test = str.encode(token)[2:-1]
     result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
     return result.get('data').get('username')
 
 
 # 注册对应函数
 def check_user(CodeName, password):
-    with connection.cursor() as cursor:
-        sql = "select * from user_account where CodeName = '{}'".format(CodeName)
-        try:
+    sql = "select * from user_account where CodeName = '{}'".format(CodeName)
+    try:
+        with connection.cursor() as cursor:
             cursor.execute(sql)
             one = cursor.fetchone()
             if one is None:
@@ -76,25 +77,26 @@ def check_user(CodeName, password):
                 return success('登录成功', result)
             else:
                 return fail('密码错误')
-        except:
-            return fail('未知错误')
+    except:
+        return fail('未知错误')
 
 
 def add_into_queue(CodeName, Class, Region, Race, Description, Password):
+    sql_check_user = "select * from user_account where CodeName = '{}'".format(CodeName)
+    sql_check_application = "select * from account_approve_queue where CodeName = '{}'".format(CodeName)
+    sql_insert = "insert into account_approve_queue values('{}','{}',{},'{}','{}','{}','{}')" \
+                .format(CodeName, Password, 2, Class, Region, Race, Description)
     try:
         with connection.cursor() as cursor:
-            sql = "select * from user_account where CodeName = '{}'".format(CodeName)
-            cursor.execute(sql)
+            cursor.execute(sql_check_user)
             if cursor.fetchone() is not None:
                 return fail('该用户已存在')
-            sql = "select * from account_approve_queue where CodeName = '{}'".format(CodeName)
-            cursor.execute(sql)
+
+            cursor.execute(sql_check_application)
             if cursor.fetchone() is not None:
                 return fail('该用户已在申请队列中')
-            sql = "insert into account_approve_queue values('{}','{}',{},'{}','{}','{}','{}')" \
-                .format(CodeName, Password, 2, Class, Region, Race, Description)
-            print(sql)
-            cursor.execute(sql)
+
+            cursor.execute(sql_insert)
         return success('注册成功，请等待审核')
     except:
         return fail('注册失败QWQ')
@@ -110,14 +112,13 @@ def all_users():
             my_dict = {}
             for i in enumerate(user_account):
                 my_dict[i[1]] = item[i[0]]
-            print(my_dict)
             dict_list.append(my_dict)
         return dict_list
 
 
 def modify_user(CodeName, permission):
+    sql = "update user_account Set Permission = {} where CodeName = '{}'".format(permission, CodeName)
     try:
-        sql = "update user_account Set Permission = {} where CodeName = '{}'".format(permission, CodeName)
         with connection.cursor() as cursor:
             cursor.execute(sql)
         return success('成功修改')
@@ -126,8 +127,8 @@ def modify_user(CodeName, permission):
 
 
 def delete_user(CodeName):
+    sql = "delete from user_account where CodeName = '{}'".format(CodeName)
     try:
-        sql = "delete from user_account where CodeName = '{}'".format(CodeName)
         with connection.cursor() as cursor:
             cursor.execute(sql)
         return success('成功删除')
@@ -136,51 +137,50 @@ def delete_user(CodeName):
 
 
 def one_user(token):
+    name = token2name(token)
+    print("one_user", name)
+    sql = 'select * from user_account where CodeName = \'' + name + "\'"
     try:
-        name = token2name(token)
         with connection.cursor() as cursor:
-            sql = 'select * from user_account where CodeName = \'' + name + "\'"
             cursor.execute(sql)
             one = cursor.fetchone()
             data = {}
             for i in enumerate(user_account):
                 data[i[1]] = one[i[0]]
-            return success('获取用户信息成功', data)
+        return success('获取用户信息成功', data)
     except:
         return fail('获取用户信息失败')
 
 
 # 请求表对应函数
 def reject(name):
+    sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
     try:
         with connection.cursor() as cursor:
-            sql = "delete from account_approve_queue where CodeName = '{}' ".format(name)
             cursor.execute(sql)
-            return success('拒绝该用户的注册申请')
+        return success('拒绝该用户的注册申请')
     except:
         return JsonResponse({'request': FAIL_DATA})
 
 
-def consent(CodeName, Permission):
+def consent(CodeName):
     print(CodeName)
     try:
         with connection.cursor() as cursor:
             sql1 = "select * from account_approve_queue where CodeName = '{}' ".format(CodeName)
-            print(sql1)
             cursor.execute(sql1)
+            
             one = cursor.fetchone()
-            CodeName = one[0]
-            # account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
-            # user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
-            sql2 = "insert into user_account(CodeName,Password,Permission，Class，Region，Race)" \
-                   " values('{}','{}',{},'{}','{}','{}')" \
-                .format(one[0], one[1], one[2], one[3], one[4], one[5])
-            print(sql2)
+
+            sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}')" \
+                .format(one[0], one[1], one[2], one[3], one[4], one[5], "")
+
             cursor.execute(sql2)
+
+            CodeName = one[0]
             sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)
-            print(sql3)
             cursor.execute(sql3)
-            return success('同意该用户的申请')
+        return success('同意该用户的申请')
     except:
         return JsonResponse({'request': FAIL_DATA})
 
@@ -196,14 +196,13 @@ def all_applications():
                 if i != 'Password':
                     data[i[1]] = item[i[0]]
             dict_list.append(data)
-        return dict_list
+    return dict_list
 
 
 def modify_application(CodeName, Permission, Class, Region, Race, Description):
-    try:
-        sql = "update account_approve_queue Set Permission = {},Class = '{}',Region = '{}',Race = '{}',Description = " \
+    sql = "update account_approve_queue Set Permission = {},Class = '{}',Region = '{}',Race = '{}',Description = " \
               "'{}' where CodeName = '{}'".format(Permission, Class, Region, Race, Description, CodeName)
-        print(sql)
+    try:
         with connection.cursor() as cursor:
             cursor.execute(sql)
         return success('申请用户信息修改成功~')
