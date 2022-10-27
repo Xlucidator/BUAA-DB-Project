@@ -12,11 +12,13 @@ account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region'
 
 # 一些工具函数
 def success(msg, result=None):
-    print(4)
     if result is None:
         return JsonResponse({'request': {'flag': 'yes', 'msg': msg}})
     else:
         return JsonResponse({'request': {'flag': 'yes', 'msg': msg}, 'result': result})
+
+
+# return JsonResponse({'request': result})
 
 
 def fail(msg):
@@ -107,9 +109,10 @@ def all_users():
         for item in cursor:
             my_dict = {}
             for i in enumerate(user_account):
-                my_dict[i[0]] = item[i[1]]
+                my_dict[i[1]] = item[i[0]]
+            print(my_dict)
             dict_list.append(my_dict)
-    return dict_list
+        return dict_list
 
 
 def modify_user(CodeName, permission):
@@ -167,8 +170,11 @@ def consent(CodeName, Permission):
             cursor.execute(sql1)
             one = cursor.fetchone()
             CodeName = one[0]
-            sql2 = "insert into user_account values('{}','{}',{},'{}','{}','{}','{}','{}')" \
-                .format(one[0], one[1], one[2], one[3], one[4], one[5], "", "")
+            # account_approve_queue = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Description']
+            # user_account = ['CodeName', 'Password', 'Permission', 'Class', 'Region', 'Race', 'Avatar', 'Mail']
+            sql2 = "insert into user_account(CodeName,Password,Permission，Class，Region，Race)" \
+                   " values('{}','{}',{},'{}','{}','{}')" \
+                .format(one[0], one[1], one[2], one[3], one[4], one[5])
             print(sql2)
             cursor.execute(sql2)
             sql3 = "delete from account_approve_queue where CodeName = '{}' ".format(CodeName)

@@ -28,7 +28,7 @@ def users_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)
     if allowance:
-        return success('成功', all_users())
+        return success('所有用户信息获取成功', all_users())
     else:
         return fail('无访问权限')
 
@@ -85,7 +85,7 @@ def applications_get(request):
     token = request.POST.get("token")
     allowance = judge(token, 1)
     if allowance:
-        return success('成功获取', all_applications())
+        return success('所用待审批列表获取成功', all_applications())
     else:
         return fail('无访问权限')
 
