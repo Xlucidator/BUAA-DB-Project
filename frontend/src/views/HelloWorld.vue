@@ -149,6 +149,7 @@ const handleAccept = (index: number, row: User) => {
       })
   itemKey.value = Math.random()
 }
+
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
   applyForm.splice(index, 1)
@@ -182,7 +183,7 @@ const handleReject = (index: number, row: User) => {
           <span> avatar </span>
         </div>
         <div class="userinfo">
-          <span class="font-bold text-xs"> NAME: {{ $store.state.user.CodeName }} </span>
+          <span class="font-bold text-xs"> NAME: {{ store.state.user.CodeName }} </span>
         </div>
         <el-menu
             default-active="2"
@@ -190,6 +191,7 @@ const handleReject = (index: number, row: User) => {
             @open="handleOpen"
             @close="handleClose"
             background-color="rgba(0,0,0,0)"
+            :router=true
         >
           <el-menu-item index="1">
             <el-icon>
@@ -197,6 +199,7 @@ const handleReject = (index: number, row: User) => {
             </el-icon>
             <span>announcement</span>
           </el-menu-item>
+
           <el-sub-menu index="2">
             <template #title>
               <el-icon>
@@ -216,11 +219,12 @@ const handleReject = (index: number, row: User) => {
               <el-menu-item index="1-4-1">item one</el-menu-item>
             </el-sub-menu>
           </el-sub-menu>
-          <el-menu-item index="3">
+
+          <el-menu-item index="message">
             <el-icon>
               <ChatLineSquare/>
             </el-icon>
-            <span>communication</span>
+            <span>Message</span>
           </el-menu-item>
 
           <el-menu-item index="4">
@@ -229,6 +233,7 @@ const handleReject = (index: number, row: User) => {
             </el-icon>
             <span>Archive</span>
           </el-menu-item>
+
         </el-menu>
       </el-aside>
 
@@ -253,14 +258,6 @@ const handleReject = (index: number, row: User) => {
 
             <div class="flex-grow"/>
 
-            <!--          <el-menu-item index="register">-->
-            <!--            <template #title>Register</template>-->
-            <!--          </el-menu-item>-->
-
-            <!--          <el-menu-item index="login">-->
-            <!--            <template #title>Login</template>-->
-            <!--          </el-menu-item>-->
-
             <el-menu-item index="settings">
               <template #title>Settings</template>
             </el-menu-item>
@@ -277,7 +274,7 @@ const handleReject = (index: number, row: User) => {
           <br/>
           <span class="text-xm " style="margin-left: 10%"> {{ greetings }} ,</span>
           <span class="text-xl font-extrabold"
-                style="margin-left: 0.5%; margin-right: 0.5%"> {{ $store.state.user.CodeName }} </span>
+                style="margin-left: 0.5%; margin-right: 0.5%"> {{ store.state.user.CodeName }} </span>
           <span class="text-xm">.</span>
           <br/>
           <span class="text-xm test-bold" style="margin-left: 10%">Welcome to the new world.</span>
