@@ -46,12 +46,12 @@
 
 <script setup>
 import {ref} from "vue";
-import {login} from "../api/manager";
+import {login} from "../../api/manager";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
-import {setToken} from "../composable/auth";
-import {NOTATION} from "../composable/utils";
+import {setToken} from "../../composable/auth";
+import {NOTATION} from "../../composable/utils";
 
 /* data */
 let userName = ref("")

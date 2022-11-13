@@ -65,8 +65,8 @@
 
 <script setup>
 import {useRouter} from "vue-router";
-import {register} from "../api/manager";
-import {NOTATION} from "../composable/utils";
+import {register} from "../../api/manager";
+import {NOTATION} from "../../composable/utils";
 import {reactive} from "@vue/reactivity";
 import {ref} from "vue";
 
