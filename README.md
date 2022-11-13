@@ -148,6 +148,7 @@
 | CodeName    | char(30) | primary key | 代号；相当于用户名 |
 | Password    | char(20) | not null    |                    |
 | Permission  | tinyint  | unsigned    | 待管理员分配       |
+| Gender      | tinyint  |             |                    |
 | Class       | char(20) |             | 职业分类           |
 | Region      | char(30) |             | 地区               |
 | Race        | char(20) |             | 种族               |
@@ -300,18 +301,36 @@
 
 </details>
 
-### 5.子模块-即时通讯模块
+### 5.子模块-通讯联络
 
 模仿微信功能，实现网页版聊天室功能。即干员选择与干员、干员组进行即时联络
 
 <details>
+
 #### （1）布局设计
 
+![通讯联络-基本](document/images/通讯联络-基本.png)
+
 #### （2）数据表定义
+
+**Message（消息实体表）**
+
+| 数据项名字  | 数据类型  | 约束                  | 备注        |
+| ----------- | --------- | --------------------- | ----------- |
+| MId         | int       | primary key           | message编号 |
+| SendFrom    | char(30)  | not null, foreign key | 发送方      |
+| SendTo      | char(30)  | not null, foreign key | 接受方      |
+| ContentText | tinytext  | not null              | 消息文本    |
+| Picture     |           |                       |             |
+| Time        | timestamp |                       |             |
+
+**Group（群组实体表）**
 
 #### （3）功能描述
 
 #### （4）预期拓展
+
+- 消息包含 图像、附件
 
 </details>
 
