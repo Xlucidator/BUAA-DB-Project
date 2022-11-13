@@ -25,3 +25,7 @@ def token2name(token):
     test = str.encode(token)[2:-1]
     result = jwt.decode(test, JWT_SECRET_KEY, algorithms='HS256', options={"verify_signature": False})
     return result.get('data').get('username')
+
+
+def fail(temp):
+    return {'details': temp}
