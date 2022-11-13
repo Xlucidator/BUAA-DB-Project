@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-function jsonToFormData(config) {
+export function jsonToFormData(config) {
     const formData = new FormData();
     //循环传入的值转换formData
     Object.keys(config).forEach((key) => {
@@ -8,7 +8,6 @@ function jsonToFormData(config) {
     })
     return formData;
 }
-
 
 export function login(username, password) {
     console.log("login: ", username, password)

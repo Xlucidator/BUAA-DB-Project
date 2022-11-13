@@ -13,6 +13,7 @@
 - http://www.axios-js.com/zh-cn/
 - https://vueuse.org/
 - https://windicss.org/
+- http://ckang1229.gitee.io/vue-markdown-editor/zh/theme/github.html#%E4%BB%8B%E7%BB%8D
 
 ### 其他
 

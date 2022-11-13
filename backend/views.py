@@ -73,6 +73,7 @@ def application_reject(request):
 
 def application_consent(request):
     token = request.POST.get("token")
+    request.headers.get()
     name = request.POST.get("CodeName")
     allowance = judge(token, 1)
     print("application_consent", name)

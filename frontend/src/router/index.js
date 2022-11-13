@@ -4,34 +4,57 @@ import {createRouter, createWebHistory} from 'vue-router'
 const routes = [
     {
         path: '/',
-        redirect: '/home' // 重定向到home页面
+        redirect: '/home', // 重定向到home页面
+        meta: { transition: 'slide-left' },
     },
     {
         path: '/home',
-        component: () => import('../views/HelloWorld.vue') // 在src文件夹下新建的views文件夹，用于存放各个页面
-    },
+        component: () => import('../views/HelloWorld.vue'), // 在src文件夹下新建的views文件夹，用于存放各个页面
+        meta: { transition: 'slide-left' },},
     {
         path: '/login',
-        component: () => import('../views/login.vue')
+        component: () => import('../views/login.vue'),
+        meta: { transition: 'slide-left' },
     },
     {
         path: '/register',
-        component: () => import('../views/register.vue')
+        component: () => import('../views/register.vue'),
+        meta: { transition: 'slide-left' },
     },
     {
         path: '/settings',
-        component: () => import('../views/settings.vue')
+        component: () => import('../views/settings.vue'),
+        meta: { transition: 'slide-left' },
+    },
+    {
+        path: '/announcements',
+        component: () => import('../views/announcements.vue'),
+        meta: { transition: 'slide-left' },
+    },
+    {
+        //path:'/announcements/:id',
+        path: '/singlePage',
+        component: () => import('../views/singlePage.vue'),
+        meta: { transition: 'slide-left' },
     },
     {
         path: '/:pathMatch(.*)*',
-        component: () => import('../views/404.vue')
+        component: () => import('../views/404.vue'),
+        meta: { transition: 'slide-left' },
     }
 ]
 const router = createRouter(
     {
         history: createWebHistory(),
-        routes
-    }
+        routes,
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition
+            } else {
+                return {top: 0}
+            }
+        }
+    },
 )
 
 export default router
