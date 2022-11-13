@@ -68,19 +68,18 @@ const onSubmit = () => {
       .then(res => {
         console.log("login", res)
 
-        if (res.request.flag === 'no') {
+        if (res.status !== 200) {
           NOTATION(0, res.request.msg)
         } else {
 
           // message
-          NOTATION(1, res.request.msg)
-
+          NOTATION(1, "success")
 
           // store cookie
-          setToken(res.result.token)
+          setToken(res.data.token)
 
           // store user info
-          store.commit("SET_USERINFO", res.request.msg)
+          store.commit("SET_USERINFO", res.data.CodeName)
 
           // jump
           router.push("/home")
@@ -88,7 +87,7 @@ const onSubmit = () => {
       })
       .catch(err => {
         console.log(err)
-        NOTATION(0, err.msg)
+        NOTATION(0, err.detail)
       })
 }
 

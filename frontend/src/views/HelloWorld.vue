@@ -242,7 +242,6 @@ const handleReject = (index: number, row: User) => {
               mode="horizontal"
               background-color="rgba(0,0,0,0)"
               active-text-color-light="rgba(80,50,250,1)"
-              text-color=#606266"
               @select="handleSelect"
               style="height: 100%;min-width: 100vh"
               :ellipsis=false

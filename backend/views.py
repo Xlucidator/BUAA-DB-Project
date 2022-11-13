@@ -24,7 +24,7 @@ class loginView(GenericAPIView, CreateModelMixin):
                 result = {'CodeName': user.CodeName, 'token': token}
                 return Response(result)
             else:
-                return Response('登录失败')
+                return Response('登录失败', status=100)
         if module == 'enroll':
             return self.create(request)
 
