@@ -8,7 +8,7 @@ from backend.tools import token2name
 class hasOpPermission(BasePermission):
 
     def has_permission(self, request, view):
-        token = request.header['token']
+        token = request.headers.get('token')
         CodeName = token2name(token)
         test = UserAccount.objects.get(CodeName=CodeName)
         serializer = UserAccountSerializer(instance=test)

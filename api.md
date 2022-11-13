@@ -18,9 +18,9 @@ JsonResponse({'request': SUCCESS_DATA, 'result': result})
 ### index主页
 即小夏画的那两个页面   
 
-|功能 | 接口名  |  前端传递参数|后端返回参数（不包含request）|  
+|功能 | 接口名  |  前端传递参数|后端返回参数（不包含request）|  |
 |:---:|:---:|:---:|:---:|
-|获取所有用户信息| index/user/GET/users|token|所有用户所有信息|
+|获取所有用户信息| index/user/|token|所有用户所有信息|
 |获取单个用户信息| index/user/GET/user|token|单个用户所有信息|
 |修改用户属性| index/user/PUT/user|token，单个用户所有信息|
 |删除用户| index/user/DELETE/user|token，删除用户的用户名||
