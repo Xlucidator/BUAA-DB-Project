@@ -5,10 +5,11 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveMode
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from backend.tools import get_jwt, token2name
+from backend.tools import get_jwt, fail
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
     AccountApproveQueueSerializer
 from .models import UserAccount
+from .utils import hasOpPermission
 
 
 class loginView(GenericAPIView, CreateModelMixin):
@@ -18,13 +19,17 @@ class loginView(GenericAPIView, CreateModelMixin):
     def post(self, request, module):
         if module == 'login':
             data = request.data
-            user = UserAccount.objects.get(CodeName=data['CodeName'])
-            if data['Password'] == user.Password:
-                token = get_jwt(user.CodeName)
-                result = {'CodeName': user.CodeName, 'token': token}
-                return Response(result)
-            else:
-                return Response('登录失败', status=100)
+            try:
+                user = UserAccount.objects.get(CodeName=data['CodeName'])
+                if data['Password'] == user.Password:
+                    token = get_jwt(user.CodeName)
+                    result = {'CodeName': user.CodeName, 'token': token}
+                    return Response(result)
+                else:
+                    return Response(fail('密码错误'), status=403)
+            except UserAccount.DoesNotExist:
+                return Response(fail('用户不存在'), status=404)
+
         if module == 'enroll':
             return self.create(request)
 
