@@ -28,7 +28,7 @@ const routes = [
             {
                 path: 'bulletin',   // -> '/main/bulletin/'
                 name: 'bulletin',
-                component: () => import('../views/main/bulletin/index.vue')
+                component: () => import('../views/main/bulletin/announcements.vue')
             },
             {
                 path: 'affair',     // -> '/main/affair/'
@@ -53,14 +53,9 @@ const routes = [
         meta: { transition: 'slide-left' },
     },
     {
-        path: '/announcements',
-        component: () => import('../views/announcements.vue'),
-        meta: { transition: 'slide-left' },
-    },
-    {
         //path:'/announcements/:id',
         path: '/singlePage',
-        component: () => import('../views/singlePage.vue'),
+        component: () => import('../views/main/bulletin/singlePage.vue'),
         meta: { transition: 'slide-left' },
     },
     {

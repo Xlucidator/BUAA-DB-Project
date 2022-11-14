@@ -82,7 +82,7 @@ const onSubmit = () => {
           store.commit("SET_USERINFO", res.data.CodeName)
 
           // jump
-          router.push("/home")
+          router.push("/main/home")
         }
       })
       .catch(err => {
