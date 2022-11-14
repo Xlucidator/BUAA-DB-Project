@@ -49,19 +49,39 @@ const routes = [
     },
     {
         path: '/settings',
-        component: () => import('../views/settings.vue')
+        component: () => import('../views/settings.vue'),
+        meta: { transition: 'slide-left' },
+    },
+    {
+        path: '/announcements',
+        component: () => import('../views/announcements.vue'),
+        meta: { transition: 'slide-left' },
+    },
+    {
+        //path:'/announcements/:id',
+        path: '/singlePage',
+        component: () => import('../views/singlePage.vue'),
+        meta: { transition: 'slide-left' },
     },
     {
         path: '/:pathMatch(.*)*',
-        component: () => import('../views/404.vue')
+        component: () => import('../views/404.vue'),
+        meta: { transition: 'slide-left' },
     }
 ]
 
 const router = createRouter(
     {
-        history: createWebHistory(), // 开启历史模式
-        routes
-    }
+        history: createWebHistory(),
+        routes,
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition
+            } else {
+                return {top: 0}
+            }
+        }
+    },
 )
 
 export default router

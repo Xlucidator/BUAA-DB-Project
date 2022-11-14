@@ -14,6 +14,7 @@ const store = createStore({
             user: {},
             applyForm: {},
             userForm: {},
+            skin: 'light',
         }
     },
     mutations: {
@@ -32,7 +33,10 @@ const store = createStore({
         SET_USER_FORM(state, userForm) {
             state.userForm = changeForm(userForm)
             console.log("set_user_form", store.state.userForm)
-        }
+        },
+        GET_SKIN(state, newValue) {
+            state.skin = newValue
+        },
     },
     actions: {
         get_info({commit}) {
@@ -68,7 +72,10 @@ const store = createStore({
                     })
                     .catch(err => reject(err))
             })
-        }
+        },
+        set_Skin(context, value) {
+            context.commit('GET_SKIN', value)
+        },
     }
 })
 

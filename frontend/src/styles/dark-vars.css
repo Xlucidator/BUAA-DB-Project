@@ -1,0 +1,7 @@
+html.dark {
+    color-scheme: dark;
+    --color-container-header:#1f2937;
+    --color-container-aside:#273140;
+    --color-background:#374151;
+    --color-text:#ffffff;
+}

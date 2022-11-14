@@ -1,26 +1,10 @@
-<!DOCTYPE html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<html>
-<head>
-<meta charset="utf-8">
-<title>test</title>
-</head>
-<body>
-    <form action="GET/users" method="post">
-        {% csrf_token %}
-        <input type="text" name="username">
-        <br/>
-        <input type="password" name="password">
-        <input type="submit" value="登录">
-    </form>
-    <br/><br/><br/><br/>
-    <form action="POST/users" method="post">
-        {% csrf_token %}
-        <input type="text" name="username">
-        <br/>
-        <input type="password" name="password">
-        <input type="submit" value="注册">
-    </form>
-    <p>{{ rlt }}</p>
-</body>
-</html>
+sql = 'select * from account_approve_queue'
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        dict_list = []
+        for item in cursor:
+            data = {}
+            for i in enumerate(account_approve_queue):
+                data[i[1]] = item[i[0]]
+            dict_list.append(data)
+        return dict_list
