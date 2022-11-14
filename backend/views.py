@@ -5,7 +5,7 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveMode
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from backend.tools import get_jwt, fail
+from backend.tools import get_jwt, fail, token2name
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
     AccountApproveQueueSerializer
 from .models import UserAccount
@@ -77,3 +77,12 @@ def index(request):
 
 def log(request):
     return render(request, 'login.html')
+
+
+def get_self(request):
+    token = request.META['token']
+    print(token)
+    CodeName = token2name(token)
+    userAccount = UserAccount.object.get(CodeName=CodeName)
+    serializer = UserAccountSerializer(instance=userAccount)
+    return Response(serializer.data)
