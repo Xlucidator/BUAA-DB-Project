@@ -92,14 +92,14 @@ const checkSyntax = (str) => {
   const pattern = /^[A-za-z0-9][A-za-z0-9'.\s]*$/
   if (str !== '') {
     if (!pattern.test(str)) {
-      NOTATION(0, 'contains only alnum and \' and space')
+      NOTATION(0, 'contains only alnum and . and space')
       registerFlag.value = 0
     } else {
       registerFlag.value = 1
     }
   } else {
     registerFlag.value = 0
-    NOTATION(0, 'CodeName couldn\'t be null')
+    NOTATION(0, 'CodeName shouldn\'t be null')
   }
 }
 
@@ -116,13 +116,15 @@ const onSubmit = () => {
         .then(res => {
           console.log(res)
 
-          const flag = res.request['flag']
-          if (flag === 'no') {
-            NOTATION(0, res.request['msg'])
+          if (res.status !== 200 && res.status !== 201) {
+            if ("details" in res.data) {
+              NOTATION(0, res.data.details)
+            } else {
+              NOTATION(0, "ops~! other error")
+            }
           } else {
-
             // message
-            NOTATION(1, res.request['msg'])
+            NOTATION(1, "registered successfully")
 
             // jump
             router.push("/login")
@@ -136,50 +138,50 @@ const onSubmit = () => {
 }
 
 const region_options = ref([
-  { zhcn: '炎', eng: 'Yan'},
-  { zhcn: '哥伦比亚', eng: 'Columbia'},
-  { zhcn: '卡西米尔', eng: 'Kazimierz'},
-  { zhcn: '谢拉格', eng: 'Kjerag'},
-  { zhcn: '拉特兰', eng: 'Laterano'},
-  { zhcn: '莱塔尼亚', eng: 'Leithanien'},
-  { zhcn: '雷姆必拓', eng: 'Rim Billiton'}, 
-  { zhcn: '萨米', eng: 'Sami'},
-  { zhcn: '米诺斯', eng: 'Minos'},
-  { zhcn: '玻利瓦尔', eng: 'Bolívar'},
-  { zhcn: '萨尔贡', eng: 'Sargon'},
-  { zhcn: '叙拉古', eng: 'Siracusa'},
-  { zhcn: '维多利亚', eng: 'Victoria'},
-  { zhcn: '卡兹戴尔', eng: 'Kazdel'},
-  { zhcn: '伊比利亚', eng: 'Iberia'},
-  { zhcn: '阿戈尔', eng: 'Ægir'},
-  { zhcn: '罗德岛', eng: 'Rhodes Island'},
-  { zhcn: '未知', eng: 'Unknown'},
+  {zhcn: '炎', eng: 'Yan'},
+  {zhcn: '哥伦比亚', eng: 'Columbia'},
+  {zhcn: '卡西米尔', eng: 'Kazimierz'},
+  {zhcn: '谢拉格', eng: 'Kjerag'},
+  {zhcn: '拉特兰', eng: 'Laterano'},
+  {zhcn: '莱塔尼亚', eng: 'Leithanien'},
+  {zhcn: '雷姆必拓', eng: 'Rim Billiton'},
+  {zhcn: '萨米', eng: 'Sami'},
+  {zhcn: '米诺斯', eng: 'Minos'},
+  {zhcn: '玻利瓦尔', eng: 'Bolívar'},
+  {zhcn: '萨尔贡', eng: 'Sargon'},
+  {zhcn: '叙拉古', eng: 'Siracusa'},
+  {zhcn: '维多利亚', eng: 'Victoria'},
+  {zhcn: '卡兹戴尔', eng: 'Kazdel'},
+  {zhcn: '伊比利亚', eng: 'Iberia'},
+  {zhcn: '阿戈尔', eng: 'Ægir'},
+  {zhcn: '罗德岛', eng: 'Rhodes Island'},
+  {zhcn: '未知', eng: 'Unknown'},
 ])
 
 const race_options = ref([
-  { zhcn: '龙', eng: 'Lung'},
-  { zhcn: '黎博利', eng: 'Liberi'},
-  { zhcn: '鲁珀', eng: 'Lupo'},
-  { zhcn: '鬼', eng: 'Oni'},
-  { zhcn: '阿达克利斯', eng: 'Archosauria'},
-  { zhcn: '萨科塔', eng: 'Sankta'},
-  { zhcn: '萨卡兹', eng: 'Sarkaz'},
-  { zhcn: '菲林', eng: 'Feline'},
-  { zhcn: '瓦伊凡', eng: 'Vouivre'},
-  { zhcn: '德拉克', eng: 'Draco'},
-  { zhcn: '沃尔珀', eng: 'Vulpo'},
-  { zhcn: '杜林', eng: 'Durin'},
-  { zhcn: '札拉克', eng: 'Zalak'},
-  { zhcn: '库兰塔', eng: 'Kuranta'},
-  { zhcn: '卡特斯', eng: 'Cautus'},
-  { zhcn: '卡普里尼', eng: 'Caprinae'},
-  { zhcn: '佩洛', eng: 'Perro'},
-  { zhcn: '丰蹄', eng: 'Forte'},
-  { zhcn: '乌萨斯', eng: 'Ursus'},
-  { zhcn: '阿斯兰', eng: 'Aslan'},
-  { zhcn: '麒麟', eng: 'Kylin'},
-  { zhcn: '阿戈尔', eng: 'Ægir'},
-  { zhcn: '未知', eng: 'Unknown'}
+  {zhcn: '龙', eng: 'Lung'},
+  {zhcn: '黎博利', eng: 'Liberi'},
+  {zhcn: '鲁珀', eng: 'Lupo'},
+  {zhcn: '鬼', eng: 'Oni'},
+  {zhcn: '阿达克利斯', eng: 'Archosauria'},
+  {zhcn: '萨科塔', eng: 'Sankta'},
+  {zhcn: '萨卡兹', eng: 'Sarkaz'},
+  {zhcn: '菲林', eng: 'Feline'},
+  {zhcn: '瓦伊凡', eng: 'Vouivre'},
+  {zhcn: '德拉克', eng: 'Draco'},
+  {zhcn: '沃尔珀', eng: 'Vulpo'},
+  {zhcn: '杜林', eng: 'Durin'},
+  {zhcn: '札拉克', eng: 'Zalak'},
+  {zhcn: '库兰塔', eng: 'Kuranta'},
+  {zhcn: '卡特斯', eng: 'Cautus'},
+  {zhcn: '卡普里尼', eng: 'Caprinae'},
+  {zhcn: '佩洛', eng: 'Perro'},
+  {zhcn: '丰蹄', eng: 'Forte'},
+  {zhcn: '乌萨斯', eng: 'Ursus'},
+  {zhcn: '阿斯兰', eng: 'Aslan'},
+  {zhcn: '麒麟', eng: 'Kylin'},
+  {zhcn: '阿戈尔', eng: 'Ægir'},
+  {zhcn: '未知', eng: 'Unknown'}
 ])
 
 </script>

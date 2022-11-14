@@ -1,4 +1,6 @@
 <template>
+
+    <br/>
     <br/>
     <br/>
 
@@ -106,7 +108,7 @@
 <script lang="ts" setup>
 
 import {computed, ref} from 'vue';
-import {getApplyForm, editApplyForm, acceptApply, rejectApply, addUser, getUserForm} from '../../api/manager.js';
+import {getApplyForm, editApplyForm, acceptApply, rejectApply, getUserForm} from '../../api/manager.js';
 import {getToken} from '../../composable/auth.js';
 import {NOTATION} from '../../composable/utils.js';
 import store from "../../store/index.js";
@@ -145,7 +147,7 @@ let tableForm = ref({CodeName: '', Permission: '', Class: '', Region: '', Race: 
 let dialogFormVisible = ref(false);
 let dialogIdx = 0;
 let time = new Date().getHours()
-let greetings = (time < 6  ? 'Go to sleep please, my dear youngster' :
+let greetings = (time < 6 ? 'Go to sleep please, my dear youngster' :
                 (time < 12 ? 'Good morning' :
                 (time < 18 ? 'Good afternoon' : 'Good evening')))
 let itemKey = ref(0);
@@ -154,16 +156,20 @@ const dialogConfirm = () => {
   console.log("dialogConfirm", tableForm.value)
   dialogFormVisible.value = false;
   //applyForm.splice(dialogIdx, 1, tableForm)
-  
+
   applyForm[dialogIdx] = tableForm.value
   console.log("dialogConfirm", applyForm)
-  editApplyForm(getToken(), tableForm.value)
+  editApplyForm(tableForm.value)
       .then(res => {
         console.log(res)
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
-          NOTATION(1, res.request.msg)
+          NOTATION(1, "success")
         }
       })
       .catch(err => {
@@ -175,18 +181,22 @@ const dialogConfirm = () => {
 
 const updateApplyForm = () => {
   console.log("updateApplyForm", getToken())
-  getApplyForm(getToken())
+  getApplyForm()
       .then(res => {
         console.log(res)
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
           // message
-          NOTATION(1, res.request.msg)
+          NOTATION(1, "success")
 
           // store form
-          console.log(res['result'])
-          applyForm = res['result']
+          console.log(res.data)
+          applyForm = res.data
         }
       })
       .catch(err => {
@@ -194,18 +204,20 @@ const updateApplyForm = () => {
         NOTATION(0, err.msg)
       })
 
-  getUserForm(getToken())
+  getUserForm()
       .then(res => {
         console.log(res)
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
-
           // message
-          NOTATION(1, res.request.msg)
-
+          NOTATION(1, "success")
           // store form
-          userForm = res.request.userForm
+          userForm = res.data.userForm
           // console.log("?????", userForm.length)
         }
       })
@@ -234,15 +246,19 @@ const handleEdit = (index: number, row: User) => {
 
 const handleAccept = (index: number, row: User) => {
   console.log("accept ", index, row)
-  acceptApply(getToken(), row)
+  acceptApply(row)
       .then(res => {
         console.log("acceptApply", res)
 
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
           // message
-          NOTATION(1, res.request.msg)
+          NOTATION(1, "accepted")
 
           // update form
           userForm.splice(userForm.length, 0, row)
@@ -255,29 +271,31 @@ const handleAccept = (index: number, row: User) => {
       })
   itemKey.value = Math.random()
 }
-
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
   applyForm.splice(index, 1)
   console.log(applyForm)
-  rejectApply(getToken(), row)
+  rejectApply(row)
       .then(res => {
-        console.log(res)
-
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
-        } else {
-          // message
-          NOTATION(1, res.request.msg)
-
-          // nothing to do
-        }
-      })
+            console.log(res)
+            if (res.status !== 200) {
+              if ("details" in res.data) {
+                NOTATION(0, res.data.details)
+              } else {
+                NOTATION(0, "ops~! other error")
+              }
+            } else {
+              // message
+              NOTATION(1, "reject succeeds")
+            }
+          }
+      )
       .catch(err => {
         console.log(err)
         NOTATION(0, err.msg)
       })
 }
+
 
 </script>
 

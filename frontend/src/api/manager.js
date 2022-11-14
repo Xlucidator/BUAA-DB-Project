@@ -1,4 +1,5 @@
 import axios from "../axios";
+import {getToken} from "../composable/auth";
 
 export function jsonToFormData(config) {
     const formData = new FormData();
@@ -26,56 +27,36 @@ export function register(form) {
 export function revoke(token, password) {
     console.log(token, password)
     const formData = new FormData();
-    formData.append('token', token);
     formData.append('password', password);
-    return axios.post("/login/revoke", formData)
+    return axios.post("/login/revoke/", formData)
 }
 
-export function getInfo(token) {
-    console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    return axios.post("/index/user/GET/user/", formData)
+export function getInfo() {
+    console.log("getInfo")
+    return axios.get("/index/user/@self/")
 }
 
-export function getApplyForm(token) {
-    console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    return axios.post("index/application/GET/", formData)
+export function getApplyForm() {
+    console.log("getApplyForm")
+    return axios.get("index/application/")
 }
 
-export function getUserForm(token) {
-    console.log(token)
-    const formData = new FormData();
-    formData.append('token', token);
-    return axios.post("index/user/GET/users/", formData)
+export function getUserForm() {
+    console.log("getUserForm")
+    return axios.get("index/user/")
 }
 
-export function editApplyForm(token, row) {
-    console.log(token)
-    row['token'] = token
-    const formData = jsonToFormData(row)
-    return axios.post("/index/application/PUT/application/", formData)
+export function editApplyForm(row) {
+    console.log("editApplyForm")
+    return axios.put("/index/application/" + row['CodeName'] + "/")
 }
 
-export function rejectApply(token, row) {
-    console.log(token)
-    row['token'] = token
-    const formData = jsonToFormData(row)
-    return axios.post("index/application/reject/", formData)
+export function rejectApply(row) {
+    console.log("rejectApply")
+    return axios.delete("index/application/" + row['CodeName'] + "/")
 }
 
-export function acceptApply(token, row) {
-    console.log(token)
-    row['token'] = token
-    const formData = jsonToFormData(row)
-    return axios.post("index/application/consent/", formData)
-}
-
-export function addUser(token, row) {
-    console.log(token)
-    row['token'] = token
-    const formData = jsonToFormData(row)
-    return axios.post("/index/POST/addUser/", formData)
+export function acceptApply(row) {
+    console.log("acceptApply")
+    return axios.post("index/application/" + row['CodeName'] + "/")
 }

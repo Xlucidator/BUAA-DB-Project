@@ -31,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch("get_info")
     }
 
-    if(to.path === '/home') {
+    if(to.path === '/main/home') {
         await store.dispatch("get_apply_form")
         await store.dispatch("get_user_form")
     }
