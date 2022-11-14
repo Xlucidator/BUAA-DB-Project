@@ -78,10 +78,14 @@ def log(request):
     return render(request, 'login.html')
 
 
-def get_self(request):
-    token = request.META['token']
-    print(token)
-    CodeName = token2name(token)
-    userAccount = UserAccount.object.get(CodeName=CodeName)
-    serializer = UserAccountSerializer(instance=userAccount)
-    return Response(serializer.data)
+class SelfView(GenericAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+    lookup_field = 'CodeName'
+
+    def get(self, request):
+        token = request.META.get('HTTP_TOKEN')
+        CodeName = token2name(token)
+        userAccount = UserAccount.objects.get(CodeName=CodeName)
+        serializer = UserAccountSerializer(instance=userAccount)
+        return Response(serializer.data)

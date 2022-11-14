@@ -14,7 +14,8 @@ urlpatterns = [
 
     path('login/<str:module>/', views.loginView.as_view()),  # 登录界面的登录功能
 
-    path('index/user/@self/', views.get_self),
+    path('index/user/@self/', views.SelfView.as_view()),
+
     path('index/user/<str:CodeName>/', views.UserDetailView.as_view()),
     path('index/user/', views.UserListView.as_view()),
 
