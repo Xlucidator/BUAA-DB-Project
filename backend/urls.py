@@ -14,12 +14,12 @@ urlpatterns = [
 
     path('login/<str:module>/', views.loginView.as_view()),  # 登录界面的登录功能
 
-    path('index/user/<str:CodeName>', views.UserDetailView.as_view()),
+    path('index/user/@self/', views.get_self),
+    path('index/user/<str:CodeName>/', views.UserDetailView.as_view()),
     path('index/user/', views.UserListView.as_view()),
 
-
     path('index/application/', views.ApplicationModelView.as_view({'get': 'list', 'post': 'create'})),
-    path('index/application/<str:pk>',
+    path('index/application/<str:CodeName>/',
          views.ApplicationModelView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
 ]
