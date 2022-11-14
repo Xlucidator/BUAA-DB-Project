@@ -33,7 +33,7 @@ export function revoke(password) {
 
 export function getInfo() {
     console.log("getInfo")
-    return axios.get("/index/user/")
+    return axios.get("/index/user/@self/")
 }
 
 export function getApplyForm() {

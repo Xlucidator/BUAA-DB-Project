@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin, \
@@ -80,9 +81,9 @@ def log(request):
 
 
 def get_self(request):
-    token = request.META['token']
+    token = request.META.get('HTTP_TOKEN')
     print(token)
     CodeName = token2name(token)
-    userAccount = UserAccount.object.get(CodeName=CodeName)
+    userAccount = UserAccount.objects.get(CodeName=CodeName)
     serializer = UserAccountSerializer(instance=userAccount)
-    return Response(serializer.data)
+    return JsonResponse(serializer.data)
