@@ -56,7 +56,7 @@ const logOut = () => {
 }
 
 const checkDel = (password) => {
-  revoke(getToken(), password)
+  revoke(password)
       .then(res => {
         console.log(res.request)
         const flag = res.request['flag']

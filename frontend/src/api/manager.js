@@ -24,7 +24,7 @@ export function register(form) {
     return axios.post("/login/enroll/", formData)
 }
 
-export function revoke(token, password) {
+export function revoke(password) {
     console.log(token, password)
     const formData = new FormData();
     formData.append('password', password);
