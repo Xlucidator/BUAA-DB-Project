@@ -19,7 +19,7 @@ urlpatterns = [
 
 
     path('index/application/', views.ApplicationModelView.as_view({'get': 'list', 'post': 'create'})),
-    path('index/application/<str:pk>',
+    path('index/application/<str:CodeName>/',
          views.ApplicationModelView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
 ]

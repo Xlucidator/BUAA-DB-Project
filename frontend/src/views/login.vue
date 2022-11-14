@@ -69,15 +69,16 @@ const onSubmit = () => {
         console.log("login", res)
 
         if (res.status !== 200) {
-          NOTATION(0, res.request.msg)
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
-
           // message
-          NOTATION(1, "success")
-
+          NOTATION(1, "welcome~")
           // store cookie
           setToken(res.data.token)
-
           // store user info
           store.commit("SET_USERINFO", res.data.CodeName)
 
