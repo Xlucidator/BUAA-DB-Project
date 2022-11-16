@@ -18,9 +18,11 @@
     <input type="submit" value="登录">
 </form>
 <br/><br/><br/><br/>
-<form action="enroll/" method="post">
+<form action="/index/profile/" method="post">
     {% csrf_token %}
     <input type="text" name="CodeName">
+    <br/>
+    <input type="number" name="Gender">
     <br/>
     <input type="text" name="Class">
     <br/>
@@ -28,20 +30,21 @@
     <br/>
     <input type="text" name="Race">
     <br/>
-    <input type="text" name="Description">
-    <br/>
-    <input type="password" name="Password">
-
     <input type="submit" value="注册">
 </form>
 <br/>
 <br/>
 <br/>
-<form action="/index/application/" method="get">
+<form action="/test/" method="get">
     <input type="submit" value="获取所有用户">
 </form>
 
 <form action="/index/application/" method="get">
+    <input type="text" name="CodeName">
+    <input type="submit" value="获取单个用户">
+</form>
+
+<form action="/index/profile/" method="get">
     <input type="text" name="CodeName">
     <input type="submit" value="获取单个用户">
 </form>

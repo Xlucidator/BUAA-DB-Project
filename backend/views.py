@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import path
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
@@ -7,8 +8,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from backend.tools import get_jwt, fail, token2name
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
-    AccountApproveQueueSerializer
-from .models import UserAccount
+    AccountApproveQueueSerializer, UserProfileSerializer
+from .models import UserAccount, UserProfile
 from .utils import hasOpPermission
 
 
@@ -17,6 +18,7 @@ class loginView(GenericAPIView, CreateModelMixin):
     serializer_class = AccountApproveQueueSerializer
 
     def post(self, request, module):
+
         if module == 'login':
             data = request.data
             try:
@@ -52,7 +54,6 @@ class UserDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, Destr
     lookup_field = 'CodeName'
 
     def put(self, request, CodeName):
-        print(CodeName + '\n\n\n\n')
         return self.update(request)
 
     def get(self, request, CodeName):
@@ -67,6 +68,35 @@ class ApplicationModelView(ModelViewSet):
     serializer_class = AccountApproveQueueSerializer
     lookup_field = 'CodeName'
     lookup_url_kwarg = 'CodeName'
+
+
+class ProfileListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = 'CodeName'
+
+    # permission_classes = [hasOpPermission, ]
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class ProfileDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = 'CodeName'
+
+    def put(self, request, CodeName):
+        return self.update(request)
+
+    def get(self, request, CodeName):
+        return self.retrieve(request)
+
+    def delete(self, request, CodeName):
+        return self.destroy(request)
 
 
 # 后端调试使用
@@ -89,3 +119,27 @@ class SelfView(GenericAPIView):
         userAccount = UserAccount.objects.get(CodeName=CodeName)
         serializer = UserAccountSerializer(instance=userAccount)
         return Response(serializer.data)
+
+
+class testView(GenericAPIView, RetrieveModelMixin, CreateModelMixin, ListModelMixin):
+    querysetFlag = 0
+    lookup_field = 'CodeName'
+
+    def get_queryset(self):
+        if self.querysetFlag == 0:
+            return UserAccount.objects.all()
+        else:
+            return AccountApproveQueue.objects.all()
+
+    def get_serializer_class(self):
+        if self.querysetFlag == 0:
+            return UserAccountSerializer
+        else:
+            return AccountApproveQueueSerializer
+
+    def get(self, request, CodeName):
+        self.querysetFlag = 0
+        data = self.retrieve(request).data
+        self.queryset = 1
+        request.data.update(data)
+        return self.create(request)
