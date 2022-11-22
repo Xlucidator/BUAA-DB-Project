@@ -63,6 +63,28 @@ class UserDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, Destr
         return self.destroy(request)
 
 
+class ApplicationOtherView(GenericAPIView, CreateModelMixin, DestroyModelMixin):
+    flag = 0
+    lookup_field = 'CodeName'
+
+    def post(self, request, CodeName):
+        self.flag = 0
+        result = self.create(request)
+        self.flag = 1
+        return self.destroy(request)
+
+    def get_serializer_class(self):
+        if self.flag == 0:
+            return UserAccountSerializer
+        else:
+            return AccountApproveQueueSerializer
+
+    def get_queryset(self):
+        if self.flag == 0:
+            return UserAccount.objects.all()
+        else:
+            return AccountApproveQueue.objects.all()
+
 class ApplicationModelView(ModelViewSet):
     queryset = AccountApproveQueue.objects.all()
     serializer_class = AccountApproveQueueSerializer

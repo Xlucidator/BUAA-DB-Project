@@ -16,17 +16,17 @@ urlpatterns = [
 
     path('test/<str:CodeName>/', views.testView.as_view()),
 
-    path('index/user/@self/', views.SelfView.as_view()),
 
+    path('index/user/@self/', views.SelfView.as_view()),
     path('index/user/<str:CodeName>/', views.UserDetailView.as_view()),
     path('index/user/', views.UserListView.as_view()),
 
+    path('index/application/<str:CodeName>/@accept/', views.ApplicationOtherView.as_view()),
     path('index/application/', views.ApplicationModelView.as_view({'get': 'list', 'post': 'create'})),
     path('index/application/<str:CodeName>/',
          views.ApplicationModelView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
     path('index/profile/<str:CodeName>/', views.ProfileDetailView.as_view()),
     path('index/profile/', views.ProfileListView.as_view()),
-
 
 ]
