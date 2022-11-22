@@ -80,7 +80,7 @@
   
               <div class="flex-grow"></div>
   
-              <el-menu-item index="settings">
+              <el-menu-item index="/settings">
                 <template #title>Settings</template>
               </el-menu-item>
             </el-menu>

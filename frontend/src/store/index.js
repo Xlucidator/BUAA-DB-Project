@@ -8,7 +8,7 @@ function changeForm(form) {
     return form
 }
 
-const store = createStore({
+export const store = createStore({
     state() {
         return {
             user: {},

@@ -95,9 +95,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogConfirm"
-          >Confirm</el-button
-          >
+          <el-button type="primary" @click="dialogConfirm">Confirm</el-button>
         </span>
       </template>
     </el-dialog>
@@ -249,8 +247,9 @@ const handleAccept = (index: number, row: User) => {
   acceptApply(row)
       .then(res => {
         console.log("acceptApply", res)
+        console.log(res.status)
 
-        if (res.status !== 200) {
+        if (Math.floor(res.status / 100) !== 2) {
           if ("details" in res.data) {
             NOTATION(0, res.data.details)
           } else {
@@ -259,6 +258,7 @@ const handleAccept = (index: number, row: User) => {
         } else {
           // message
           NOTATION(1, "accepted")
+          console.log("accecpt success")
 
           // update form
           userForm.splice(userForm.length, 0, row)
@@ -271,6 +271,7 @@ const handleAccept = (index: number, row: User) => {
       })
   itemKey.value = Math.random()
 }
+
 const handleReject = (index: number, row: User) => {
   console.log("reject: ", index, row)
   applyForm.splice(index, 1)
@@ -278,7 +279,7 @@ const handleReject = (index: number, row: User) => {
   rejectApply(row)
       .then(res => {
             console.log(res)
-            if (res.status !== 200) {
+            if (res.status !== 204) {
               if ("details" in res.data) {
                 NOTATION(0, res.data.details)
               } else {

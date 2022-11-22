@@ -16,14 +16,7 @@
       </el-form-item>
       <el-form-item label="Class">
         <el-select v-model="form.Class" placeholder="please select your class">
-          <el-option label="近卫干员" value="Guard"/>
-          <el-option label="狙击干员" value="Sniper"/>
-          <el-option label="重装干员" value="Defender"/>
-          <el-option label="医疗干员" value="Medic"/>
-          <el-option label="辅助干员" value="Supporter"/>
-          <el-option label="术师干员" value="Caster"/>
-          <el-option label="特种干员" value="Specialist"/>
-          <el-option label="先锋干员" value="Vanguard"/>
+          <el-option v-for="op in class_options" :label="op.zhcn" :value="op.eng"/>
         </el-select>
       </el-form-item>
       <el-form-item label="Region">
@@ -136,6 +129,17 @@ const onSubmit = () => {
         })
   }
 }
+
+const class_options = ref([
+  {zhcn: "近卫干员", eng: "Guard"},
+  {zhcn: "狙击干员", eng: "Sniper"},
+  {zhcn: "重装干员", eng: "Defender"},
+  {zhcn: "医疗干员", eng: "Medic"},
+  {zhcn: "辅助干员", eng: "Supporter"},
+  {zhcn: "术师干员", eng: "Caster"},
+  {zhcn: "特种干员", eng: "Specialist"},
+  {zhcn: "先锋干员", eng: "Vanguard"},
+])
 
 const region_options = ref([
   {zhcn: '炎', eng: 'Yan'},

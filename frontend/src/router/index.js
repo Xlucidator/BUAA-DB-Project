@@ -8,10 +8,12 @@ const routes = [
     },
     {
         path: '/login',
+        name: 'login',
         component: () => import('../views/authority/login.vue')
     },
     {
         path: '/register',
+        name: 'register',
         component: () => import('../views/authority/register.vue')
     },
     {
@@ -49,6 +51,7 @@ const routes = [
     },
     {
         path: '/settings',
+        name: 'settings',
         component: () => import('../views/settings.vue'),
         meta: { transition: 'slide-left' },
     },

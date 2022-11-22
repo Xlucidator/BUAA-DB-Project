@@ -1,5 +1,4 @@
 import axios from "../axios";
-import {getToken} from "../composable/auth";
 
 export function jsonToFormData(config) {
     const formData = new FormData();
@@ -48,7 +47,7 @@ export function getUserForm() {
 
 export function editApplyForm(row) {
     console.log("editApplyForm")
-    return axios.put("/index/application/" + row['CodeName'] + "/")
+    return axios.put("index/application/" + row['CodeName'] + "/", row)
 }
 
 export function rejectApply(row) {
@@ -58,5 +57,6 @@ export function rejectApply(row) {
 
 export function acceptApply(row) {
     console.log("acceptApply")
-    return axios.post("index/application/" + row['CodeName'] + "/")
+    const formData = jsonToFormData(row)
+    return axios.post("index/application/" + row['CodeName'] + "/@accept/", formData)
 }
