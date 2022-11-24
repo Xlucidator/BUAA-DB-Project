@@ -121,6 +121,7 @@ DATABASES = {
         'PORT': 3306,
         'USER': pv.db_user,
         'PASSWORD': pv.db_password[pv.db_user],
+        'ATOMIC_REQUESTS': True,
     }
 }
 
