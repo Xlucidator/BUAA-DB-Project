@@ -80,9 +80,14 @@
   
               <div class="flex-grow"></div>
   
-              <el-menu-item index="/settings">
-                <template #title>Settings</template>
-              </el-menu-item>
+              <el-sub-menu index="2">
+                <template #title> 
+                  <el-avatar :icon="UserFilled" /> 
+                </template>
+                <el-menu-item index="2-1">Profile</el-menu-item>
+                <el-menu-item index="/settings">Settings</el-menu-item>
+                <el-menu-item index="2-3">Logout</el-menu-item>
+              </el-sub-menu>
             </el-menu>
           </el-header>
   
@@ -98,6 +103,7 @@
   <script lang="ts" setup>
       import store from '../../store/index.js'
       import { ArrowRight } from '@element-plus/icons-vue'
+      import { UserFilled } from '@element-plus/icons-vue'
   </script>
   
   
