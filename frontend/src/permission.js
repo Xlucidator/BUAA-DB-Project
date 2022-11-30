@@ -31,10 +31,16 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch("get_info")
     }
 
-    if(to.path === '/home') {
+    if(to.path === '/main/home') {
         await store.dispatch("get_apply_form")
         await store.dispatch("get_user_form")
     }
 
     next()
+})
+
+router.afterEach((to, from) => {
+    const toDepth = to.path.split('/').length
+    const fromDepth = from.path.split('/').length
+    to.meta.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
 })

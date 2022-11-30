@@ -8,12 +8,13 @@ function changeForm(form) {
     return form
 }
 
-const store = createStore({
+export const store = createStore({
     state() {
         return {
             user: {},
             applyForm: {},
             userForm: {},
+            skin: 'light',
         }
     },
     mutations: {
@@ -32,15 +33,18 @@ const store = createStore({
         SET_USER_FORM(state, userForm) {
             state.userForm = changeForm(userForm)
             console.log("set_user_form", store.state.userForm)
-        }
+        },
+        GET_SKIN(state, newValue) {
+            state.skin = newValue
+        },
     },
     actions: {
         get_info({commit}) {
             return new Promise((resolve, reject) => {
-                getInfo(getToken())
+                getInfo()
                     .then(res => {
-                        console.log("getInfo", res['request'])
-                        commit("SET_USERINFO", res['result'])
+                        console.log("getInfo", res.data)
+                        commit("SET_USERINFO", res.data)
                         //console.log(">>>", store.state.user['token'])
                         resolve(res)
                     })
@@ -49,10 +53,10 @@ const store = createStore({
         },
         get_apply_form({commit}) {
             return new Promise((resolve, reject) => {
-                getApplyForm(getToken())
+                getApplyForm()
                     .then(res => {
-                        console.log("get_apply_form", res['request'])
-                        commit("SET_APPLY_FORM", res['result'])
+                        console.log("get_apply_form", res)
+                        commit("SET_APPLY_FORM", res.data)
                         resolve(res)
                     })
                     .catch(err => reject(err))
@@ -60,15 +64,18 @@ const store = createStore({
         },
         get_user_form({commit}) {
             return new Promise((resolve, reject) => {
-                getUserForm(getToken())
+                getUserForm()
                     .then(res => {
-                        console.log("get_user_form", res['request'])
-                        commit("SET_USER_FORM", res['result'])
+                        console.log("get_user_form", res)
+                        commit("SET_USER_FORM", res.data)
                         resolve(res)
                     })
                     .catch(err => reject(err))
             })
-        }
+        },
+        set_Skin(context, value) {
+            context.commit('GET_SKIN', value)
+        },
     }
 })
 

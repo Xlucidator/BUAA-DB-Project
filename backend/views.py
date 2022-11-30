@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import path
 from rest_framework.generics import GenericAPIView
@@ -31,6 +32,7 @@ class loginView(GenericAPIView, CreateModelMixin):
                     return Response(fail('密码错误'), status=403)
             except UserAccount.DoesNotExist:
                 return Response(fail('用户不存在'), status=404)
+
         if module == 'enroll':
             return self.create(request)
 

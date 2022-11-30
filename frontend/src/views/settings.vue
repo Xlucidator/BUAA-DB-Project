@@ -4,14 +4,11 @@
   </div>
   <div class="setting">
     <div class="switch">
-      <UseDark v-slot="{ isDark, toggleDark }">
-        <el-switch
-            v-model="themeDark"
-            @click="toggleDark()"
-            active-text="Dark"
-            inactive-text="Light"
-        />
-      </UseDark>
+      <el-switch
+          v-model=(isDark)
+          active-text="Dark"
+          inactive-text="Light"
+      />
     </div>
   </div>
 
@@ -33,9 +30,9 @@
   </div>
 </template>
 
-<script setup>
+<script lang = "ts" setup>
 import {computed, ref} from 'vue'
-import {UseDark} from '@vueuse/components'
+import {useDark, useToggle} from '@vueuse/core'
 import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
 import {getInfo, revoke} from "../api/manager";
 import {useRouter} from "vue-router";
@@ -59,7 +56,7 @@ const logOut = () => {
 }
 
 const checkDel = (password) => {
-  revoke(getToken(), password)
+  revoke(password)
       .then(res => {
         console.log(res.request)
         const flag = res.request['flag']
@@ -89,12 +86,11 @@ const openBox = () => {
       .then(({value}) => {
         checkDel(value)
       })
-      .catch(() => {
+      .catch(err => {
         NOTATION(0, err.msg)
       })
 }
-
-const themeDark = ref(false)
+const isDark = useDark()
 </script>
 
 <style scoped>

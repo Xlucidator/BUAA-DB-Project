@@ -5,8 +5,8 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    /*color: rgba(255, 255, 255, 0.87);*/
+    /*background-color: #242424;*/
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -139,13 +139,13 @@ button:focus-visible {
 
 .layout-container-demo .el-header {
     position: relative;
-    background-color: var(--el-color-primary-light-7);
-    color: var(--el-text-color-primary);
+    background-color: var(--color-container-header);
+    color: var(--color-text);
 }
 
 .layout-container-demo .el-aside {
-    color: var(--el-text-color-primary);
-    background: var(--el-color-primary-light-8);
+    background: var(--color-container-aside);
+    color: var(--color-text);
 }
 
 .layout-container-demo .el-menu {
@@ -191,8 +191,8 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
     :root {
-        color: var(--el-text-color-primary);
-        background-color: var(--el-color-primary-light-9); /* bg color problem here */
+        color: var(--color-text);
+        background-color: var(--color-background); /* bg color problem here */
     }
 
     a:hover {
