@@ -15,45 +15,30 @@
 
       <div class="talk-content ">
           <div v-for="item  in contentDiv" style="margin-top: 20px">
-
               <div style="text-align: center">
                   <p style="font-size: 1px;color: #9b9b9b"> {{item.time}}</p>
               </div>
               <div style="display: flex;">
-
                   <div class="name_right" v-if="item.show">
                       <p style="font-size: 1px; "> {{item.name}} </p>
                   </div>
                   <div class="url_right" v-if="item.show">
                       <el-avatar shape="circle" :size="30" :src="item.url"></el-avatar>
                   </div>
-                  <div class="url-left" v-if="!item.show">
+                  <div class="url_left" v-if="!item.show">
                       <el-avatar shape="circle" :size="30" :src="item.url"></el-avatar>
                   </div>
-
-
                   <div class="name_left" v-if="!item.show">
                       <p style="font-size: 1px;"> {{item.name}} </p>
                   </div>
-
               </div>
-
-
-              <div v-html="item.content"
-                   class="content_left" v-if="!item.show">
-              </div>
-
-              <div v-html="item.content"
-                   class="content_right" v-if="item.show">
-              </div>
-
+              <div v-html="item.content" class="content_left" v-if="!item.show"></div>
+              <div v-html="item.content" class="content_right" v-if="item.show"></div>
           </div>
-
       </div>
 
 
-      <div class=" talk-message">
-
+      <div class="talk-message">
           <div class="talk-message-face">
               <svg class="icon" aria-hidden="true" @click="isShow">
                   <use xlink:href="#icon-biaoqing"></use>
@@ -61,7 +46,6 @@
               <emotion :emotionIsShow="emotionIsShow" @sendEmotionSelect="getValue"></emotion>
           </div>
           <div class="talk-message-content">
-
               <el-input
                       v-model="textarea"
                       resize="none"
@@ -70,6 +54,7 @@
                       @keyup.enter.native="submit"
               ></el-input>
           </div>
+          <div class="flex-grow"></div>
           <div class="talk-message-send">
               <el-button type="primary" round @click="submit">发送</el-button>
           </div>

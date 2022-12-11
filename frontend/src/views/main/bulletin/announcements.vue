@@ -37,7 +37,7 @@ let blogs = {}
 let totalPageNum = 1
 let pageArticleSize = 5
 
-const handleCurrentPage = (index: number) => {
+const handleCurrentPage = (index) => {
   console.log("getCurrentPage ", index)
   getCurrentPage(getToken(), index)
       .then(res => {

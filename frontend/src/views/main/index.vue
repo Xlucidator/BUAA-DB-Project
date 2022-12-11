@@ -5,11 +5,12 @@
       <el-container class="layout-container-demo" style="height: 100vh">
         <el-aside width="15%" height="100%">
           <div class="avatar">
-            <span> avatar </span>
+            <el-avatar shape="square" :size="200" :fit="fit" :src="url" />
           </div>
           <div class="userinfo">
-            <span class="font-bold text-xs"> NAME: {{ store.state.user.CodeName }} </span>
+            <span class="font-bold text-xs"> NAME: {{ curCodeName }} </span>
           </div>
+          <div>{{a}}</div>
           <el-menu
               default-active="announcement"
               class="el-menu-vertical-demo"
@@ -100,21 +101,56 @@
     </el-config-provider>
   </template>
   
-  <script lang="ts" setup>
-      import store from '../../store/index.js'
-      import { ArrowRight } from '@element-plus/icons-vue'
-      import { UserFilled } from '@element-plus/icons-vue'
-  </script>
+<script setup>
+import store from '../../store/index.js'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { UserFilled } from '@element-plus/icons-vue'
+import { ref, reactive, toRefs, onMounted } from 'vue'
+import avatarDemo from '../../assets/avatar_demo.png'
+import axios from '../../axios'
+
+const curCodeName = store.state.user.CodeName
+
+function loadAvatar(CodeName) {
+  console.log("index/profile/" + CodeName + '/')
+  axios
+  .get("index/profile/" + CodeName + '/')
+  .then(resp => {
+    console.log(resp)
+    if (resp.status !== 200) {
+      console.log("failed to get")
+      return ''
+    } else {
+      console.log(resp.data['Avatar'])
+      url.value = resp.data['Avatar']
+    }
+  })
+  .catch(err => {
+    console.log("axios failed")
+    console.log(err)
+    return ''
+  })
+  console.log("index/profile/" + CodeName + '/')
+}
+
+loadAvatar(curCodeName)
+
+const fit = ref('cover')
+const url = ref()
+// url = test()
+
+</script>
   
   
-  <style scoped>
+<style scoped>
   .flex-grow {
     flex-grow: 1;
   }
   
   .avatar {
-    margin-top: 100px;
-    margin-bottom: 100px;
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
     text-align: center;
   }
   
@@ -122,5 +158,5 @@
     margin: 20px;
   }
   
-  </style>
+</style>
   

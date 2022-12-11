@@ -1,37 +1,40 @@
 .name_right {
-    margin-left: 310px;
+    margin-left: 95%;
+    /* border: solid; */
 }
 
 .name_left {
-    margin-left: 10px;
+    margin-left: 5%;
+    /* border: solid; */
 }
 
 .content_right {
-
     word-wrap: break-word;
-    width: 50%;
-    margin-left: 150px;
-    font-size: 10px;
+    border: solid;
+    width: 55%;
+    margin-left: 40%;
+    font-size: 100%;
     text-align: right;
-    margin-bottom: 20px;
+    margin-bottom: 1%;
 }
 
 .content_left {
     word-wrap: break-word;
+    border: solid;
     width: 50%;
-    margin-left: 60px;
-    font-size: 10px;
+    margin-left: 5%;
+    font-size: 100%;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 1%;
 }
 
 .url_right {
-    margin-left: 10px;
+    margin-left: 1%;
 
 }
 
-.url-left {
-    margin-left: 15px;
+.url_left {
+    margin-left: 1%;
 
 }
 
@@ -43,8 +46,8 @@
 ::-webkit-scrollbar-thumb {
     border-radius: 0;
     border-style: dashed;
-    background-color: #DCE1E6;
-    border-color: #e2242400;
+    background-color: #c57315;
+    border-color: #ccb5b581;
     border-width: 1px;
     background-clip: padding-box;
 }
@@ -92,9 +95,10 @@
 .icon {
     width: 2em;
     height: 2em;
-    vertical-align: -0.15em;
+    vertical-align: middle;
     fill: currentColor;
     overflow: hidden;
+    display: inline-block;
 }
 
 .talk {
@@ -120,6 +124,7 @@
 .talk-content {
     overflow-y: auto;
     height: 70%;
+    width: 100%;
     background-color: #496662;
 }
 
@@ -130,22 +135,20 @@
 }
 
 .talk-message-face {
-    width: 40px;
-    padding-left: 2px;
-    padding-top: 10px;
+    padding-top: 0.5%;
+    width: 4%;
+    padding-left: 0.5%;
 }
 
 .talk-message-content {
-    padding-top: 10px;
-    width: 280px;
-
-
+    padding-top: 0.5%;
+    width: 90%;
 }
 
 .talk-message-send {
-    padding-top: 20px;
-    width: 90px;
+    padding-top: 0.5%;
+    padding-right: 1%;
+    padding-left: 0.5%;
+    width: 6%;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
