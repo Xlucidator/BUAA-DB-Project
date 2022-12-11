@@ -26,8 +26,7 @@ class UserProfile(models.Model):
     Class = models.CharField('Class', max_length=20)
     Region = models.CharField('Region', max_length=30)
     Race = models.CharField('Race', max_length=20)
-
-    Avatar = models.ImageField('Avatar', null=True)
+    Avatar = models.ImageField(verbose_name='Avatar', upload_to='img_url', null=True)
     Bio = models.TextField('Bio', default="")
 
     class Meta:
