@@ -36,6 +36,10 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch("get_user_form")
     }
 
+    if(to.path === '/main/bulletin') {
+        await store.dispatch("get_passage_list")
+    }
+
     next()
 })
 

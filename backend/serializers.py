@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.models import UserAccount, UserProfile, AccountApproveQueue
+from backend.models import UserAccount, UserProfile, AccountApproveQueue, Passage
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -19,4 +19,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class AccountApproveQueueSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountApproveQueue
+        fields = "__all__"
+
+
+class PassageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Passage
         fields = "__all__"

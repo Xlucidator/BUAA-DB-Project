@@ -29,4 +29,6 @@ urlpatterns = [
     path('index/profile/<str:CodeName>/', views.ProfileDetailView.as_view()),
     path('index/profile/', views.ProfileListView.as_view()),
 
+    path('passage/passage/<str:id>/', views.PassageDetailView.as_view()),
+    path('passage/passages/<str:idx>/', views.PassageListView.as_view()),
 ]

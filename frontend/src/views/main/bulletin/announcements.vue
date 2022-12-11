@@ -1,14 +1,16 @@
 <template>
   <div>
-    <Header></Header>
     <div class="block">
       <el-timeline>
-        <el-timeline-item :timestamp="blog.created" placement="top" v-for="blog in blogs">
+        <el-timeline-item :timestamp="blog.PostDate" placement="top" v-for="blog in blogs">
           <el-card>
-            <router-link :to="{name:'BlogDetail',params:{blogId:blog.id}}">
-              <h4>{{ blog.title }}</h4>
+            <router-link :to="'bulletin/singlePage/'+blog.PId">
+              <p class="text-xl font-extrabold">{{ blog.Title }}</p>
             </router-link>
-            <p>{{ blog.description }}</p>
+            <p style="color: #888888">author: {{ blog.Poster }}</p>
+            <p style="color: #888888">date: {{ blog.PostDate }}</p>
+            <p style="color: #888888">type: {{ blog.Type }}</p>
+            <!--            <p>{{ blog.description }}</p>-->
           </el-card>
         </el-timeline-item>
 
@@ -18,42 +20,44 @@
     <el-pagination class="mpage"
                    background
                    layout="prev, pager, next"
-                   :current-page="currentPage"
-                   :page-size="pageSize"
-                   :total="total"
-                   @current-change=page
+                   :current-page="currentPageNum"
+                   :page-size="pageArticleSize"
+                   :total="totalPageNum"
+                   @current-change="handleCurrentChange"
     >
     </el-pagination>
   </div>
 </template>
 
-<script setup>
+<script lang='ts' setup>
 import {getToken} from "../../../composable/auth";
 import {NOTATION} from "../../../composable/utils";
 import {getCurrentPage} from "../../../api/posts";
+import store from "../../../store/index.js";
 
 let currentPageNum = 1
-let blogs = {}
-let totalPageNum = 1
+let blogs = store.state['passageList']
+let totalPageNum = store.state['totalPageNum']
 let pageArticleSize = 5
 
-const handleCurrentPage = (index: number) => {
+const handleCurrentChange = (index: number) => {
   console.log("getCurrentPage ", index)
   getCurrentPage(getToken(), index)
       .then(res => {
         console.log("getCurrentPage ", res)
-
-        if (res.request.flag === 'no') {
-          NOTATION(0, res.request.msg)
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
         } else {
           // message
-          NOTATION(1, res.request.msg)
+          NOTATION(1, "posts ready")
 
-          // update number
-          currentPageNum = res['result'].currentPageNum;
-          blogs = res['result'].blogs;
-          totalPageNum = res['result'].totalPageNum;
-          pageArticleSize = res['result'].pageArticleSize;
+          blogs = res.data["passageList"];
+          currentPageNum = res.data["pageIdx"];
+          totalPageNum = res.data['totalPageNum']
         }
       })
       .catch(err => {
