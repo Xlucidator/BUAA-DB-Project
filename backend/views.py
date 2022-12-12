@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import path
@@ -9,9 +11,11 @@ from rest_framework.viewsets import ModelViewSet
 
 from backend.tools import get_jwt, fail, token2name
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
-    AccountApproveQueueSerializer, UserProfileSerializer
-from .models import UserAccount, UserProfile
+    AccountApproveQueueSerializer, UserProfileSerializer, PassageSerializer
+from .models import UserAccount, UserProfile, Passage
 from .utils import hasOpPermission
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.serializers import serialize
 
 
 class loginView(GenericAPIView, CreateModelMixin):
@@ -23,7 +27,9 @@ class loginView(GenericAPIView, CreateModelMixin):
         if module == 'login':
             data = request.data
             try:
+                print(data)
                 user = UserAccount.objects.get(CodeName=data['CodeName'])
+                print(user)
                 if data['Password'] == user.Password:
                     token = get_jwt(user.CodeName)
                     result = {'CodeName': user.CodeName, 'token': token}
@@ -44,6 +50,7 @@ class UserListView(GenericAPIView, CreateModelMixin, ListModelMixin):
     # permission_classes = [hasOpPermission, ]
 
     def get(self, request):
+        print(request.data)
         return self.list(request)
 
     def post(self, request):
@@ -122,6 +129,62 @@ class ProfileDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, De
         return self.retrieve(request)
 
     def delete(self, request, CodeName):
+        return self.destroy(request)
+
+
+class PassageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Passage.objects.all()
+    serializer_class = PassageSerializer
+    lookup_field = 'PId'
+
+    def get(self, request, idx):
+        paginator = Paginator(self.queryset, 5)  # 5 posts per page
+        pageObj = []
+        try:
+            ret_list = paginator.page(idx)
+            ret_list = serialize('json', ret_list.object_list)
+            ret_list = json.loads(ret_list)
+            for i in ret_list:
+                i['fields']['PId'] = i['pk']
+                pageObj.append(i['fields'])
+            print(pageObj)
+            result = {"pageIdx": idx, "pageObj": pageObj, "totalPage": paginator.num_pages}
+        except PageNotAnInteger:
+            ret_list = paginator.page(1)
+            ret_list = serialize('json', ret_list.object_list)
+            ret_list = json.loads(ret_list)
+            for i in ret_list:
+                i['fields']['PId'] = i['pk']
+                pageObj.append(i['fields'])
+            result = {"pageIdx": 1, "pageObj": pageObj, "totalPage": paginator.num_pages}
+        except EmptyPage:
+            ret_list = paginator.page(paginator.num_pages)
+            ret_list = serialize('json', ret_list.object_list)
+            ret_list = json.loads(ret_list)
+            for i in ret_list:
+                i['fields']['PId'] = i['pk']
+                pageObj.append(i['fields'])
+            result = {"pageIdx": paginator.num_pages, "pageObj": pageObj, "totalPage": paginator.num_pages}
+
+        return Response(result)
+
+    def post(self, request):
+        print(request.data)
+        return self.create(request)
+
+
+class PassageDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Passage.objects.all()
+    serializer_class = PassageSerializer
+    lookup_field = 'PId'
+
+    def put(self, request, PId):
+        return self.update(request)
+
+    def get(self, request, PId):
+        return self.retrieve(request)
+
+    def delete(self, request, PId):
         return self.destroy(request)
 
 
