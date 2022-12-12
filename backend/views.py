@@ -134,6 +134,7 @@ class ProfileDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, De
 class PassageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Passage.objects.all()
     serializer_class = PassageSerializer
+    lookup_field = 'PId'
 
     def get(self, request, idx):
         paginator = Paginator(self.queryset, 5)  # 5 posts per page
@@ -167,6 +168,7 @@ class PassageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return Response(result)
 
     def post(self, request):
+        print(request.data)
         return self.create(request)
 
 

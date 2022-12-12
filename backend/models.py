@@ -60,13 +60,13 @@ class Passage(models.Model):
     Poster = models.CharField('Poster', max_length=30, null=False)
     PostDate = models.DateTimeField('PostDate', default=datetime.datetime.now, null=False)
     LastEditor = models.CharField('LastEditor', max_length=30, null=False)
-    LastEditTime = models.DateTimeField('LastEditTime', default=datetime.datetime.now, null=False)
+    LastEditTime = models.DateTimeField('LastEditTime', auto_now=True, null=False)
     Content = models.TextField('Content', null=False)
     Type = models.IntegerField('Type', null=False, default=1)
 
     class Meta:
         db_table = 'passage'
-        ordering = ['PId']
+        ordering = ['-LastEditTime']
 
     def __str__(self):
         return str(self.PId)

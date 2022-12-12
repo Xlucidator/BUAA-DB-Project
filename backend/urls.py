@@ -16,7 +16,6 @@ urlpatterns = [
 
     path('test/<str:CodeName>/', views.testView.as_view()),
 
-
     path('index/user/@self/', views.SelfView.as_view()),
     path('index/user/<str:CodeName>/', views.UserDetailView.as_view()),
     path('index/user/', views.UserListView.as_view()),
@@ -29,6 +28,7 @@ urlpatterns = [
     path('index/profile/<str:CodeName>/', views.ProfileDetailView.as_view()),
     path('index/profile/', views.ProfileListView.as_view()),
 
-    path('passage/passage/<str:id>/', views.PassageDetailView.as_view()),
+    path('passage/passage/<str:PId>/', views.PassageDetailView.as_view()),
     path('passage/passages/<str:idx>/', views.PassageListView.as_view()),
+    path('passage/passages/', views.PassageListView.as_view()),
 ]

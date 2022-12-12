@@ -17,6 +17,7 @@ export const store = createStore({
             userForm: {},
             skin: 'light',
             passageList: [],
+            CurrentPageNum: 1,
             totalPageNum: 5,
         }
     },
@@ -42,6 +43,7 @@ export const store = createStore({
         },
         SET_PASSAGE_LIST(state, passageList) {
             state.passageList = passageList["pageObj"]
+            state.currentPageNum = passageList["pageIdx"]
             state.totalPageNum = passageList["totalPage"]
         },
     },
@@ -94,6 +96,7 @@ export const store = createStore({
                     .catch(err => reject(err))
             })
         },
+
     }
 })
 
