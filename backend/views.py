@@ -80,6 +80,7 @@ class ApplicationOtherView(GenericAPIView, CreateModelMixin, DestroyModelMixin):
         self.flag = 0
         result = self.create(request)
         self.flag = 1
+        self.destroy(request)
         return self.destroy(request)
 
     def get_serializer_class(self):
