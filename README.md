@@ -315,16 +315,28 @@
 
 **Message（消息实体表）**
 
-| 数据项名字  | 数据类型  | 约束                  | 备注        |
-| ----------- | --------- | --------------------- | ----------- |
-| MId         | int       | primary key           | message编号 |
-| SendFrom    | char(30)  | not null, foreign key | 发送方      |
-| SendTo      | char(30)  | not null, foreign key | 接受方      |
-| ContentText | tinytext  | not null              | 消息文本    |
-| Picture     |           |                       |             |
-| Time        | timestamp |                       |             |
+| 数据项名字   | 数据类型  | 约束                  | 备注               |
+| ------------ | --------- | --------------------- | ------------------ |
+| MId          | int       | primary key           | message编号        |
+| Type         | tinyint   | not null              | 对个人-0；对群组-1 |
+| SendFrom     | char(30)  | not null, foreign key | 发送方             |
+| SendToPerson | char(30)  | foreign key           | 接收个人           |
+| SendToGroup  | int       | foreign key           | 接收群组           |
+| ContentText  | tinytext  | not null              | 消息文本           |
+| Picture      |           |                       |                    |
+| Time         | timestamp | not null              | 发布时间           |
 
 **Group（群组实体表）**
+
+| 数据项名字 | 数据类型  | 约束                  | 备注                   |
+| ---------- | --------- | --------------------- | ---------------------- |
+| GId        | int       | primary key           | group编号              |
+| GName      | char(30)  | not null              | group名                |
+| Owner      | char(30)  | not null, foreign key | 群主，为创建该群的干员 |
+| BornTime   | timestamp | not null              | 群组创建时间           |
+|            |           |                       |                        |
+|            |           |                       |                        |
+|            |           |                       |                        |
 
 #### （3）功能描述
 

@@ -1,5 +1,5 @@
 <template>
-
+  <div style="opacity:0">-</div>
   <ul class="message-item">
     <li v-for="(item, index) in concats" :key="index"
         @click="switchGroup(index, item.id)"
@@ -28,8 +28,8 @@
 
 <script setup>
 
-const props = defineProps({
-  concats: {type: Array}
+defineProps({
+  concats: Array
 })
 
 function switchGroup(index, id) {
@@ -66,7 +66,7 @@ function toFormatTime(time) {
     display: flex;
     padding: 10px 15px;
     width: 100%;
-    height: 62px;
+    height: 70px;
     font-size: 12px;
     box-sizing: border-box;
     &:hover {

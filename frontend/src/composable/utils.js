@@ -15,3 +15,10 @@ export function NOTATION(success, msg){
         })
     }
 }
+
+export function gotoBottom() {
+    const box = document.getElementsByClassName('message-panel-box')[0]
+    this.$nextTick(() => {
+        box.scrollTop = box.scrollHeight
+    })
+}
