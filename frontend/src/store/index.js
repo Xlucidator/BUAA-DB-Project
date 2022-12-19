@@ -1,5 +1,6 @@
 import {createStore} from 'vuex'
 import {getApplyForm, getInfo, getUserForm} from "../api/manager";
+import {getCurrentPage} from "../api/posts";
 import {getToken, removeToken} from "../composable/auth"
 
 function changeForm(form) {
@@ -15,6 +16,9 @@ export const store = createStore({
             applyForm: {},
             userForm: {},
             skin: 'light',
+            passageList: [],
+            CurrentPageNum: 1,
+            totalPageNum: 5,
         }
     },
     mutations: {
@@ -36,6 +40,11 @@ export const store = createStore({
         },
         GET_SKIN(state, newValue) {
             state.skin = newValue
+        },
+        SET_PASSAGE_LIST(state, passageList) {
+            state.passageList = passageList["pageObj"]
+            state.currentPageNum = passageList["pageIdx"]
+            state.totalPageNum = passageList["totalPage"]
         },
     },
     actions: {
@@ -76,6 +85,18 @@ export const store = createStore({
         set_Skin(context, value) {
             context.commit('GET_SKIN', value)
         },
+        get_passage_list({commit}) {
+            return new Promise((resolve, reject) => {
+                getCurrentPage(getToken(), 1)
+                    .then(res => {
+                        console.log("get_passage_list", res)
+                        commit("SET_PASSAGE_LIST", res.data)
+                        resolve(res)
+                    })
+                    .catch(err => reject(err))
+            })
+        },
+
     }
 })
 

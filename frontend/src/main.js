@@ -13,6 +13,7 @@ import './permission'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
 
@@ -24,7 +25,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
+    Prism,
 });
 
 //app.prototype.$axios = axios
@@ -32,5 +33,6 @@ app.use(store)
 app.use(router)
 app.use(ElementPlus)
 app.use(VueMarkdownEditor)
+app.use(VMdPreviewHtml)
 
 app.mount('#app')

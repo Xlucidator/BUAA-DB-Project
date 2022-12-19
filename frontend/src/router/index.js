@@ -33,6 +33,11 @@ const routes = [
                 component: () => import('../views/main/bulletin/announcements.vue')
             },
             {
+                path: 'bulletin/singlePage/:id',
+                name: 'bulletin/singlePage/:id',
+                component: () => import('../views/main/bulletin/singlePage.vue'),
+            },
+            {
                 path: 'affair',     // -> '/main/affair/'
                 name: 'affair',
                 component: () => import('../views/main/affair/index.vue')
@@ -53,18 +58,12 @@ const routes = [
         path: '/settings',
         name: 'settings',
         component: () => import('../views/settings.vue'),
-        meta: { transition: 'slide-left' },
-    },
-    {
-        //path:'/announcements/:id',
-        path: '/singlePage',
-        component: () => import('../views/main/bulletin/singlePage.vue'),
-        meta: { transition: 'slide-left' },
+        meta: {transition: 'slide-left'},
     },
     {
         path: '/:pathMatch(.*)*',
         component: () => import('../views/404.vue'),
-        meta: { transition: 'slide-left' },
+        meta: {transition: 'slide-left'},
     }
 ]
 

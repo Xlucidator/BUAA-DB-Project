@@ -1,7 +1,7 @@
 <template>
     <el-config-provider>
     <!-- config for language and so on -->
-  
+
       <el-container class="layout-container-demo" style="height: 100vh">
         <el-aside width="15%" height="100%">
           <div class="avatar">
@@ -17,13 +17,13 @@
               background-color="rgba(0,0,0,0)"
               :router=true
           >
-            <el-menu-item index="announcement">
+            <el-menu-item index="bulletin">
               <el-icon>
                 <document/>
               </el-icon>
               <span>情报通知</span>
             </el-menu-item>
-  
+
             <el-sub-menu index="arrangement">
               <template #title>
                 <el-icon>
@@ -37,25 +37,25 @@
               </el-menu-item-group>
               <el-menu-item index="1-3">item three</el-menu-item>
             </el-sub-menu>
-  
+
             <el-menu-item index="message">
               <el-icon>
                 <ChatLineSquare/>
               </el-icon>
               <span>即时通讯</span>
             </el-menu-item>
-  
+
             <el-menu-item index="archive">
               <el-icon>
                 <Management/>
               </el-icon>
               <span>档案公示</span>
             </el-menu-item>
-  
+
           </el-menu>
         </el-aside>
-  
-  
+
+
         <el-container>
           <el-header style="height: 60px; min-width: 100vh">
             <el-menu
@@ -71,14 +71,14 @@
               <el-menu-item index="home">
                 <template #title>Home</template>
               </el-menu-item>
-  
+
               <el-menu-item>
                 <el-breadcrumb :separator-icon="ArrowRight">
                   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                   <el-breadcrumb-item :to="{ path: '/'}">通讯</el-breadcrumb-item>
                 </el-breadcrumb>
               </el-menu-item>
-  
+
               <div class="flex-grow"></div>
   
               <el-sub-menu index="2">
@@ -91,13 +91,13 @@
               </el-sub-menu>
             </el-menu>
           </el-header>
-  
+
           <el-main>
               <router-view></router-view>
           </el-main>
         </el-container>
       </el-container>
-  
+
     </el-config-provider>
   </template>
   
@@ -146,14 +146,14 @@ const url = ref()
   .flex-grow {
     flex-grow: 1;
   }
-  
+
   .avatar {
     width: 100%;
     margin-top: 5%;
     margin-bottom: 5%;
     text-align: center;
   }
-  
+
   .userinfo {
     margin: 20px;
   }
