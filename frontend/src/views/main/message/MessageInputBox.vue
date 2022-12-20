@@ -29,6 +29,7 @@
 import {ref, onMounted} from 'vue'
 import {gotoBottom} from '../../../composable/utils'
 import faceIcon from '../../../assets/face.png'
+import emotion from "../../../components/emotion.vue";
 
 defineProps({
   concats: Array,
@@ -81,13 +82,7 @@ function checkBlank() {
 }
 
 onMounted(() => {
-  this.obj = new window.Face({
-    el: document.querySelector('.el-icon-s-opportunity'),
-    callBack: face => {
-      this.inputText += `[${face.title}]`
-      document.querySelector('.face-warp').getElementsByClassName.display = 'none'
-    }
-  })
+  
 })
 
 </script>
