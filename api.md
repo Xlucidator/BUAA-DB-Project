@@ -10,10 +10,11 @@ JsonResponse({'request': SUCCESS_DATA, 'result': result})
 
 ## 1 现有命名
 ### login页面
-|功能 | 接口名  |  前端传递参数|后端返回参数（不包含request）|
-|:---:|:---:|:---:|:---:|
-|登录|login/login | CodeName,Password |token
-|注册|login/enroll | 单个用户所有信息|
+
+| 功能 | 接口名       | 前端传递参数       | 后端返回参数（不包含request） |
+| ---- | ------------ | ------------------ | ----------------------------- |
+| 登录 | login/login  | CodeName, Password | token                         |
+| 注册 | login/enroll | 单个用户所有信息   |                               |
 
 ### index主页
 即小夏画的那两个页面   
@@ -27,4 +28,10 @@ JsonResponse({'request': SUCCESS_DATA, 'result': result})
 |同意注册申请|index/application/consent|token，申请用户用户名|
 |拒绝注册申请|index/application/reject|token，申请用户用户名|
 |修改等待队列的属性|index/application/PUT/application|token,待修改用户的所有信息||
+
+### message页面
+
+| 功能 | 接口名 | 前端传递参数 | 后端返回参数 |
+| ---- | ------ | ------------ | ------------ |
+|      |        |              |              |
 
