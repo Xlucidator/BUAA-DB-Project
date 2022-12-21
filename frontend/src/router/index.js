@@ -45,7 +45,7 @@ const routes = [
             {
                 path: 'message',    // -> '/main/message/'
                 name: 'message',
-                component: () => import('../views/main/message/index.vue')
+                component: () => import('../views/main/message/layout.vue')
             },
             {
                 path: 'archive',   // -> '/main/archive/'

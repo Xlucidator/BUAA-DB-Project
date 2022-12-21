@@ -10,7 +10,7 @@
 
     <br/>
 
-    <span class="text-xm test-bold" style="margin-left: 10%">Welcome to the new world.</span>
+    <span class="text-xm test-bold" style="margin-left: 10%">Welcome to Rhodes Island!</span>
 
     <br/>
     <br/>
@@ -145,9 +145,11 @@ let tableForm = ref({CodeName: '', Permission: '', Class: '', Region: '', Race: 
 let dialogFormVisible = ref(false);
 let dialogIdx = 0;
 let time = new Date().getHours()
-let greetings = (time < 6 ? 'Go to sleep please, my dear youngster' :
-                (time < 12 ? 'Good morning' :
-                (time < 18 ? 'Good afternoon' : 'Good evening')))
+const greetings = computed(() => {
+  return time < 6  ? 'Good night, your health is your most precious asset' : 
+         time < 12 ? 'Good morning'  :
+         time < 18 ? 'Good afternoon': 'Good evening'
+})
 let itemKey = ref(0);
 
 const dialogConfirm = () => {

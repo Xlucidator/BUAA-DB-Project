@@ -228,7 +228,7 @@
 
 #### （2）数据表定义
 
-**passage（文章实体表）**
+**文章实体表（passage）**
 
 | 数据项名字   | 数据类型  | 约束                  | 备注                               |
 | ------------ | --------- | --------------------- | ---------------------------------- |
@@ -243,7 +243,7 @@
 
 此处的Type属性是为了区别文章的类别，是否需要如上课所说将其优化为3个子表呢，有待考量
 
-**reply（回复实体表）**
+**回复实体表（reply）**
 
 | 数据项名字  | 数据类型 | 约束                  | 备注                  |
 | ----------- | -------- | --------------------- | --------------------- |
@@ -313,20 +313,50 @@
 
 #### （2）数据表定义
 
-**Message（消息实体表）**
+**消息实体表（message)**
 
-| 数据项名字  | 数据类型  | 约束                  | 备注        |
-| ----------- | --------- | --------------------- | ----------- |
-| MId         | int       | primary key           | message编号 |
-| SendFrom    | char(30)  | not null, foreign key | 发送方      |
-| SendTo      | char(30)  | not null, foreign key | 接受方      |
-| ContentText | tinytext  | not null              | 消息文本    |
-| Picture     |           |                       |             |
-| Time        | timestamp |                       |             |
+| 数据项名字   | 数据类型  | 约束                  | 备注               |
+| ------------ | --------- | --------------------- | ------------------ |
+| MId          | int       | primary key           | message编号        |
+| Type         | tinyint   | not null              | 对个人-0；对群组-1 |
+| SendFrom     | char(30)  | not null, foreign key | 发送方             |
+| SendToPerson | char(30)  | foreign key           | 接收个人           |
+| SendToGroup  | int       | foreign key           | 接收群组           |
+| ContentText  | tinytext  | not null              | 消息文本           |
+| Picture      |           |                       |                    |
+| Time         | timestamp | not null              | 发布时间           |
 
-**Group（群组实体表）**
+**群组实体表（group）**
+
+| 数据项名字 | 数据类型  | 约束                  | 备注                       |
+| ---------- | --------- | --------------------- | -------------------------- |
+| GId        | int       | primary key           | group编号                  |
+| GName      | char(30)  | not null              | group名                    |
+| Owner      | char(30)  | not null, foreign key | 群主，初建为创建该群的干员 |
+| BornTime   | timestamp | not null              | 群组创建时间               |
+| ...        |           |                       |                            |
+|            |           |                       |                            |
+
+**用户-群组关系表（operator_group）**
+
+| 数据项名字 | 数据类型 | 约束                     | 备注                   |
+| ---------- | -------- | ------------------------ | ---------------------- |
+| GId        | int      | primary key, foreign key | group编号              |
+| CodeName   | char(30) | primary key, foreign key | 干员名称，得是已有用户 |
+| isOwner    | tinyint  |                          | 是否是群组             |
+
+
 
 #### （3）功能描述
+
+包含所需接口
+
+- 添加群组（addGroup）: 
+  - 需要获取所有干员的名称列表（为了呈现创建时的表单，GET）
+  - 前端返回群组名和群成员名（完成创建，需要插入到”用户-群组关系表“中，）
+- 消息相关（sendMessage）：
+  - 需要获取某指定群组中所有的消息，并按时间顺序排列（用于显示群组消息内容、历史，从“消息实体表”中，**同时需要发送方的avatar，从用户资料表中获取**）
+  - 发送消息，前端返回一条消息的完整内容，填入“消息实体表”中
 
 #### （4）预期拓展
 
