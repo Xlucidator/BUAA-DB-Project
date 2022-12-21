@@ -211,24 +211,12 @@ class SelfView(GenericAPIView):
 
 
 class testView(GenericAPIView, RetrieveModelMixin, CreateModelMixin, ListModelMixin):
-    querysetFlag = 0
+    queryset = Passage.objects.all()
+    serializer_class = PassageSerializer
     lookup_field = 'CodeName'
 
-    def get_queryset(self):
-        if self.querysetFlag == 0:
-            return UserAccount.objects.all()
-        else:
-            return AccountApproveQueue.objects.all()
-
-    def get_serializer_class(self):
-        if self.querysetFlag == 0:
-            return UserAccountSerializer
-        else:
-            return AccountApproveQueueSerializer
-
-    def get(self, request, CodeName):
-        self.querysetFlag = 0
-        data = self.retrieve(request).data
-        self.queryset = 1
-        request.data.update(data)
-        return self.create(request)
+    def get(self, request, idx):
+        num = (eval(idx) - 1) * 5
+        test_list = Passage.objects.all()[num:num + 5]
+        serializer = PassageSerializer(instance=test_list, many=True)
+        return Response(serializer.data)
