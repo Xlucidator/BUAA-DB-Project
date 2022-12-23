@@ -18,6 +18,15 @@
     </v-md-preview-html>
   </el-card>
 
+  <div class="deletePassage">
+    <el-button @click="deleteThisPassage" class="button" text>
+      delete passage
+      <el-icon>
+        <Delete/>
+      </el-icon>
+    </el-button>
+  </div>
+
   <el-dialog width="90%" v-model="dialogFormVisible" title="EDIT PASSAGE">
     <el-form :model="tableForm">
       <el-form-item label="title" :label-width="60">
@@ -54,9 +63,9 @@ import {useRouter} from "vue-router";
 import {computed, ref} from "vue";
 import {getToken} from "../../../composable/auth";
 import {NOTATION} from "../../../composable/utils";
-import {getSinglePage} from "../../../api/posts";
-import {updatePostContent} from "../../../api/posts";
+import {getSinglePage, deleteSinglePage, updatePostContent} from "../../../api/posts";
 import VueMarkdownEditor, {xss} from '@kangc/v-md-editor';
+import {ElMessageBox} from "element-plus";
 
 const router = useRouter()
 console.log("router", router)
@@ -162,6 +171,44 @@ const dialogConfirm = () => {
       })
 }
 
+
+const deleteThisPassage = () => {
+  ElMessageBox.confirm(
+      'this action will permanently delete the post. Continue?',
+      'Warning',
+      {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        deleteSinglePage(getToken(), router.currentRoute.value.params.id)
+            .then(res => {
+              console.log("deletePassage ", res)
+
+              if (res.status !== 204) {
+                if ("details" in res.data) {
+                  NOTATION(0, res.data.details)
+                } else {
+                  NOTATION(0, "ops~! other error")
+                }
+              } else {
+                // message
+                NOTATION(1, res.data)
+                router.go(-1)
+              }
+            })
+            .catch(err => {
+              console.log("updatePostContent err ", err)
+              NOTATION(0, err.detail)
+            })
+      })
+      .catch(() => {
+        console.log("updatePostContent err ")
+      })
+}
+
 </script>
 
 <style scoped>
@@ -189,6 +236,11 @@ const dialogConfirm = () => {
 .editor {
   flex: auto;
   align-content: center;
+}
+
+.deletePassage {
+  margin-top: 10px;
+  margin-left: 80%;
 }
 
 </style>

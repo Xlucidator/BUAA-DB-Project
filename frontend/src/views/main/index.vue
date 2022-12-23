@@ -136,7 +136,8 @@ function loadAvatar(CodeName) {
 loadAvatar(curCodeName)
 
 const fit = ref('cover')
-const url = ref()
+console.log("look here!", store.state.user)
+const url = ref();
 // url = test()
 
 </script>

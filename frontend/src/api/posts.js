@@ -17,6 +17,14 @@ export function getSinglePage(token, idx) {
     return axios.get("/passage/passage/" + idx + "/", formData)
 }
 
+export function deleteSinglePage(token, idx) {
+    console.log("getCurrentPage: ", idx)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('PId', idx);
+    return axios.delete("/passage/passage/" + idx + "/", formData)
+}
+
 export function updatePostContent(token, id, content) {
     console.log("updatePostContent: ", id, content)
 

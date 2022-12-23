@@ -80,7 +80,6 @@ class ApplicationOtherView(GenericAPIView, CreateModelMixin, DestroyModelMixin):
         self.flag = 0
         result = self.create(request)
         self.flag = 1
-        self.destroy(request)
         return self.destroy(request)
 
     def get_serializer_class(self):
@@ -144,6 +143,7 @@ class PassageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
             ret_list = paginator.page(idx)
             ret_list = serialize('json', ret_list.object_list)
             ret_list = json.loads(ret_list)
+            print(ret_list)
             for i in ret_list:
                 i['fields']['PId'] = i['pk']
                 pageObj.append(i['fields'])
