@@ -63,30 +63,30 @@
         type="textarea"
         placeholder="Please input"
     />
-    <el-button @click="addReply" class="button" text>
-      reply
-      <el-icon>
-        <Delete/>
-      </el-icon>
-    </el-button>
-  </div>
 
-  <el-timeline>
-    <template v-if="itemKey === 0">
-      <el-timeline-item :timestamp="reply.RId" placement="top" v-for="reply in replys">
-        <el-card>
-          <p class="text-xl font-extrabold">{{ reply.Replier }}</p>
-        </el-card>
-      </el-timeline-item>
-    </template>
-    <template v-if="itemKey === 1">
-      <el-timeline-item :timestamp="reply.RId" placement="top" v-for="reply in replys">
-        <el-card>
-          <p class="text-xl font-extrabold">{{ reply.Replier }}</p>
-        </el-card>
-      </el-timeline-item>
-    </template>
-  </el-timeline>
+    <div class="confirmReply">
+      <el-button @click="addReply" class="button" type="primary">
+        reply
+      </el-button>
+    </div>
+
+    <el-timeline >
+      <template v-if="itemKey === 0">
+        <el-timeline-item center :timestamp="reply.Replier" placement="top" v-for="reply in replys">
+          <el-card shadow="hover">
+            <p>{{ reply.Content }}</p>
+          </el-card>
+        </el-timeline-item>
+      </template>
+      <template v-if="itemKey === 1">
+        <el-timeline-item center :timestamp="reply.Replier" placement="top" v-for="reply in replys">
+          <el-card shadow="hover">
+            <p>{{ reply.Content }}</p>
+          </el-card>
+        </el-timeline-item>
+      </template>
+    </el-timeline>
+  </div>
 
 </template>
 
@@ -98,6 +98,7 @@ import {NOTATION} from "../../../composable/utils";
 import {getSinglePage, deleteSinglePage, updatePostContent, insertReply, getReplyFromPassage} from "../../../api/posts";
 import VueMarkdownEditor, {xss} from '@kangc/v-md-editor';
 import {ElMessageBox} from "element-plus";
+import store from "../../../store/index.js";
 
 const router = useRouter()
 console.log("router", router)
@@ -107,7 +108,7 @@ let itemKey = ref(0)
 let dialogFormVisible = ref(false)
 let tableForm = ref({Title: '', Content: '', Poster: ''})
 let htmlContent = ref("");
-let replys = []
+let replys = ref([])
 const textarea = ref('')
 
 getSinglePage(getToken, router.currentRoute.value.params.id)
@@ -206,11 +207,11 @@ const dialogConfirm = () => {
 }
 
 const addReply = () => {
-  insertReply(getToken(), router.currentRoute.value.params.id, textarea)
+  insertReply(getToken(), router.currentRoute.value.params.id, textarea.value, store.state.user.CodeName)
       .then(res => {
-        console.log("updatePostContent ", res)
+        console.log("insertReply ", res)
 
-        if (res.status !== 200) {
+        if (res.status !== 201) {
           if ("details" in res.data) {
             NOTATION(0, res.data.details)
           } else {
@@ -219,12 +220,13 @@ const addReply = () => {
         } else {
           // message
           NOTATION(1, res.data)
-          replys.push(textarea)
           textarea.value = ''
+          console.log(replys)
+          getReply()
         }
       })
       .catch(err => {
-        console.log("updatePostContent err ", err)
+        console.log("insertReply err ", err)
         NOTATION(0, err.detail)
       })
 }
@@ -244,7 +246,7 @@ const getReply = () => {
           // message
           NOTATION(1, "got reply successfully~")
           // store
-          replys = res.data
+          replys.value = res.data
           itemKey.value = 1 - itemKey.value
         }
       })
@@ -330,6 +332,13 @@ const deleteThisPassage = () => {
   margin-top: 3%;
   margin-left: 10%;
   width: 80%;
+}
+
+.confirmReply {
+  alignment: right;
+  margin-right: 0;
+  margin-left: 93%;
+  margin-top: 1%;
 }
 
 </style>

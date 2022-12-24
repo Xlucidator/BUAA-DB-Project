@@ -39,11 +39,12 @@ export function newPost(token, content) {
     return axios.post("/passage/passages/", formData)
 }
 
-export function insertReply(token, Content, PId, CodeName) {
-    console.log("insertReply: ", PId)
+export function insertReply(token, PId, Content, CodeName) {
+    console.log("insertReply ", PId, Content, CodeName)
     const formData = new FormData();
-    formData.append('token', token);
-    formData.append('PId', PId);
+    formData.append('AttachedPId', PId);
+    formData.append('Content', Content);
+    formData.append('Replier', CodeName);
     return axios.post("/reply/", formData)
 }
 
@@ -52,5 +53,5 @@ export function getReplyFromPassage(token, PId) {
     const formData = new FormData();
     formData.append('token', token);
     formData.append('PId', PId);
-    return axios.get("/reply/" + PId + "/", formData)
+    return axios.get("/passage/reply/" + PId + "/", formData)
 }

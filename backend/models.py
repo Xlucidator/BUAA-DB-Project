@@ -87,8 +87,8 @@ class Group(models.Model):
 class Message(models.Model):
     MId = models.AutoField('MId', primary_key=True)
     Type = models.IntegerField('Type', choices=((0, '个人'), (1, '群组')))
-    SendFrom = models.ForeignKey(UserAccount, on_delete=models.CASCADE,related_name='SendFrom')
-    SendToPerson = models.ForeignKey(UserAccount, null=True, on_delete=models.CASCADE,related_name='SendToPerson')
+    SendFrom = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='SendFrom')
+    SendToPerson = models.ForeignKey(UserAccount, null=True, on_delete=models.CASCADE, related_name='SendToPerson')
     SendToGroup = models.ForeignKey(Group, null=True, on_delete=models.CASCADE)
     ContextText = models.TextField('ContextText')
     Picture = models.ImageField(verbose_name='Picture', upload_to='img_url', null=True)
@@ -113,10 +113,11 @@ class OperatorGroup(models.Model):
     def __str__(self):
         return str(self.Gid) + str(self.CodeName)
 
+
 class Reply(models.Model):
     RId = models.AutoField('RId', primary_key=True)
-    Replier = models.ForeignKey(UserAccount,on_delete=models.CASCADE)
-    AttachedPId = models.ForeignKey(Passage,on_delete=models.CASCADE)
+    Replier = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    AttachedPId = models.ForeignKey(Passage, on_delete=models.CASCADE)
     Content = models.TextField("Content")
 
     class Meta:
