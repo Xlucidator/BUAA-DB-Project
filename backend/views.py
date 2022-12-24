@@ -11,8 +11,9 @@ from rest_framework.viewsets import ModelViewSet
 
 from backend.tools import get_jwt, fail, token2name
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
-    AccountApproveQueueSerializer, UserProfileSerializer, PassageSerializer
-from .models import UserAccount, UserProfile, Passage
+    AccountApproveQueueSerializer, UserProfileSerializer, PassageSerializer, MessageSerializer, OperatorGroupSerializer, \
+    GroupSerializer, ReplySerializer
+from .models import UserAccount, UserProfile, Passage, Message, Group, OperatorGroup, Reply
 from .utils import hasOpPermission
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers import serialize
@@ -220,3 +221,75 @@ class testView(GenericAPIView, RetrieveModelMixin, CreateModelMixin, ListModelMi
         test_list = Passage.objects.all()[num:num + 5]
         serializer = PassageSerializer(instance=test_list, many=True)
         return Response(serializer.data)
+
+
+class MessageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'MId'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class GroupeSerializer:
+    pass
+
+
+class GroupListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    lookup_field = 'Gid'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        result = self.create(request)
+        operators = request.data['operators']
+        for operator in operators:
+            pass
+        return self.list(request)
+
+
+class OperatorGroupListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = OperatorGroup.objects.all()
+    serializer_class = OperatorGroupSerializer
+    lookup_field = 'GId'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class ReplyView(GenericAPIView):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+
+    def get(self, request, PId):
+        num = eval(PId)
+        test_list = Reply.objects.filter(AttachedPId=PId)
+        serializer = ReplySerializer(instance=test_list, many=True)
+        return Response(serializer.data)
+
+
+class ReplyListView(GenericAPIView,CreateModelMixin, ListModelMixin):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
