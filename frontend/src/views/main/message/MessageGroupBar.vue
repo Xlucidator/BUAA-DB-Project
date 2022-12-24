@@ -13,7 +13,7 @@
 
       <div class="message-right">
         <div class="message-header">
-          <div>{{item.nickName}}</div>
+          <div>{{item.GName}}</div>
           <div>{{toFormatTime(item.message.time)}}</div>
         </div>
         <div class="message-content">

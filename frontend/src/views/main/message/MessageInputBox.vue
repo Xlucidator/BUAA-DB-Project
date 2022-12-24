@@ -29,11 +29,11 @@
 import {ref, onMounted} from 'vue'
 import {gotoBottom} from '../../../composable/utils'
 import faceIcon from '../../../assets/face.png'
-import emotion from "../../../components/emotion.vue";
+import store from "../../../store/index"
+import emotion from "../../../components/emotion.vue"
 
 defineProps({
   concats: Array,
-  nowSwitchId: String,
   localInfo: Object,
 })
 
@@ -43,31 +43,23 @@ const imgSrc = faceIcon
 
 function sendMessage() {
   let message = {
-    type: nowSwitchType(),
-    id  : localInfo.id,
-    body: {
-      type    : 'user-message',
-      sendTo  : nowSwitchId,
-      sendFrom: localInfo.id,
-      avatar  : localInfo.avatar,
-      nickName: localInfo.nickName,
-      message : {
-        time    : + new Date(),
-        content : obj.replaceFace(inputTextFilter()),
-        textContent: inputTextFilter(),
-      }
-    }
+    MId  : localInfo.id,
+    Type : 0,
+    SendFrom : store.state.user.CodeName,
+    SendToPerson: null,
+    SendToGroup: 0,
+    ContentText: inputTextFilter(), 
+    Picture: null,
+    Time : + new Date(),
   }
   if (checkBlank()) {
     // 发送消息
+    Bus.$emit('MESSAGE', message)
     inputText = ''
     gotoBottom()
   }
 }
 
-function nowSwitchType() {
-  return nowSwitchId === 'group' ? 'group-message' : 'user-message'
-}
 
 function inputTextFilter() {
   return inputText.replace(/\n/g, '').replace(new RegExp('<', 'gm'), '&lt')

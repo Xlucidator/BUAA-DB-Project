@@ -15,14 +15,13 @@
     <el-main>
 
       <el-header>
-        <span class="title" v-if="nowSwitchId=='group'">聊天室({{lineCount}})人</span>
-        <span class="title" v-else>{{concats[nowSwitch].nickName}}</span>
+        <span class="title">{{concats[nowSwitch].GName}}</span>
       </el-header>
       <MessageDisplayBox 
-        :concats="concats" :localInfo="localInfo" :nowSwitchId="nowSwitchId"
+        :concats="concats" :localInfo="localInfo"
         @message="message"/>
       <MessageInputBox 
-        :concats="concats" :localInfo="localInfo" :nowSwitchId="nowSwitchId"/>
+        :concats="concats" :localInfo="localInfo" />
 
     </el-main>
 
@@ -36,17 +35,18 @@
         <ul class="operator-list">
           <li v-for="i in (1,5)" class="operator-item">
             <el-avatar shape="square"></el-avatar>
-            <div>operator-name</div>
+            <div style="text-align:center;">operator-name</div>
             <el-checkbox v-model="checked1" label="" size="large" />
           </li>
         </ul>
       </el-scrollbar>
     </el-col>
     <el-col :span="12">
+      
       <el-scrollbar max-height="300px">
-        <el-input>
-          ha
-        </el-input>
+        <span style="margin-left:20px; width:70%">联络小组名</span>
+        <el-input v-model="newGroupName" style="margin-left:20px; width:70%" />
+       
       </el-scrollbar>
     </el-col>
   </el-row>
@@ -67,10 +67,12 @@
 </template>
 
 <script setup>
+import axios from '../../../axios'
 import {ref, onMounted} from 'vue'
 import MessageGroupBar from './MessageGroupBar.vue'
 import MessageDisplayBox from './MessageDisplayBox.vue'
-import MessageInputBox from './MessageInputBox.vue';
+import MessageInputBox from './MessageInputBox.vue'
+import store from '../../../store/index'
 
 const dialogAddGroupVisible = ref(false)
 
@@ -78,9 +80,9 @@ const tarGroup = ref("")
 
 const concats = ref([
   {
-    id: 0,
+    GId: 0,
+    GName: '日落即逝',
     active: false,
-    nickName: '日落即逝',
     avatar: 'https://pic1.zhimg.com/v2-6714b4912885f481d11776147a672fe0_b.jpg',
     message: {
       time: 1580572800000,
@@ -88,9 +90,9 @@ const concats = ref([
     }
   },
   {
-    id: 1,
+    GId: 1,
     active: false,
-    nickName: 'A1行动预备组',
+    GName: 'A1行动预备组',
     avatar: 'https://i02piccdn.sogoucdn.com/31ea48572e9b87a4',
     message: {
       time: 1580572800000,
@@ -99,10 +101,14 @@ const concats = ref([
   }
 ])
 
-const lineCount = 0
+const groups = handleGetGroups()
+
 const nowSwitch = ref(0)  // change name to current
 const nowSwitchId = ref('group')
-const localInfo = ref({})
+const localInfo = ref({
+  CodeName: store.state.user.CodeName,
+  Avatar: store.state.user.avatar,
+})
 
 function switchGroup(index, id) {
   this.nowSwitch = index
@@ -115,10 +121,16 @@ function switchGroup(index, id) {
 }
 
 function handleAddGroup() {
-  console.log(dialogAddGroupVisible.value)
-  console.log("press AddGroup")
   dialogAddGroupVisible.value = true
-  console.log(dialogAddGroupVisible.value)
+  
+}
+
+function handleGetGroups(CodeName) {
+  
+}
+
+function handleGetOperators() {
+  axios.get()
 }
 
 
@@ -238,8 +250,9 @@ onMounted(() => {
       }
       .title {
         display: inline-block;
+        margin-top: 15px;
         margin-left: 5px;
-        font-size: 16px;
+        font-size: 36px;
         letter-spacing: 1px;
       }
     }

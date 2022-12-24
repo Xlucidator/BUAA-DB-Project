@@ -13,9 +13,9 @@
           {{item.nickName}} {{toMessageFormatTime(item.message.time)}}
         </p>
         <p class="message-nickname" v-else>
-          {{toMessageFormatTime(item.message.time)}} {{item.nickName}}
+          {{toMessageFormatTime(item.message.time)}} {{item.sendFrom}}
         </p>
-        <p class="message-classic" v-html="item.message.content"></p>
+        <p class="message-classic" v-html="item.message.content"> </p>
 
       </li>
     </ul>
@@ -25,20 +25,41 @@
 
 
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
+import store from '../../../store/index'
 
 defineProps({
-  nowSwitchId : String,
+  GId         : Number,
   localInfo   : Object,
   concats     : Array,
 })
 
-const message = ref({})
+const messages = ref([
+  {
+    MId : 0,
+    Type: 1,
+    SendFrom: store.state.userForm.CodeName,
+    SendToPerson: null,
+    SendToGroup: 0,
+    ContentText: "welcome",
+    Time: 1580572800000,
+  },
+  {
+    MId : 1,
+    Type: 1,
+    SendFrom: store.state.user.CodeName,
+    SendToPerson: null,
+    SendToGroup: 0,
+    ContentText: "hello",
+    Time: 18972800000,
+  }
+])
+const message = ref([])
 const page = ref(0)
 const isShowMore = ref(true)
 
 function getMessageTemplates() {
-  return this.message[this.nowSwitchId]
+  return this.message['group']
 }
 
 function toFullDate(date, showhm, sep) {
@@ -70,9 +91,6 @@ function toMessageFormatTime(time) {
     return `${toFullDate(date, false, '/')} ${hours}:${minutes}`
 }
 
-function initMessage(sendTo, sendFrom) {
-
-}
 
 function browseMore() {
   let obj = {
@@ -85,6 +103,10 @@ function browseMore() {
 function selectClass(type) {
   return type === 'server' ? 'message-layout-left' : 'message-layout-right'
 }
+
+onMounted(() => {
+  
+})
 
 </script>
 
