@@ -292,3 +292,19 @@ class ReplyListView(GenericAPIView, CreateModelMixin, ListModelMixin):
 
     def post(self, request):
         return self.create(request)
+
+
+class ReplyDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+    def put(self, request, PId):
+        return self.update(request)
+
+    def get(self, request, PId):
+        return self.retrieve(request)
+
+    def delete(self, request, PId):
+        return self.destroy(request)
+
