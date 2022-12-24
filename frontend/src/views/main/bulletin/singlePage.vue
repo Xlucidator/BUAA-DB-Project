@@ -56,6 +56,38 @@
     </template>
   </el-dialog>
 
+  <div class="addReply">
+    <el-input
+        v-model="textarea"
+        :rows="2"
+        type="textarea"
+        placeholder="Please input"
+    />
+    <el-button @click="addReply" class="button" text>
+      reply
+      <el-icon>
+        <Delete/>
+      </el-icon>
+    </el-button>
+  </div>
+
+  <el-timeline>
+    <template v-if="itemKey === 0">
+      <el-timeline-item :timestamp="reply.RId" placement="top" v-for="reply in replys">
+        <el-card>
+          <p class="text-xl font-extrabold">{{ reply.Replier }}</p>
+        </el-card>
+      </el-timeline-item>
+    </template>
+    <template v-if="itemKey === 1">
+      <el-timeline-item :timestamp="reply.RId" placement="top" v-for="reply in replys">
+        <el-card>
+          <p class="text-xl font-extrabold">{{ reply.Replier }}</p>
+        </el-card>
+      </el-timeline-item>
+    </template>
+  </el-timeline>
+
 </template>
 
 <script lang='ts' setup>
@@ -63,7 +95,7 @@ import {useRouter} from "vue-router";
 import {computed, ref} from "vue";
 import {getToken} from "../../../composable/auth";
 import {NOTATION} from "../../../composable/utils";
-import {getSinglePage, deleteSinglePage, updatePostContent} from "../../../api/posts";
+import {getSinglePage, deleteSinglePage, updatePostContent, insertReply, getReplyFromPassage} from "../../../api/posts";
 import VueMarkdownEditor, {xss} from '@kangc/v-md-editor';
 import {ElMessageBox} from "element-plus";
 
@@ -75,6 +107,8 @@ let itemKey = ref(0)
 let dialogFormVisible = ref(false)
 let tableForm = ref({Title: '', Content: '', Poster: ''})
 let htmlContent = ref("");
+let replys = []
+const textarea = ref('')
 
 getSinglePage(getToken, router.currentRoute.value.params.id)
     .then(res => {
@@ -99,7 +133,7 @@ getSinglePage(getToken, router.currentRoute.value.params.id)
         htmlContent.value = xss.process(VueMarkdownEditor.vMdParser.themeConfig.markdownParser.render(passage[0].Content))
         console.log("itemKey", itemKey)
         console.log("htmlContent", htmlContent)
-        itemKey.value = Math.random()
+        itemKey.value = 1 - itemKey.value
       }
     })
     .catch(err => {
@@ -162,7 +196,7 @@ const dialogConfirm = () => {
           passage.splice(0, 1, res.data)
           dialogFormVisible.value = false;
           htmlContent.value = xss.process(VueMarkdownEditor.vMdParser.themeConfig.markdownParser.render(passage[0].Content))
-          itemKey.value = Math.random()
+          itemKey.value = 1 - itemKey.value
         }
       })
       .catch(err => {
@@ -171,6 +205,55 @@ const dialogConfirm = () => {
       })
 }
 
+const addReply = () => {
+  insertReply(getToken(), router.currentRoute.value.params.id, textarea)
+      .then(res => {
+        console.log("updatePostContent ", res)
+
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
+        } else {
+          // message
+          NOTATION(1, res.data)
+          replys.push(textarea)
+          textarea.value = ''
+        }
+      })
+      .catch(err => {
+        console.log("updatePostContent err ", err)
+        NOTATION(0, err.detail)
+      })
+}
+
+const getReply = () => {
+  getReplyFromPassage(getToken, router.currentRoute.value.params.id)
+      .then(res => {
+        console.log("getReplyFromPassage", res)
+
+        if (res.status !== 200) {
+          if ("details" in res.data) {
+            NOTATION(0, res.data.details)
+          } else {
+            NOTATION(0, "ops~! other error")
+          }
+        } else {
+          // message
+          NOTATION(1, "got reply successfully~")
+          // store
+          replys = res.data
+          itemKey.value = 1 - itemKey.value
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        NOTATION(0, err.detail)
+      })
+}
+getReply()
 
 const deleteThisPassage = () => {
   ElMessageBox.confirm(
@@ -241,6 +324,12 @@ const deleteThisPassage = () => {
 .deletePassage {
   margin-top: 10px;
   margin-left: 80%;
+}
+
+.addReply {
+  margin-top: 3%;
+  margin-left: 10%;
+  width: 80%;
 }
 
 </style>

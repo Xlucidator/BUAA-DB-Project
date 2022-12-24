@@ -275,7 +275,6 @@ class ReplyView(GenericAPIView):
     serializer_class = ReplySerializer
     lookup_field = 'RId'
 
-
     def get(self, request, PId):
         num = eval(PId)
         test_list = Reply.objects.filter(AttachedPId=PId)
@@ -283,7 +282,7 @@ class ReplyView(GenericAPIView):
         return Response(serializer.data)
 
 
-class ReplyListView(GenericAPIView,CreateModelMixin, ListModelMixin):
+class ReplyListView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Reply.objects.all()
     serializer_class = ReplySerializer
     lookup_field = 'RId'

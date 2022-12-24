@@ -38,3 +38,19 @@ export function newPost(token, content) {
     const formData = jsonToFormData(jsonData)
     return axios.post("/passage/passages/", formData)
 }
+
+export function insertReply(token, Content, PId, CodeName) {
+    console.log("insertReply: ", PId)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('PId', PId);
+    return axios.post("/reply/", formData)
+}
+
+export function getReplyFromPassage(token, PId) {
+    console.log("getReplyFromPassage: ", PId)
+    const formData = new FormData();
+    formData.append('token', token);
+    formData.append('PId', PId);
+    return axios.get("/reply/" + PId + "/", formData)
+}
