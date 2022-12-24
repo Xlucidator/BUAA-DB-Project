@@ -249,7 +249,7 @@
 | ----------- | -------- | --------------------- | --------------------- |
 | RId         | int      | primary key           | reply编号             |
 | Replier     | char(30) | not null, foreign key | 回复者（CodeName）    |
-| AttachedNId | int      | not null, foreign key | 依附的文章编号（NId） |
+| AttachedPId | int      | not null, foreign key | 依附的文章编号（PId） |
 | Content     | tinytext | not null              |                       |
 
 删除notice会导致依附的reply一起被删，此处打算建一个触发器，在删除某条notice前，检索reply并删除`AttachedNId = NId`的数据
@@ -323,7 +323,7 @@
 | SendToPerson | char(30)  | foreign key           | 接收个人           |
 | SendToGroup  | int       | foreign key           | 接收群组           |
 | ContentText  | tinytext  | not null              | 消息文本           |
-| Picture      |           |                       |                    |
+| Picture      | blob      |                       | 图像信息           |
 | Time         | timestamp | not null              | 发布时间           |
 
 **群组实体表（group）**

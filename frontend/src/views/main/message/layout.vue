@@ -80,7 +80,7 @@ const concats = ref([
   {
     id: 0,
     active: false,
-    nickName: '聊天室',
+    nickName: '日落即逝',
     avatar: 'https://pic1.zhimg.com/v2-6714b4912885f481d11776147a672fe0_b.jpg',
     message: {
       time: 1580572800000,
@@ -90,8 +90,8 @@ const concats = ref([
   {
     id: 1,
     active: false,
-    nickName: 'A1行动小组',
-    avatar: '../../../assets/avatar_demo.png',
+    nickName: 'A1行动预备组',
+    avatar: 'https://i02piccdn.sogoucdn.com/31ea48572e9b87a4',
     message: {
       time: 1580572800000,
       content: 'Welcome'
