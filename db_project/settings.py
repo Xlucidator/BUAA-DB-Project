@@ -117,7 +117,7 @@ WSGI_APPLICATION = 'db_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'arknights',  # BASE_DIR / 'db.sqlite3',
+        'NAME': 'arknights2',  # BASE_DIR / 'db.sqlite3',
         'HOST': pv.db_host,
         'PORT': 3306,
         'USER': pv.db_user,
