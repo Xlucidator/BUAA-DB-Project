@@ -48,6 +48,11 @@ const routes = [
                 redirect: '/main/message',
             },
             {
+                path: 'bulletin/singlePage/bulletin',
+                name: 'bulletin/singlePage/bulletin',
+                redirect: '/main/bulletin',
+            },
+            {
                 path: 'affair',     // -> '/main/affair/'
                 name: 'affair',
                 component: () => import('../views/main/affair/index.vue')
