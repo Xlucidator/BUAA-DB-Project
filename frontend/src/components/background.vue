@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang='ts'>
-
 import {reactive} from 'vue'
 import {loadFull} from "tsparticles"
 import type {Engine} from 'tsparticles-engine'

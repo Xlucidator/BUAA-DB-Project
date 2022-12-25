@@ -1,5 +1,11 @@
 <template>
   <span :key="itemKey.value"></span>
+  <el-button @click="handleBack" style="margin-top: 2%;margin-left: 5%">
+    <el-icon>
+      <ArrowLeft/>
+    </el-icon>
+    back
+  </el-button>
   <!--  line above is to refresh this page, or else nothing will be shown -->
   <el-card v-if="passage.length > 0" class="box-card">
     <template #header>
@@ -70,7 +76,7 @@
       </el-button>
     </div>
 
-    <el-timeline >
+    <el-timeline>
       <template v-if="itemKey === 0">
         <el-timeline-item center :timestamp="reply.Replier" placement="top" v-for="reply in replys">
           <el-card shadow="hover">
@@ -98,6 +104,7 @@ import {NOTATION} from "../../../composable/utils";
 import {getSinglePage, deleteSinglePage, updatePostContent, insertReply, getReplyFromPassage} from "../../../api/posts";
 import VueMarkdownEditor, {xss} from '@kangc/v-md-editor';
 import {ElMessageBox} from "element-plus";
+import back_button from "../../../components/back_button.vue"
 import store from "../../../store/index.js";
 
 const router = useRouter()
@@ -110,6 +117,10 @@ let tableForm = ref({Title: '', Content: '', Poster: ''})
 let htmlContent = ref("");
 let replys = ref([])
 const textarea = ref('')
+
+const handleBack = () => {
+  router.go(-1)
+}
 
 getSinglePage(getToken, router.currentRoute.value.params.id)
     .then(res => {
