@@ -18,12 +18,6 @@
     <span style="padding-right: 10%; float: right;">
       <img src="../../assets/rabbit.jfif" style="float:left; zoom:60%" />
     </span>
-    
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-  <span class="text-xm test-bold" style="margin-left: 10%">Welcome to Rhodes Island!</span>
   </div>
 
   <br/>
