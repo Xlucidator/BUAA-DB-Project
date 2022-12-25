@@ -16,7 +16,7 @@ import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
-
+import Particles from 'particles.vue3'
 
 const app = createApp(App)
 
@@ -34,5 +34,6 @@ app.use(router)
 app.use(ElementPlus)
 app.use(VueMarkdownEditor)
 app.use(VMdPreviewHtml)
+app.use(Particles)
 
 app.mount('#app')

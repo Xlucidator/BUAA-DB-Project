@@ -425,6 +425,7 @@
 - qs(`npm install qs`)
 - reactivity(`npm install @vue/reactivity`)
 - v-md-editor(`npm i @kangc/v-md-editor@next -S` \[谢邀，`mavonEditor`看起来不支持vue3呢(哭)\])
+- vue-particles(`npm install vue-particles`)
 
 ### 4.数据库相关
 

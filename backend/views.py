@@ -48,8 +48,6 @@ class UserListView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
 
-    # permission_classes = [hasOpPermission, ]
-
     def get(self, request):
         print(request.data)
         return self.list(request)
@@ -79,21 +77,27 @@ class ApplicationOtherView(GenericAPIView, CreateModelMixin, DestroyModelMixin):
 
     def post(self, request, CodeName):
         self.flag = 0
-        result = self.create(request)
+        self.create(request)
         self.flag = 1
-        return self.destroy(request)
+        self.destroy(request)
+        self.flag = 2
+        return self.create(request)
 
     def get_serializer_class(self):
         if self.flag == 0:
             return UserAccountSerializer
-        else:
+        elif self.flag == 1:
             return AccountApproveQueueSerializer
+        else:
+            return UserProfileSerializer
 
     def get_queryset(self):
         if self.flag == 0:
             return UserAccount.objects.all()
-        else:
+        elif self.flag == 1:
             return AccountApproveQueue.objects.all()
+        else:
+            return UserProfile.objects.all()
 
 
 class ApplicationModelView(ModelViewSet):
@@ -236,8 +240,19 @@ class MessageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.create(request)
 
 
-class GroupeSerializer:
-    pass
+class MessageDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'MId'
+
+    def put(self, request, MId):
+        return self.update(request)
+
+    def get(self, request, MId):
+        return self.retrieve(request)
+
+    def delete(self, request, MId):
+        return self.destroy(request)
 
 
 class GroupListView(GenericAPIView, CreateModelMixin, ListModelMixin):
@@ -307,4 +322,3 @@ class ReplyDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, Dest
 
     def delete(self, request, PId):
         return self.destroy(request)
-
