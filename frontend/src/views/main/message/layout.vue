@@ -81,22 +81,32 @@ const tarGroup = ref("")
 const concats = ref([
   {
     GId: 0,
-    GName: '日落即逝',
+    GName: 'Rhodesisland',
     active: false,
-    avatar: 'https://pic1.zhimg.com/v2-6714b4912885f481d11776147a672fe0_b.jpg',
-    message: {
+    avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3vJJ9-GS20euNHyc4dMnz74JGf45ca8MxJtUGCy8&s',
+    LastMessage: {
       time: 1580572800000,
-      content: 'Welcome'
+      content: 'total'
     }
   },
   {
     GId: 1,
+    GName: '日落即逝',
+    active: false,
+    avatar: 'https://pic1.zhimg.com/v2-6714b4912885f481d11776147a672fe0_b.jpg',
+    LastMessage: {
+      time: 1580572800000,
+      content: 'nothing'
+    }
+  },
+  {
+    GId: 2,
     active: false,
     GName: 'A1行动预备组',
     avatar: 'https://i02piccdn.sogoucdn.com/31ea48572e9b87a4',
-    message: {
+    LastMessage: {
       time: 1580572800000,
-      content: 'Welcome'
+      content: 'nothing'
     }
   }
 ])
@@ -167,7 +177,7 @@ onMounted(() => {
     font-size: 12px;
     box-sizing: border-box;
     &:hover {
-      background: rgba(255, 255, 255, .4);
+      background: rgba(255, 255, 255, 0.267);
     }
     .message-left {
       margin-right: 10px;

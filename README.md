@@ -334,7 +334,7 @@
 | GName      | char(30)  | not null              | group名                    |
 | Owner      | char(30)  | not null, foreign key | 群主，初建为创建该群的干员 |
 | BornTime   | timestamp | not null              | 群组创建时间               |
-| ...        |           |                       |                            |
+| GSize      | int       |                       | 成员数量                   |
 |            |           |                       |                            |
 
 **用户-群组关系表（operator_group）**
@@ -425,6 +425,7 @@
 - qs(`npm install qs`)
 - reactivity(`npm install @vue/reactivity`)
 - v-md-editor(`npm i @kangc/v-md-editor@next -S` \[谢邀，`mavonEditor`看起来不支持vue3呢(哭)\])
+- mitt（`npm i mitt`，事件总线EventBus的vue3版）
 
 ### 4.数据库相关
 

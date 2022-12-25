@@ -25,8 +25,9 @@
 
 
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, getCurrentInstance} from 'vue'
 import store from '../../../store/index'
+import Bus from '../../../composable/eventBus'
 
 defineProps({
   GId         : Number,
@@ -120,8 +121,18 @@ function selectClass(type) {
   return type === 'server' ? 'message-layout-left' : 'message-layout-right'
 }
 
+const curInstance = getCurrentInstance()
+
 onMounted(() => {
-  
+  Bus.on('MESSAGE', resp => {
+    resp['type'] = 'self'
+    console.log('receive message')
+    console.log(resp)
+    messages.value.push(resp)
+
+    console.log(messages)
+    curInstance.proxy.$forceUpdate()
+  })
 })
 
 </script>

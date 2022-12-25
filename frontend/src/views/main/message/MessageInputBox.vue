@@ -29,7 +29,8 @@
 import {ref, onMounted} from 'vue'
 import {gotoBottom} from '../../../composable/utils'
 import faceIcon from '../../../assets/face.png'
-import store from "../../../store/index"
+import store from '../../../store/index'
+import Bus from '../../../composable/eventBus'
 import emotion from "../../../components/emotion.vue"
 
 defineProps({
@@ -38,7 +39,7 @@ defineProps({
 })
 
 const inputText = ref('')
-const messageIdCnt = ref('0')
+const messageIdCnt = ref('10')
 const imgSrc = faceIcon
 
 
@@ -51,7 +52,7 @@ function sendMessage() {
     SendToGroup: 0,
     ContentText: inputTextFilter(), 
     Picture: null,
-    Time : + new Date(),
+    Time : new Date().getTime(),
   }
   messageIdCnt.value += 1
   if (checkBlank()) {
@@ -59,6 +60,7 @@ function sendMessage() {
     console.log("inputText:\t" + inputText.value)
     console.log("ContentText\t" + message.ContentText)
     console.log(message)
+    Bus.emit('MESSAGE', message)
     inputText.value = ''
     gotoBottom()
   }

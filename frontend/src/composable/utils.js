@@ -1,4 +1,5 @@
 import {ElNotification} from "element-plus";
+import { nextTick } from "vue";
 
 export function NOTATION(success, msg){
     if(success) {
@@ -18,7 +19,8 @@ export function NOTATION(success, msg){
 
 export function gotoBottom() {
     const box = document.getElementsByClassName('message-panel-box')[0]
-    this.$nextTick(() => {
+    nextTick(() => {
         box.scrollTop = box.scrollHeight
     })
+    console.log('scroll to bottom')
 }

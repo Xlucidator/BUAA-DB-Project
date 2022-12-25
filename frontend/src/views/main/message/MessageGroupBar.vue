@@ -14,10 +14,10 @@
       <div class="message-right">
         <div class="message-header">
           <div>{{item.GName}}</div>
-          <div>{{toFormatTime(item.message.time)}}</div>
+          <div>{{toFormatTime(item.LastMessage.time)}}</div>
         </div>
         <div class="message-content">
-          {{item.message.content}}
+          {{item.LastMessage.content}}
         </div>
       </div>
 
@@ -56,7 +56,7 @@ function toFormatTime(time) {
 
 <style lang="scss" scoped>
 .message-active {
-  background: rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, 0.212);
 }
 .message-item {
   overflow: auto;
