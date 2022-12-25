@@ -1,58 +1,68 @@
 <template>
-
-  <div class="login_header">
-    <span class="text-5xl"> -- LOGIN -- </span>
+  <div class="parti">
+    <Particles id="tsparticles"></Particles>
   </div>
 
-  <div class="input-box">
-    <el-input
-        v-model="userName"
-        class="w-50 m-2"
-        size="large"
-        placeholder="userName"
-    />
+  <div class="card">
+    <el-card class="box-card">
+
+      <template #header>
+        <div class="card-header">
+          <div class="login_header">
+            <p class="text-5xl"> -- LOGIN -- </p>
+          </div>
+        </div>
+      </template>
+      <br/>
+      <div class="input-box">
+        <el-input
+            v-model="userName"
+            class="w-50 m-2"
+            size="large"
+            placeholder="userName"
+        />
+      </div>
+      <div class="input-box">
+        <el-input
+            v-model="password"
+            class="w-50 m-2"
+            size="large"
+            placeholder="password"
+            :show-password=true
+        />
+        <br/>
+
+      </div>
+      <div class="Button">
+        <Button
+            tabindex="-1"
+            class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
+            @click="onSubmit()">
+
+          CONFIRM
+        </Button>
+      </div>
+
+        <br/>
+      <div class="jump">
+        <p style="color: #888888">don't have an account yet?</p>
+        <el-button
+            tabindex="-1"
+            @click="reg()">
+
+          REGISTER
+        </el-button>
+        <br/>
+        <br/>
+        <br/>
+      </div>
+    </el-card>
   </div>
-  <div class="input-box">
-    <el-input
-        v-model="password"
-        class="w-50 m-2"
-        size="large"
-        placeholder="password"
-        :show-password=true
-    />
-    <br/>
 
-  </div>
-  <div class="Button">
-    <Button
-        tabindex="-1"
-        class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
-        @click="onSubmit()">
-
-      CONFIRM
-    </Button>
-  </div>
-
-  <div class="jump">
-    <p style="color: #888888">don't have an account yet?</p>
-    <el-button
-        tabindex="-1"
-        @click="reg()">
-
-      REGISTER
-    </el-button>
-  </div>
-
-  <Particles
-      id="tsparticles"
-      :particlesInit="particlesInit"
-      :particlesLoaded="particlesLoaded"
-      :options="options"
-  />
 
 </template>
 
-<script setup lang = "ts">
+<script setup lang="ts">
 import {ref} from "vue";
 import {login} from "../../api/manager";
 import {useStore} from "vuex";
@@ -60,6 +70,7 @@ import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 import {setToken} from "../../composable/auth";
 import {NOTATION} from "../../composable/utils";
+import Particles from "../../components/background.vue"
 
 /* data */
 let userName = ref("")
@@ -100,96 +111,6 @@ const onSubmit = () => {
       })
 }
 
-import { reactive } from 'vue'
-import { loadFull } from "tsparticles"
-import type { Engine } from 'tsparticles-engine'
-
-const particlesInit = async (engine:Engine) => {
-    await loadFull(engine)
-}
-
-const particlesLoaded = async (container:any) => {
-    console.log('Particles container loaded', container)
-}
-const options = reactive({
-      background: {
-        color: {
-          value: '#ffffff' // 粒子颜色
-        }
-      },
-      fpsLimit: 60,
-      interactivity: {
-        events: {
-          onClick: {
-            enable: true,
-            mode: 'push' // 可用的click模式有: "push", "remove", "repulse", "bubble"。
-          },
-          onHover: {
-            enable: true,
-            mode: 'grab' // 可用的hover模式有: "grab", "repulse", "bubble"。
-          },
-          resize: true
-        },
-        modes: {
-          bubble: {
-            distance: 400,
-            duration: 2,
-            opacity: 0.8,
-            size: 40
-          },
-          push: {
-            quantity: 4
-          },
-          repulse: {
-            distance: 200,
-            duration: 0.4
-          }
-        }
-      },
-      particles: {
-        color: {
-          value: '#888888'
-        },
-        links: {
-          color: '#888888', // '#dedede'。线条颜色。
-          distance: 150, // 线条长度
-          enable: true, // 是否有线条
-          opacity: 0.5, // 线条透明度。
-          width: 1 // 线条宽度。
-        },
-        collisions: {
-          enable: false
-        },
-        move: {
-          direction: 'none',
-          enable: true,
-          outMode: 'bounce',
-          random: false,
-          speed: 1.5, // 粒子运动速度。
-          straight: false
-        },
-        number: {
-          density: {
-            enable: true,
-            area: 800
-          },
-          value: 80 // 粒子数量。
-        },
-        opacity: {
-          value: 0.5 // 粒子透明度。
-        },
-        shape: {
-          type: 'circle' // 可用的粒子外观类型有："circle","edge","triangle", "polygon","star"
-        },
-        size: {
-          random: true,
-          value: 5
-        }
-      },
-      detectRetina: true
-    })
-
-
 </script>
 
 <style scoped>
@@ -210,11 +131,12 @@ const options = reactive({
 }
 
 .Button {
-  margin-top: 2%;
+  margin-top: 8%;
   margin-bottom: 4%;
-  max-width: 10%;
+  max-width: 25%;
   max-height: 3%;
-  margin-left: 45%;
+  margin-left: 38%;
+  margin-right: 25%;
   text-align: center;
 }
 
@@ -233,6 +155,17 @@ const options = reactive({
 .jump {
   margin-top: 2%;
   text-align: center;
+}
+
+.parti {
+  z-index: -1;
+  position: absolute;
+}
+
+.card {
+  padding-top: 10%;
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 </style>

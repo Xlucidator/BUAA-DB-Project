@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     # OId = models.AutoField('OId', primary_key=True)
 
     CodeName = models.CharField('CodeName', max_length=30, primary_key=True)
-    Gender = models.IntegerField('Gender', choices=((0, 'male'), (1, 'female')))  # 0表示男性，1表示女性
+    Gender = models.IntegerField('Gender', choices=((0, 'male'), (1, 'female')), default = 0)  # 0表示男性，1表示女性
     Class = models.CharField('Class', max_length=20)
     Region = models.CharField('Region', max_length=30)
     Race = models.CharField('Race', max_length=20)
