@@ -209,6 +209,10 @@ const dialogConfirm = () => {
           // message
           NOTATION(1, res.data)
           dialogFormVisible.value = false
+          console.log(itemKey.value)
+          itemKey.value = 1 - itemKey.value
+          changePage(1)
+          console.log(itemKey.value)
         }
       })
       .catch(err => {
