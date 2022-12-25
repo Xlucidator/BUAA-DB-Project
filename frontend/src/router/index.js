@@ -38,6 +38,16 @@ const routes = [
                 component: () => import('../views/main/bulletin/singlePage.vue'),
             },
             {
+                path: 'bulletin/singlePage/home',
+                name: 'bulletin/singlePage/home',
+                redirect: '/main/home',
+            },
+            {
+                path: 'bulletin/singlePage/message',
+                name: 'bulletin/singlePage/message',
+                redirect: '/main/message',
+            },
+            {
                 path: 'affair',     // -> '/main/affair/'
                 name: 'affair',
                 component: () => import('../views/main/affair/index.vue')
