@@ -8,7 +8,7 @@
       <li v-for="(item, index) in messages" 
           :key="index" :class="selectClass(item.type)">
       
-        <el-avatar shape="square" fit="recover" src="" />
+        <el-avatar shape="square" fit="recover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmZL8JMe_wjEetgSpVbBczxedyQcdEMU1r73HfHwTg_g&s" />
         <p class="message-nickname" v-if="item.type=='server'">
           {{item.SendFrom}} {{toMessageFormatTime(item.Time)}}
         </p>
@@ -60,7 +60,7 @@ const messages = ref([
     MId : 2,
     type: 'server',
     Type: 1,
-    SendFrom: store.state.user.CodeName,
+    SendFrom: 'other',
     SendToPerson: null,
     SendToGroup: 0,
     ContentText: "hello~",

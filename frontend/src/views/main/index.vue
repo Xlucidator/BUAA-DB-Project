@@ -24,7 +24,7 @@
               <span>情报通知</span>
             </el-menu-item>
 
-            <el-sub-menu index="arrangement">
+            <!-- <el-sub-menu index="arrangement">
               <template #title>
                 <el-icon>
                   <SetUp/>
@@ -36,7 +36,14 @@
                 <el-menu-item index="1-2">item two</el-menu-item>
               </el-menu-item-group>
               <el-menu-item index="1-3">item three</el-menu-item>
-            </el-sub-menu>
+            </el-sub-menu> -->
+
+            <el-menu-item index="affair">
+              <el-icon>
+                <SetUp/>
+              </el-icon>
+              <span>事务安排</span>
+            </el-menu-item>
 
             <el-menu-item index="message">
               <el-icon>
