@@ -95,7 +95,7 @@ const concats = ref([
     active: false,
     avatar: 'https://pic1.zhimg.com/v2-6714b4912885f481d11776147a672fe0_b.jpg',
     LastMessage: {
-      time: 1580572800000,
+      time: 1580572805123,
       content: 'nothing'
     }
   },
@@ -105,7 +105,7 @@ const concats = ref([
     GName: 'A1行动预备组',
     avatar: 'https://i02piccdn.sogoucdn.com/31ea48572e9b87a4',
     LastMessage: {
-      time: 1580572800000,
+      time: 1580572802345,
       content: 'nothing'
     }
   }
