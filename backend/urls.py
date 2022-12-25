@@ -31,4 +31,17 @@ urlpatterns = [
     path('passage/passage/<str:PId>/', views.PassageDetailView.as_view()),
     path('passage/passages/<str:idx>/', views.PassageListView.as_view()),
     path('passage/passages/', views.PassageListView.as_view()),
+    path('passage/reply/<str:PId>/',views.ReplyView.as_view()),
+
+    path('message/', views.MessageListView.as_view()),
+    path('message/<str:MId>',views.MessageDetailView.as_view()),
+
+    path('group/',views.GroupListView.as_view()),
+    path('OperatorGroup/',views.OperatorGroupListView.as_view()),
+
+    path('reply/',views.ReplyListView.as_view()),
+    path('reply/<str:RId>',views.ReplyDetailView.as_view()),
+
+
+    path('passage/test/<str:idx>/', views.testView.as_view()),
 ]

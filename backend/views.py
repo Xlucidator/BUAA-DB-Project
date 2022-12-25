@@ -11,8 +11,9 @@ from rest_framework.viewsets import ModelViewSet
 
 from backend.tools import get_jwt, fail, token2name
 from .serializers import UserAccountSerializer, AccountApproveQueue, \
-    AccountApproveQueueSerializer, UserProfileSerializer, PassageSerializer
-from .models import UserAccount, UserProfile, Passage
+    AccountApproveQueueSerializer, UserProfileSerializer, PassageSerializer, MessageSerializer, OperatorGroupSerializer, \
+    GroupSerializer, ReplySerializer
+from .models import UserAccount, UserProfile, Passage, Message, Group, OperatorGroup, Reply
 from .utils import hasOpPermission
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers import serialize
@@ -47,8 +48,6 @@ class UserListView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
 
-    # permission_classes = [hasOpPermission, ]
-
     def get(self, request):
         print(request.data)
         return self.list(request)
@@ -78,22 +77,27 @@ class ApplicationOtherView(GenericAPIView, CreateModelMixin, DestroyModelMixin):
 
     def post(self, request, CodeName):
         self.flag = 0
-        result = self.create(request)
+        self.create(request)
         self.flag = 1
         self.destroy(request)
-        return self.destroy(request)
+        self.flag = 2
+        return self.create(request)
 
     def get_serializer_class(self):
         if self.flag == 0:
             return UserAccountSerializer
-        else:
+        elif self.flag == 1:
             return AccountApproveQueueSerializer
+        else:
+            return UserProfileSerializer
 
     def get_queryset(self):
         if self.flag == 0:
             return UserAccount.objects.all()
-        else:
+        elif self.flag == 1:
             return AccountApproveQueue.objects.all()
+        else:
+            return UserProfile.objects.all()
 
 
 class ApplicationModelView(ModelViewSet):
@@ -144,6 +148,7 @@ class PassageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
             ret_list = paginator.page(idx)
             ret_list = serialize('json', ret_list.object_list)
             ret_list = json.loads(ret_list)
+            print(ret_list)
             for i in ret_list:
                 i['fields']['PId'] = i['pk']
                 pageObj.append(i['fields'])
@@ -211,24 +216,109 @@ class SelfView(GenericAPIView):
 
 
 class testView(GenericAPIView, RetrieveModelMixin, CreateModelMixin, ListModelMixin):
-    querysetFlag = 0
+    queryset = Passage.objects.all()
+    serializer_class = PassageSerializer
     lookup_field = 'CodeName'
 
-    def get_queryset(self):
-        if self.querysetFlag == 0:
-            return UserAccount.objects.all()
-        else:
-            return AccountApproveQueue.objects.all()
+    def get(self, request, idx):
+        num = (eval(idx) - 1) * 5
+        test_list = Passage.objects.all()[num:num + 5]
+        serializer = PassageSerializer(instance=test_list, many=True)
+        return Response(serializer.data)
 
-    def get_serializer_class(self):
-        if self.querysetFlag == 0:
-            return UserAccountSerializer
-        else:
-            return AccountApproveQueueSerializer
 
-    def get(self, request, CodeName):
-        self.querysetFlag = 0
-        data = self.retrieve(request).data
-        self.queryset = 1
-        request.data.update(data)
+class MessageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'MId'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
         return self.create(request)
+
+
+class MessageDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'MId'
+
+    def put(self, request, MId):
+        return self.update(request)
+
+    def get(self, request, MId):
+        return self.retrieve(request)
+
+    def delete(self, request, MId):
+        return self.destroy(request)
+
+
+class GroupListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    lookup_field = 'Gid'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        result = self.create(request)
+        operators = request.data['operators']
+        for operator in operators:
+            pass
+        return self.list(request)
+
+
+class OperatorGroupListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = OperatorGroup.objects.all()
+    serializer_class = OperatorGroupSerializer
+    lookup_field = 'GId'
+
+    # permission_classes = [hasOpPermission, ]
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class ReplyView(GenericAPIView):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+    def get(self, request, PId):
+        num = eval(PId)
+        test_list = Reply.objects.filter(AttachedPId=PId)
+        serializer = ReplySerializer(instance=test_list, many=True)
+        return Response(serializer.data)
+
+
+class ReplyListView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class ReplyDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    lookup_field = 'RId'
+
+    def put(self, request, PId):
+        return self.update(request)
+
+    def get(self, request, PId):
+        return self.retrieve(request)
+
+    def delete(self, request, PId):
+        return self.destroy(request)

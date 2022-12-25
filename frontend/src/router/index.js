@@ -51,14 +51,20 @@ const routes = [
                 path: 'archive',   // -> '/main/archive/'
                 name: 'archive',
                 component: () => import('../views/main/archive/index.vue')
-            }
+            },
+            {
+                path: '/settings',
+                name: 'settings',
+                component: () => import('../views/settings.vue'),
+                meta: {transition: 'slide-left'},
+            },
+            {
+                path: '/profile',
+                name: 'profile',
+                component: () => import('../views/main/profile/profile.vue'),
+                meta: {transition: 'slide-left'},
+            },
         ]
-    },
-    {
-        path: '/settings',
-        name: 'settings',
-        component: () => import('../views/settings.vue'),
-        meta: {transition: 'slide-left'},
     },
     {
         path: '/:pathMatch(.*)*',

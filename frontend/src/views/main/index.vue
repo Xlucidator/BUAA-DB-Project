@@ -85,9 +85,9 @@
                 <template #title> 
                   <el-avatar shape="circle" :size="40" :fit="fit" :src="url" />
                 </template>
-                <el-menu-item index="2-1">Profile</el-menu-item>
+                <el-menu-item index="/profile">Profile</el-menu-item>
                 <el-menu-item index="/settings">Settings</el-menu-item>
-                <el-menu-item index="2-3">Logout</el-menu-item>
+                <el-menu-item index="/login" @click="removeToken()">Logout</el-menu-item>
               </el-sub-menu>
             </el-menu>
           </el-header>
@@ -103,6 +103,7 @@
   
 <script setup>
 import store from '../../store/index.js'
+import {removeToken} from "../../composable/auth";
 import { ArrowRight } from '@element-plus/icons-vue'
 import { UserFilled } from '@element-plus/icons-vue'
 import { ref, reactive, toRefs, onMounted } from 'vue'
@@ -136,7 +137,8 @@ function loadAvatar(CodeName) {
 loadAvatar(curCodeName)
 
 const fit = ref('cover')
-const url = ref()
+console.log("look here!", store.state.user)
+const url = ref();
 // url = test()
 
 </script>

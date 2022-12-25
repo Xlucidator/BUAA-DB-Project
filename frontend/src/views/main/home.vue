@@ -1,14 +1,18 @@
 <template>
 
-    <br/>
-    <br/>
-    <br/>
 
+  <br/>
+  <br/>
+  <br/>
+
+  <div class="animate-bounce">
     <span class="text-xm " style="margin-left: 10%"> {{ greetings }} ,</span>
-    <span class="text-xl font-extrabold" style="margin-left: 0.5%; margin-right: 0.5%"> {{ store.state.user.CodeName }} </span>
+    <span class="text-xl font-extrabold" style="margin-left: 0.5%; margin-right: 0.5%"> {{
+        store.state.user.CodeName
+      }} </span>
     <span class="text-xm">.</span>
 
-    <br/>
+  <br/>
 
     <span class="text-xm test-bold" style="margin-left: 10%">Welcome to Rhodes Island!</span>
     <span style="padding-right: 10%; float: right;">
@@ -19,90 +23,97 @@
     <br/>
     <br/>
     <br/>
+  <span class="text-xm test-bold" style="margin-left: 10%">Welcome to Rhodes Island!</span>
+  </div>
 
-    <div class="form">
-      <el-button class="mt-4" style="width: 10%" @click="updateApplyForm">
-        refresh
-      </el-button>
-      <div class="formHeader">
-        <span class="text-2xl test-bold">Waiting List</span>
-      </div>
-      <el-table :data="filterApplyForm" style="width: 100%" :key="itemKey">
-        <el-table-column fixed prop="CodeName" label="CodeName" width="100"/>
-        <el-table-column prop="Permission" label="Permission" width="100"/>
-        <el-table-column prop="Class" label="Class" width="100"/>
-        <el-table-column prop="Region" label="Region" width="100"/>
-        <el-table-column prop="Race" label="Race" width="100"/>
-        <el-table-column prop="Description" label="Description" width="300" />
-        <el-table-column align="right">
-          <template #header>
-            <el-input v-model="searchApply" size="small" placeholder="Type to search"/>
-          </template>
-          <template #default="scope">
-              
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-            <el-button size="small" @click="handleAccept(scope.$index, scope.row)">accept</el-button>
-            <el-button
-                size="small"
-                type="danger"
-                @click="handleReject(scope.$index, scope.row)"
-            >reject
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+
+  <div class="form">
+    <el-button class="mt-4" style="width: 10%" @click="updateApplyForm">
+      refresh
+    </el-button>
+    <div class="formHeader">
+      <span class="text-2xl test-bold">Waiting List</span>
     </div>
+    <el-table :data="filterApplyForm" style="width: 100%" :key="itemKey">
+      <el-table-column fixed prop="CodeName" label="CodeName" width="100"/>
+      <el-table-column prop="Permission" label="Permission" width="100"/>
+      <el-table-column prop="Class" label="Class" width="100"/>
+      <el-table-column prop="Region" label="Region" width="100"/>
+      <el-table-column prop="Race" label="Race" width="100"/>
+      <el-table-column prop="Description" label="Description" width="300"/>
+      <el-table-column align="right">
+        <template #header>
+          <el-input v-model="searchApply" size="small" placeholder="Type to search"/>
+        </template>
+        <template #default="scope">
 
-    <br/>
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+          <el-button size="small" @click="handleAccept(scope.$index, scope.row)">accept</el-button>
+          <el-button
+              size="small"
+              type="danger"
+              @click="handleReject(scope.$index, scope.row)"
+          >reject
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 
-    <div class="form">
-      <div class="formHeader">
-        <span class="text-2xl test-bold">User List</span>
-      </div>
-      <el-table :data="userForm" style="width: 100%" :key="itemKey">
-        <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
-        <el-table-column prop="Permission" label="Permission" width="150"/>
-        <el-table-column prop="Class" label="Class" width="150"/>
-        <el-table-column prop="Region" label="Region" width="150"/>
-        <el-table-column prop="Race" label="Race" width="150"/>
-        <el-table-column prop="Mail" label="Mail" width="150"/>
-      </el-table>
+  <br/>
+
+  <div class="form">
+    <div class="formHeader">
+      <span class="text-2xl test-bold">User List</span>
     </div>
-    
-    <br/>
-    <br/>
-    <br/>
-          
-    <!-- dialog -->
-    <el-dialog v-model="dialogFormVisible" title="EDIT INFORMATION">
-      <el-form :model="tableForm">
-        <el-form-item label="name" :label-width="60">
-          <el-input v-model="tableForm.CodeName" disabled/>
-        </el-form-item>
-        <el-form-item label="perm" :label-width="60">
-          <el-input v-model="tableForm.Permission" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="class" :label-width="60">
-          <el-input v-model="tableForm.Class" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="region" :label-width="60">
-          <el-input v-model="tableForm.Region" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="race" :label-width="60">
-          <el-input v-model="tableForm.Race" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="desc" :label-width="60">
-          <el-input v-model="tableForm.Description" autocomplete="off"/>
-        </el-form-item>
-      </el-form>
-      <template #footer>
+    <el-table :data="userForm" style="width: 100%" :key="itemKey">
+      <el-table-column fixed prop="CodeName" label="CodeName" width="150"/>
+      <el-table-column prop="Permission" label="Permission" width="150"/>
+      <el-table-column prop="Class" label="Class" width="150"/>
+      <el-table-column prop="Region" label="Region" width="150"/>
+      <el-table-column prop="Race" label="Race" width="150"/>
+      <el-table-column prop="Mail" label="Mail" width="150"/>
+    </el-table>
+  </div>
+
+  <br/>
+  <br/>
+  <br/>
+
+  <!-- dialog -->
+  <el-dialog v-model="dialogFormVisible" title="EDIT INFORMATION">
+    <el-form :model="tableForm">
+      <el-form-item label="name" :label-width="60">
+        <el-input v-model="tableForm.CodeName" disabled/>
+      </el-form-item>
+      <el-form-item label="perm" :label-width="60">
+        <el-input v-model="tableForm.Permission" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="class" :label-width="60">
+        <el-input v-model="tableForm.Class" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="region" :label-width="60">
+        <el-input v-model="tableForm.Region" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="race" :label-width="60">
+        <el-input v-model="tableForm.Race" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="desc" :label-width="60">
+        <el-input v-model="tableForm.Description" autocomplete="off"/>
+      </el-form-item>
+    </el-form>
+    <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
           <el-button type="primary" @click="dialogConfirm">Confirm</el-button>
         </span>
-      </template>
-    </el-dialog>
-    
+    </template>
+  </el-dialog>
+
 </template>
 
 
@@ -149,9 +160,9 @@ let dialogFormVisible = ref(false);
 let dialogIdx = 0;
 let time = new Date().getHours()
 const greetings = computed(() => {
-  return time < 6  ? 'Good night, your health is your most precious asset' : 
-         time < 12 ? 'Good morning'  :
-         time < 18 ? 'Good afternoon': 'Good evening'
+  return time < 6 ? 'Good night, your health is your most precious asset' :
+      time < 12 ? 'Good morning' :
+          time < 18 ? 'Good afternoon' : 'Good evening'
 })
 let itemKey = ref(0);
 
@@ -329,4 +340,40 @@ const handleReject = (index: number, row: User) => {
 .userinfo {
   margin: 20px;
 }
+
+@keyframes bounce {
+  0%, 100% {
+    -webkit-transform: translateY(-25%);
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@-webkit-keyframes bounce {
+  0%, 100% {
+    -webkit-transform: translateY(-25%);
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce {
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+}
+
 </style>

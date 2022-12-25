@@ -10,7 +10,10 @@ class hasOpPermission(BasePermission):
     def has_permission(self, request, view):
         try:
             token = request.data['token']
+
             CodeName = token2name(token)
+            if CodeName != request.data['CodeName']:
+                return False
             test = UserAccount.objects.get(CodeName=CodeName)
             serializer = UserAccountSerializer(instance=test)
             if serializer.data['Permission'] < 2:

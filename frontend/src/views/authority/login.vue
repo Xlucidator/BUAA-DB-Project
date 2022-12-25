@@ -1,50 +1,68 @@
 <template>
-  <div class="login_header">
-    <span class="text-5xl"> -- LOGIN -- </span>
+  <div class="parti">
+    <Particles id="tsparticles"></Particles>
   </div>
 
-  <div class="input-box">
-    <el-input
-        v-model="userName"
-        class="w-50 m-2"
-        size="large"
-        placeholder="userName"
-    />
-  </div>
-  <div class="input-box">
-    <el-input
-        v-model="password"
-        class="w-50 m-2"
-        size="large"
-        placeholder="password"
-        :show-password=true
-    />
-    <br/>
+  <div class="card">
+    <el-card class="box-card">
 
-  </div>
-  <div class="Button">
-    <Button
-        tabindex="-1"
-        class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
-        @click="onSubmit()">
+      <template #header>
+        <div class="card-header">
+          <div class="login_header">
+            <p class="text-5xl"> -- LOGIN -- </p>
+          </div>
+        </div>
+      </template>
+      <br/>
+      <div class="input-box">
+        <el-input
+            v-model="userName"
+            class="w-50 m-2"
+            size="large"
+            placeholder="userName"
+        />
+      </div>
+      <div class="input-box">
+        <el-input
+            v-model="password"
+            class="w-50 m-2"
+            size="large"
+            placeholder="password"
+            :show-password=true
+        />
+        <br/>
 
-      CONFIRM
-    </Button>
+      </div>
+      <div class="Button">
+        <Button
+            tabindex="-1"
+            class="transition !duration-300 focus:outline-none w-full py-3 rounded font-bold text-white bg-blue-400 ring-4 ring-blue-500 ring-opacity-50 cursor-pointer hover:bg-indigo-400 hover:ring-indigo-500 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:opacity-80 shadow-indigo-500"
+            @click="onSubmit()">
+
+          CONFIRM
+        </Button>
+      </div>
+
+        <br/>
+      <div class="jump">
+        <p style="color: #888888">don't have an account yet?</p>
+        <el-button
+            tabindex="-1"
+            @click="reg()">
+
+          REGISTER
+        </el-button>
+        <br/>
+        <br/>
+        <br/>
+      </div>
+    </el-card>
   </div>
 
-  <div class="jump">
-    <p style="color: #888888">don't have an account yet?</p>
-    <el-button
-        tabindex="-1"
-        @click="reg()">
-
-      REGISTER
-    </el-button>
-  </div>
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {ref} from "vue";
 import {login} from "../../api/manager";
 import {useStore} from "vuex";
@@ -52,6 +70,7 @@ import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 import {setToken} from "../../composable/auth";
 import {NOTATION} from "../../composable/utils";
+import Particles from "../../components/background.vue"
 
 /* data */
 let userName = ref("")
@@ -112,11 +131,12 @@ const onSubmit = () => {
 }
 
 .Button {
-  margin-top: 2%;
+  margin-top: 8%;
   margin-bottom: 4%;
-  max-width: 10%;
+  max-width: 25%;
   max-height: 3%;
-  margin-left: 45%;
+  margin-left: 38%;
+  margin-right: 25%;
   text-align: center;
 }
 
@@ -135,6 +155,17 @@ const onSubmit = () => {
 .jump {
   margin-top: 2%;
   text-align: center;
+}
+
+.parti {
+  z-index: -1;
+  position: absolute;
+}
+
+.card {
+  padding-top: 10%;
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 </style>

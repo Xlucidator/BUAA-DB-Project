@@ -193,6 +193,7 @@ const dialogConfirm = () => {
         } else {
           // message
           NOTATION(1, res.data)
+          dialogFormVisible.value = false
         }
       })
       .catch(err => {
