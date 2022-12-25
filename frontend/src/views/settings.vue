@@ -18,6 +18,29 @@
     </div>
   </div>
 
+  <div class="changePassword">
+    <el-input
+        class="w-50 m-2"
+        size="large"
+        placeholder="old password"
+    />
+    <el-input
+        class="w-50 m-2"
+        size="large"
+        placeholder="new password"
+    />
+    <el-input
+        class="w-50 m-2"
+        size="large"
+        placeholder="new password confirm"
+    />
+    <el-button
+        type="primary"
+        size="large">
+      confirm
+    </el-button>
+  </div>
+
   <div class="buttonToCenter">
     <el-button
         tabindex="-1"
@@ -124,8 +147,12 @@ const isDark = useDark()
 }
 
 .buttonToCenter {
-  margin-top: 5%;
+  margin-top: 2%;
   text-align: center;
+}
+
+.changePassword {
+  margin-left: 20%;
 }
 
 </style>
