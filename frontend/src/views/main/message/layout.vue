@@ -107,7 +107,7 @@ const nowSwitch = ref(0)  // change name to current
 const nowSwitchId = ref('group')
 const localInfo = ref({
   CodeName: store.state.user.CodeName,
-  Avatar: store.state.user.avatar,
+  Avatar: store.state.user.Avatar,
 })
 
 function switchGroup(index, id) {

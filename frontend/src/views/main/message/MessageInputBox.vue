@@ -8,8 +8,8 @@
       <img src="../../../assets/face.png" alt="表情" style="float: left;border:0;width:20px;height:20px"/>
       
       <el-button size="mini" type="primary" class="send-button" 
-                 style="float: right;" @click="sendMessage">
-        发送/Send
+                 style="float: right; margin-bottom: 5px; margin-right: 5px;" @click="sendMessage">
+        发送
       </el-button>
     </div>
 
@@ -38,12 +38,13 @@ defineProps({
 })
 
 const inputText = ref('')
-
+const messageIdCnt = ref('0')
 const imgSrc = faceIcon
+
 
 function sendMessage() {
   let message = {
-    MId  : localInfo.id,
+    MId  : messageIdCnt.value,
     Type : 0,
     SendFrom : store.state.user.CodeName,
     SendToPerson: null,
@@ -52,21 +53,24 @@ function sendMessage() {
     Picture: null,
     Time : + new Date(),
   }
+  messageIdCnt.value += 1
   if (checkBlank()) {
     // 发送消息
-    Bus.$emit('MESSAGE', message)
-    inputText = ''
+    console.log("inputText:\t" + inputText.value)
+    console.log("ContentText\t" + message.ContentText)
+    console.log(message)
+    inputText.value = ''
     gotoBottom()
   }
 }
 
 
 function inputTextFilter() {
-  return inputText.replace(/\n/g, '').replace(new RegExp('<', 'gm'), '&lt')
+  return inputText.value.replace(/\n/g, '').replace(new RegExp('<', 'gm'), '&lt')
 }
 
 function checkBlank() {
-  if (inputText.replace(/\s+/g, '') === '') {
+  if (inputText.value.replace(/\s+/g, '') === '') {
     this.$alert('请输入内容')
     return false
   }

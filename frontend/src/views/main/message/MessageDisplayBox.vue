@@ -4,18 +4,18 @@
     <el-button class="browse-more">加载更多消息</el-button>
 
     <ul class="message-styles-box">
-      <li v-for="(item, index) in getMessageTemplates()" 
+
+      <li v-for="(item, index) in messages" 
           :key="index" :class="selectClass(item.type)">
       
-        <el-avatar shape="square" fit="recover" 
-                   src="../../../asset/avatar_demo.png" />
+        <el-avatar shape="square" fit="recover" src="" />
         <p class="message-nickname" v-if="item.type=='server'">
-          {{item.nickName}} {{toMessageFormatTime(item.message.time)}}
+          {{item.SendFrom}} {{toMessageFormatTime(item.Time)}}
         </p>
         <p class="message-nickname" v-else>
-          {{toMessageFormatTime(item.message.time)}} {{item.sendFrom}}
+          {{toMessageFormatTime(item.Time)}} {{item.SendFrom}}
         </p>
-        <p class="message-classic" v-html="item.message.content"> </p>
+        <p class="message-classic" v-html="item.ContentText"> </p>
 
       </li>
     </ul>
@@ -37,22 +37,34 @@ defineProps({
 const messages = ref([
   {
     MId : 0,
+    type: 'self',
     Type: 1,
-    SendFrom: store.state.userForm.CodeName,
+    SendFrom: store.state.user.CodeName,
     SendToPerson: null,
     SendToGroup: 0,
     ContentText: "welcome",
-    Time: 1580572800000,
+    Time: new Date().getTime(),
   },
   {
     MId : 1,
+    type: 'self',
     Type: 1,
     SendFrom: store.state.user.CodeName,
     SendToPerson: null,
     SendToGroup: 0,
     ContentText: "hello",
-    Time: 18972800000,
-  }
+    Time: new Date().getTime(),
+  },
+  {
+    MId : 2,
+    type: 'server',
+    Type: 1,
+    SendFrom: store.state.user.CodeName,
+    SendToPerson: null,
+    SendToGroup: 0,
+    ContentText: "hello~",
+    Time: new Date().getTime(),
+  },
 ])
 const message = ref([])
 const page = ref(0)
@@ -60,6 +72,10 @@ const isShowMore = ref(true)
 
 function getMessageTemplates() {
   return this.message['group']
+}
+
+function getMessageType(SendFrom) {
+  return SendFrom === store.state.user.CodeName ? 'self' : 'server'
 }
 
 function toFullDate(date, showhm, sep) {

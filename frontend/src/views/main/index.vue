@@ -75,7 +75,7 @@
               <el-menu-item>
                 <el-breadcrumb :separator-icon="ArrowRight">
                   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                  <el-breadcrumb-item :to="{ path: '/'}">通讯</el-breadcrumb-item>
+                  <el-breadcrumb-item :to="{ path: '/'}"></el-breadcrumb-item>
                 </el-breadcrumb>
               </el-menu-item>
 
@@ -83,7 +83,7 @@
   
               <el-sub-menu index="2">
                 <template #title> 
-                  <el-avatar :icon="UserFilled" /> 
+                  <el-avatar shape="circle" :size="40" :fit="fit" :src="url" />
                 </template>
                 <el-menu-item index="2-1">Profile</el-menu-item>
                 <el-menu-item index="/settings">Settings</el-menu-item>
