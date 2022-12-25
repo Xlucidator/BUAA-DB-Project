@@ -77,6 +77,21 @@ const routes = [
         ]
     },
     {
+        path: '/home',
+        name: '/home',
+        redirect: '/main/home',
+    },
+    {
+        path: '/bulletin',
+        name: '/bulletin',
+        redirect: '/main/bulletin',
+    },
+    {
+        path: '/message',
+        name: '/message',
+        redirect: '/main/message',
+    },
+    {
         path: '/:pathMatch(.*)*',
         component: () => import('../views/404.vue'),
         meta: {transition: 'slide-left'},

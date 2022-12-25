@@ -46,10 +46,10 @@ const router = useRouter();
 
 const logOut = () => {
   // logout and remove userinfo at frontend
+  removeToken()
   store.commit("REMOVE_USERINFO")
 
   // remove token from cookie
-  removeToken()
 
   router.push("/login")
 

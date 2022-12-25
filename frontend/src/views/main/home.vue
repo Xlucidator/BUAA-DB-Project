@@ -22,7 +22,7 @@
   <br/>
   <br/>
 
-  <div class="form">
+  <div class="form" v-if="store.state.user.Permission <= 1">
     <el-button class="mt-4" style="width: 10%" @click="updateApplyForm">
       refresh
     </el-button>
@@ -57,7 +57,7 @@
 
   <br/>
 
-  <div class="form">
+  <div class="form" v-if="store.state.user.Permission <= 1">
     <div class="formHeader">
       <span class="text-2xl test-bold">User List</span>
     </div>
