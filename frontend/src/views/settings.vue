@@ -1,4 +1,10 @@
 <template>
+  <el-button @click="handleBack" style="margin-top : 3%;margin-left: 5%">
+    <el-icon>
+      <ArrowLeft/>
+    </el-icon>
+    back
+  </el-button>
   <div class='header'>
     <span class="text-3xl">SETTINGS</span>
   </div>
@@ -30,7 +36,7 @@
   </div>
 </template>
 
-<script lang = "ts" setup>
+<script lang="ts" setup>
 import {computed, ref} from 'vue'
 import {useDark, useToggle} from '@vueuse/core'
 import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
@@ -46,13 +52,17 @@ const router = useRouter();
 
 const logOut = () => {
   // logout and remove userinfo at frontend
+  removeToken()
   store.commit("REMOVE_USERINFO")
 
   // remove token from cookie
-  removeToken()
 
   router.push("/login")
 
+}
+
+const handleBack = () => {
+  router.go(-1)
 }
 
 const checkDel = (password) => {

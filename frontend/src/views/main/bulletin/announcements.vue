@@ -1,12 +1,21 @@
 <template>
-  <div>
-    <el-button @click="dialogFormVisible = true" style="margin-left: 85%;margin-top: 2%" type="primary"
+  <el-row class="mb-4" style="margin-top: 3%">
+    <el-button @click="handleBack" style = "margin-left: 5%">
+      <el-icon>
+        <ArrowLeft/>
+      </el-icon>
+      back
+    </el-button>
+    <el-button @click="dialogFormVisible = true" type="primary" style = "margin-left: 74%"
                size="large" plain>
       <el-icon>
         <Edit/>
       </el-icon>
       New Post
     </el-button>
+  </el-row>
+
+  <div>
     <div class="block">
       <el-timeline>
         <template v-if="itemKey === 0">
@@ -93,6 +102,8 @@ import {getSinglePage} from "../../../api/posts";
 import {newPost, getCurrentPage} from "../../../api/posts";
 import store from "../../../store/index.js";
 
+const router = useRouter()
+
 const currentPageNum = ref(1)
 let blogs = ref(store.state['passageList'])
 let pageArticleSize = 5
@@ -100,6 +111,10 @@ const totalPageNum = ref(store.state['totalPageNum'] * pageArticleSize)
 let itemKey = ref(0)
 console.log("currentPageNum", currentPageNum.value)
 console.log("totalPageNum", totalPageNum)
+
+const handleBack = () => {
+  router.go(-1)
+}
 
 const changePage = (val: number) => {
   console.log("changePage ", currentPageNum.value, val)

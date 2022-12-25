@@ -1,15 +1,23 @@
 <template>
+  <el-button @click="handleBack" style="margin-top : 3%;margin-left: 5%">
+    <el-icon>
+      <ArrowLeft/>
+    </el-icon>
+    back
+  </el-button>
   <div class="block">
     <el-avatar :size="150" :src="circleUrl"/>
     <br/>
     <p class="text-3xl" style="color: #333333">{{ CodeName }}</p>
-  <el-divider>
-      <el-icon><star-filled /></el-icon>
+    <el-divider>
+      <el-icon>
+        <star-filled/>
+      </el-icon>
     </el-divider>
   </div>
   <div>
     <span class="information text-xl lineHeight">Class: </span>
-    <span class="data text-xl lineHeight" >{{ ClassC }}</span>
+    <span class="data text-xl lineHeight">{{ ClassC }}</span>
     <br/>
     <span class="information text-xl lineHeight">Region: </span>
     <span class="data text-xl lineHeight">{{ Region }}</span>
@@ -27,6 +35,7 @@
 import store from '../../../store/index.js'
 import axios from '../../../axios'
 import {computed, ref} from 'vue';
+import {useRouter} from "vue-router";
 
 const curCodeName = store.state.user.CodeName
 let url = ref("");
@@ -35,6 +44,8 @@ let ClassC = ref("");
 let Region = ref("");
 let Race = ref("");
 let Description = ref("");
+
+const router = useRouter();
 
 function loadProfile(name) {
   console.log("index/profile/" + name + '/')
@@ -60,6 +71,10 @@ function loadProfile(name) {
         return ''
       })
   console.log("index/profile/" + name + '/')
+}
+
+const handleBack = () => {
+  router.go(-1)
 }
 
 loadProfile(curCodeName)

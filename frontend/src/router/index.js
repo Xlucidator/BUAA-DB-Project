@@ -38,6 +38,21 @@ const routes = [
                 component: () => import('../views/main/bulletin/singlePage.vue'),
             },
             {
+                path: 'bulletin/singlePage/home',
+                name: 'bulletin/singlePage/home',
+                redirect: '/main/home',
+            },
+            {
+                path: 'bulletin/singlePage/message',
+                name: 'bulletin/singlePage/message',
+                redirect: '/main/message',
+            },
+            {
+                path: 'bulletin/singlePage/bulletin',
+                name: 'bulletin/singlePage/bulletin',
+                redirect: '/main/bulletin',
+            },
+            {
                 path: 'affair',     // -> '/main/affair/'
                 name: 'affair',
                 component: () => import('../views/main/affair/index.vue')
@@ -65,6 +80,21 @@ const routes = [
                 meta: {transition: 'slide-left'},
             },
         ]
+    },
+    {
+        path: '/home',
+        name: '/home',
+        redirect: '/main/home',
+    },
+    {
+        path: '/bulletin',
+        name: '/bulletin',
+        redirect: '/main/bulletin',
+    },
+    {
+        path: '/message',
+        name: '/message',
+        redirect: '/main/message',
     },
     {
         path: '/:pathMatch(.*)*',
