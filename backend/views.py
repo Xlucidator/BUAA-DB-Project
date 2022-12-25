@@ -236,6 +236,21 @@ class MessageListView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.create(request)
 
 
+class MessageDetailView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'MId'
+
+    def put(self, request, MId):
+        return self.update(request)
+
+    def get(self, request, MId):
+        return self.retrieve(request)
+
+    def delete(self, request, MId):
+        return self.destroy(request)
+
+
 class GroupeSerializer:
     pass
 

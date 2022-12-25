@@ -34,6 +34,7 @@ urlpatterns = [
     path('passage/reply/<str:PId>/',views.ReplyView.as_view()),
 
     path('message/', views.MessageListView.as_view()),
+    path('message/<str:MId>',views.MessageDetailView.as_view()),
 
     path('group/',views.GroupListView.as_view()),
     path('OperatorGroup/',views.OperatorGroupListView.as_view()),
