@@ -11,7 +11,7 @@
   <div class="setting">
     <div class="switch">
       <el-switch
-          v-model=(isDark)
+          v-model=isDark
           active-text="Dark"
           inactive-text="Light"
       />
@@ -36,15 +36,13 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import {computed, ref} from 'vue'
-import {useDark, useToggle} from '@vueuse/core'
-import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
-import {getInfo, revoke} from "../api/manager";
+<script setup>
+import {useDark} from '@vueuse/core'
+import {ElMessageBox} from 'element-plus'
+import {revoke} from "../api/manager";
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
 import {removeToken} from "../composable/auth"
-import {getToken} from "../composable/auth";
 import {NOTATION} from "../composable/utils";
 
 const store = useStore()
