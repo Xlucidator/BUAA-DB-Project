@@ -34,7 +34,7 @@
       - [（2）数据表定义](#2数据表定义-3)
       - [（3）功能描述](#3功能描述-3)
       - [（4）预期拓展](#4预期拓展-3)
-    - [5.子模块-即时通讯模块](#5子模块-即时通讯模块)
+    - [5.子模块-通讯联络](#5子模块-通讯联络)
       - [（1）布局设计](#1布局设计-4)
       - [（2）数据表定义](#2数据表定义-4)
       - [（3）功能描述](#3功能描述-4)
@@ -393,7 +393,6 @@
 ### 2.后端相关
 > 包都是pip安装，`pip list`即可查看所有版本情况
 
-
 - python 3.10.6
 - pip 22.2.1
 - django 4.1.1 （根据官网提示下载的，`pip install Django==4.1.1`；`python -m django --version`查看）
@@ -402,6 +401,8 @@
 - django-filter 22.1
 - djangorestframework-jwt 1.11.0 （rest_framework_jwt模块，`pip install djangorestframework-jwt`）
 - django-cors-headers 3.13.0 （后端用于解决跨域问题，不过应该没用上）
+- pymysql (连接数据库mysql)
+- Pillow （use ImageField）
 
 ### 3.前端相关
 

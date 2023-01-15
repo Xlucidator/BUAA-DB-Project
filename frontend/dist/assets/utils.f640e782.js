@@ -1,0 +1,1 @@
+import{E as t,n as s}from"./index.620621f6.js";function l(e,o){return e?t({title:"Success",message:o,type:"success"}):t({title:"Error",message:o,type:"error"})}function c(){const e=document.getElementsByClassName("message-panel-box")[0];s(()=>{e.scrollTop=e.scrollHeight}),console.log("scroll to bottom")}export{l as N,c as g};

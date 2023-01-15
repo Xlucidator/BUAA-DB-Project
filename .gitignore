@@ -35,7 +35,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-package.json
-package-lock.json
+# package.json  # for deploy
+# package-lock.json
 
 ~$*
