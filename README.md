@@ -69,6 +69,9 @@
 
 ### 3.其他
 - 由于`/frontend`中`package-lock.json`和`package.json`是中途从库中删除的，所以留下了相应删除的commit记录；为以防合并误删本地内容，事先留备份为好
+
+> 其实这俩东西需要push的，`npm install`即可自动把所有引用的包装上；以后应该一个人安装，push后其他人同步；包还分生产环境和开发环境，事先得查查
+
 - commit信息无要求，写清楚可溯源即可
 - 每次dev分支有代码性更新时，请务必**即时将其merge到自己的分支**，然后再在此基础上进行开发
 - 代码希望还是能写点注释咩，方便观摩doge
@@ -392,7 +395,7 @@
 
 ### 2.后端相关
 > 包都是pip安装，`pip list`即可查看所有版本情况
-
+> venv环境中，`pip freeze > requirements.txt`导出所有安装过的包，用于部署时快速环境配置
 
 - python 3.10.6
 - pip 22.2.1
@@ -402,17 +405,23 @@
 - django-filter 22.1
 - djangorestframework-jwt 1.11.0 （rest_framework_jwt模块，`pip install djangorestframework-jwt`）
 - django-cors-headers 3.13.0 （后端用于解决跨域问题，不过应该没用上）
+- pymysql 1.0.2 (连接数据库mysql)
+- Pillow 9.2.0（use ImageField）
+- cryptography 38.0.1 (for sha256_password or caching_sha2_password auth methods)
 
 ### 3.前端相关
 
 
-- node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看）
+- node.js v16.17.0 （官网下载的包再添加环境变量；`node -v`查看；ubuntu不能用apt直接安装，版本不够）
 - npm 8.15.0 （node.js的包管理软件，应该自带；`npm -v`查看）
 - cnpm （按菜鸟教程所说使用cnpm，[使用淘宝 NPM 镜像](https://www.runoob.com/nodejs/nodejs-npm.html#taobaonpm)）
 - vue 3.2.39 （应该是使用`cnpm install vue@next`装的vue3；`npm list vue`查看）
 - vite 3.1.3（新型前端构建工具，pycharm终端输入`npm init vite@latest frontend -- --template vue`，按提示安装`create-vite@latest`，再按提示完成`cd frontend`、`npm install`即安装完毕，`vite -v`查看）
 
 #### 依赖的包
+ 
+> `npm install`即可根据package.json安装所有需要的包
+  
 - element-plus(`npm install element-plus --save`)
 - icon(`npm install @element-plus/icons-vue`)
 - router(`npm install vue-router@4`)
