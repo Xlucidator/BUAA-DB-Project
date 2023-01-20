@@ -401,8 +401,9 @@
 - django-filter 22.1
 - djangorestframework-jwt 1.11.0 （rest_framework_jwt模块，`pip install djangorestframework-jwt`）
 - django-cors-headers 3.13.0 （后端用于解决跨域问题，不过应该没用上）
-- pymysql (连接数据库mysql)
-- Pillow （use ImageField）
+- pymysql 1.0.2 (连接数据库mysql)
+- Pillow 9.2.0（use ImageField）
+- cryptography 38.0.1 (for sha256_password or caching_sha2_password auth methods)
 
 ### 3.前端相关
 
